@@ -14,7 +14,7 @@
             font-family: 'Poppins', sans-serif;
         }
         html {
-            scroll-behavior: smooth; /* Sekmelere basınca sayfayı yumuşakça kaydırır */
+            scroll-behavior: smooth;
         }
         body {
             width: 100%;
@@ -46,6 +46,7 @@
             gap: 10px;
             text-decoration: none;
             cursor: pointer;
+            z-index: 1001;
         }
         .logo-text-bold {
             font-size: 32px;
@@ -63,6 +64,8 @@
             padding-left: 10px;
             letter-spacing: 1px;
         }
+        
+        /* Masaüstü Menü Linkleri */
         .menu-links {
             display: flex;
             gap: 32px;
@@ -89,6 +92,22 @@
             font-weight: bold;
         }
 
+        /* MOBİL BURGER BUTONU */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 5px;
+        }
+        .hamburger-menu span {
+            width: 30px;
+            height: 3px;
+            background-color: #1a2a3a;
+            transition: all 0.3s ease;
+        }
+
         /* 3. HERO BANNER */
         .main-hero {
             position: relative;
@@ -96,7 +115,6 @@
             height: 85vh;
             background-color: #111111;
             overflow: hidden;
-            scroll-margin-top: 80px;
         }
         .hero-img {
             width: 100%;
@@ -115,6 +133,7 @@
             flex-direction: column;
             justify-content: center;
             padding-left: 10%;
+            padding-right: 10%;
             background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
             z-index: 5;
         }
@@ -160,7 +179,7 @@
             max-width: 1440px;
             margin: 0 auto;
             padding: 80px 40px;
-            scroll-margin-top: 80px; /* Menünün arkasında kalmasın diye boşluk */
+            scroll-margin-top: 80px;
         }
         .section-main-title {
             font-size: 32px;
@@ -202,7 +221,7 @@
             border-radius: 12px;
         }
 
-        /* PROJELER GRID */
+        /* PROJELER (İLANLAR) GRID */
         .listings-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -231,6 +250,7 @@
             background: linear-gradient(transparent, rgba(0,0,0,0.9));
             color: white;
             z-index: 2;
+            transition: opacity 0.3s ease;
         }
         .card-tag {
             font-size: 12px;
@@ -243,6 +263,8 @@
             font-size: 24px;
             font-weight: 700;
         }
+        
+        /* HOVER/MOBİL DETAY ALANI */
         .project-card-hover {
             position: absolute;
             top: 0;
@@ -282,7 +304,6 @@
             object-fit: cover;
             transition: transform 0.3s ease;
         }
-        .gallery-item img:hover { transform: scale(1.05); }
 
         /* İLETİŞİM ALANI */
         .contact-container {
@@ -306,6 +327,7 @@
             color: #555555;
         }
         .info-row strong { color: #057f2b; }
+        
         .contact-form {
             flex: 1.5;
             display: flex;
@@ -331,23 +353,72 @@
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s;
         }
-        .submit-btn:hover { background-color: #046622; }
 
-        /* RESPONSIVE */
-        @media (max-width: 1200px) {
+        /* ======================================================= */
+        /* 5. KRİTİK MOBİL (RESPONSIVE) TASARIM AYARLARI */
+        /* ======================================================= */
+        @media (max-width: 1024px) {
             .listings-grid { grid-template-columns: repeat(2, 1fr); }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 992px) {
-            .menu-links { display: none; }
-            .about-container, .contact-container { flex-direction: column; }
+
+        @media (max-width: 768px) {
+            .custom-header { padding: 15px 20px; }
+            .hamburger-menu { display: flex; } /* Mobil menü butonu açılır */
+
+            /* Menüyü mobile tam uyumlu hale getiriyoruz */
+            .menu-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Başlangıçta gizli */
+                width: 75%;
+                height: 100vh;
+                background-color: #ffffff;
+                flex-direction: column;
+                justify-content: center;
+                gap: 40px;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                transition: right 0.4s cubic-bezier(0.1, 1, 0.1, 1);
+                z-index: 1000;
+            }
+            /* Menü açıldığında devreye girecek sınıf */
+            .menu-links.active {
+                right: 0;
+            }
+
+            .slide-title { font-size: 40px; }
+            .slide-tagline { font-size: 20px; }
+            .about-container, .contact-container { flex-direction: column; gap: 30px; }
+            .about-img { height: 280px; }
+            .section-wrapper { padding: 60px 20px; }
+            
+            /* Mobilde hover olmadığı için ilan kartı detayları direkt görünür veya tıklamayla açılır */
+            .project-card-hover {
+                opacity: 0.92;
+                height: auto;
+                top: auto;
+                bottom: 0;
+                background-color: rgba(26, 42, 58, 0.95); /* Mobilde okunurluk için şık koyu lacivert */
+                padding: 15px;
+            }
+            .project-card-overlay { display: none; }
+            .hover-main-title { font-size: 18px; margin-bottom: 5px; padding-bottom: 5px; border: none; text-align: left; width: 100%; }
+            .hover-detail-row { font-size: 13px; margin: 4px 0; justify-content: flex-start; width: 100%; }
         }
-        @media (max-width: 650px) {
-            .listings-grid, .gallery-grid { grid-template-columns: 1fr; }
-            .slide-title { font-size: 38px; }
+
+        @media (max-width: 480px) {
+            .listings-grid, .gallery-grid { grid-template-columns: 1fr; } /* Mobilde ilanlar tekli jilet gibi alt alta dizilir */
+            .project-card { height: 400px; }
+            .slide-title { font-size: 32px; }
+            .logo-text-bold { font-size: 26px; }
+            .logo-text-sub { font-size: 9px; }
         }
+
+        /* Burger animasyon efektleri */
+        .hamburger-menu.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .hamburger-menu.open span:nth-child(2) { opacity: 0; }
+        .hamburger-menu.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -7px); }
     </style>
 </head>
 <body>
@@ -358,13 +429,20 @@
                 <div class="logo-text-bold">GARANTİ</div>
                 <div class="logo-text-sub">EMLAK<br>İNŞAAT</div>
             </a>
-            <div class="menu-links">
-                <a href="#anasayfa">Anasayfa</a>
-                <a href="#kurumsal">Kurumsal</a>
-                <a href="#projelerimiz">Projelerimiz</a>
-                <a href="#galeri">Galeri</a>
-                <a href="#iletisim">İletişim</a>
+            
+            <div class="menu-links" id="navLinks">
+                <a href="#anasayfa" onclick="toggleMenu()">Anasayfa</a>
+                <a href="#kurumsal" onclick="toggleMenu()">Kurumsal</a>
+                <a href="#projelerimiz" onclick="toggleMenu()">Projelerimiz</a>
+                <a href="#galeri" onclick="toggleMenu()">Galeri</a>
+                <a href="#iletisim" onclick="toggleMenu()">İletişim</a>
                 <span class="lang-btn">TR ▾</span>
+            </div>
+
+            <div class="hamburger-menu" id="burgerBtn" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </div>
@@ -372,8 +450,8 @@
     <div class="main-hero" id="anasayfa">
         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80" class="hero-img" alt="Lüks Proje">
         <div class="hero-overlay-content">
-            <div class="slide-tagline">TARSUS GARANTİ EMLAK </div>
-            <div class="slide-title">YAKINDA</div>
+            <div class="slide-tagline">Doğayla İç İçe,</div>
+            <div class="slide-title">Modern Yaşam</div>
             <a href="#projelerimiz" class="slide-action-btn">Projeleri İncele &nbsp; ➔</a>
         </div>
     </div>
@@ -408,11 +486,11 @@
             <div class="project-card">
                 <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80" class="project-card-img">
                 <div class="project-card-overlay">
-                    <div class="card-tag">Satılık Daire</div>
-                    <div class="card-title">YAKINDA</div>
+                    <div class="card-tag">YAKINDA</div>
+                    <div class="card-title">YAKINDA.</div>
                 </div>
                 <div class="project-card-hover">
-                    <div class="hover-main-title">YAKINDA</div>
+                    <div class="hover-main-title">YAKINDA.</div>
                     <div class="hover-detail-row">📐 <span>165 m²</span></div>
                     <div class="hover-detail-row">🛏️ <span>3+1 Rezidans</span></div>
                     <div class="hover-detail-row">💰 <span>4.250.000 TL</span></div>
@@ -421,7 +499,7 @@
             <div class="project-card">
                 <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" class="project-card-img">
                 <div class="project-card-overlay">
-                    <div class="card-tag">YAKINDA</div>
+                    <div class="card-tag">Yatırımlık</div>
                     <div class="card-title">YAKINDA</div>
                 </div>
                 <div class="project-card-hover">
@@ -434,7 +512,7 @@
             <div class="project-card">
                 <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" class="project-card-img">
                 <div class="project-card-overlay">
-                    <div class="card-tag">Sıfır Proje</div>
+                    <div class="card-tag">YAKINDA</div>
                     <div class="card-title">YAKINDA</div>
                 </div>
                 <div class="project-card-hover">
@@ -462,7 +540,7 @@
             <div class="contact-info">
                 <h3>Bizimle İletişime Geçin</h3>
                 <div class="info-row">📍 <strong>Adres:</strong> Mersin / Tarsus Merkez Ofis</div>
-                <div class="info-row">📞 <strong>Telefon:</strong> +90 0505 032 7304</div>
+                <div class="info-row">📞 <strong>Telefon:</strong> +90 505 032 7304</div>
                 <div class="info-row">✉️ <strong>E-posta:</strong> garantiemlakoffice@gmail.com</div>
                 <div class="info-row">⏰ <strong>Çalışma Saatleri:</strong> 08:00 - 18:00 (Pazar Hariç)</div>
             </div>
@@ -475,6 +553,19 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function toggleMenu() {
+            // Sadece ekran genişliği mobil boyuttayken çalışsın
+            if (window.innerWidth <= 768) {
+                const navLinks = document.getElementById('navLinks');
+                const burgerBtn = document.getElementById('burgerBtn');
+                
+                navLinks.classList.toggle('active');
+                burgerBtn.classList.toggle('open');
+            }
+        }
+    </script>
 
 </body>
 </html>
