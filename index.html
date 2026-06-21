@@ -3,422 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garanti Emlak & TARSUS</title>
+    <title>Garanti Emlak & İnşaat</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* 1. RESET & GENEL AYARLAR */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            width: 100%;
-            overflow-x: hidden;
-            background-color: #ffffff;
-            color: #333333;
-        }
-
-        /* 2. PREMIUM NAVBAR */
-        .header-wrapper {
-            width: 100%;
-            background-color: #ffffff;
-            border-bottom: 1px solid #f5f5f5;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .custom-header {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-        }
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            cursor: pointer;
-            z-index: 1001;
-        }
-        .logo-text-bold {
-            font-size: 32px;
-            font-weight: 800;
-            color: #057f2b; /* Kurumsal Yeşil */
-            letter-spacing: -1.5px;
-            line-height: 1;
-        }
-        .logo-text-sub {
-            font-size: 11px;
-            font-weight: 700;
-            color: #1a2a3a;
-            line-height: 1.3;
-            border-left: 2px solid #cccccc;
-            padding-left: 10px;
-            letter-spacing: 1px;
-        }
-        
-        /* Masaüstü Menü Linkleri */
-        .menu-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-        .menu-links a {
-            text-decoration: none;
-            color: #222222;
-            font-size: 13.5px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            transition: color 0.2s ease;
-        }
-        .menu-links a:hover {
-            color: #057f2b;
-        }
-        .lang-btn {
-            background-color: #057f2b;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        /* MOBİL BURGER BUTONU */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            z-index: 1001;
-            padding: 5px;
-        }
-        .hamburger-menu span {
-            width: 30px;
-            height: 3px;
-            background-color: #1a2a3a;
-            transition: all 0.3s ease;
-        }
-
-        /* 3. HERO BANNER */
-        .main-hero {
-            position: relative;
-            width: 100%;
-            height: 85vh;
-            background-color: #111111;
-            overflow: hidden;
-        }
-        .hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            filter: brightness(0.65);
-        }
-        .hero-overlay-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-left: 10%;
-            padding-right: 10%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%);
-            z-index: 5;
-        }
-        .slide-tagline {
-            font-size: 26px;
-            color: #057f2b;
-            font-weight: 500;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-        .slide-title {
-            font-size: 64px;
-            font-weight: 700;
-            color: #ffffff;
-            line-height: 1.1;
-            margin-bottom: 35px;
-            letter-spacing: -1px;
-        }
-        .slide-action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 35px;
-            border: 1px solid rgba(255,255,255,0.35);
-            background: rgba(255,255,255,0.08);
-            color: #ffffff;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            width: fit-content;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s ease;
-        }
-        .slide-action-btn:hover {
-            background-color: #057f2b;
-            border-color: #057f2b;
-            transform: translateY(-2px);
-        }
-
-        /* 4. GENEL BÖLÜM YAPISI */
-        .section-wrapper {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 80px 40px;
-            scroll-margin-top: 80px;
-        }
-        .section-main-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a2a3a;
-            margin-bottom: 45px;
-            position: relative;
-        }
-        .section-main-title::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #057f2b;
-        }
-
-        /* KURUMSAL ALANI */
-        .about-container {
-            display: flex;
-            gap: 50px;
-            align-items: center;
-        }
-        .about-text {
-            flex: 1;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #666666;
-        }
-        .about-text strong {
-            color: #1a2a3a;
-        }
-        .about-img {
-            flex: 1;
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        /* PROJELER (İLANLAR) GRID */
-        .listings-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-            width: 100%;
-        }
-        .project-card {
-            position: relative;
-            height: 480px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-        }
-        .project-card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .project-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 35px 20px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            z-index: 2;
-            transition: opacity 0.3s ease;
-        }
-        .card-tag {
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0.8;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        .card-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        /* HOVER/MOBİL DETAY ALANI */
-        .project-card-hover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(5, 127, 43, 0.96);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            opacity: 0;
-            z-index: 3;
-            transition: opacity 0.4s ease;
-            padding: 25px;
-        }
-        .project-card:hover .project-card-hover { opacity: 1; }
-        .project-card:hover .project-card-img { transform: scale(1.06); }
-        .hover-main-title { font-size: 26px; font-weight: 700; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 12px; width: 85%; text-transform: uppercase; }
-        .hover-detail-row { display: flex; align-items: center; gap: 12px; font-size: 16px; margin: 12px 0; }
-
-        /* GALERİ GRID */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        .gallery-item {
-            height: 300px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        /* İLETİŞİM ALANI */
-        .contact-container {
-            display: flex;
-            gap: 40px;
-        }
-        .contact-info {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 40px;
-            border-radius: 12px;
-        }
-        .contact-info h3 {
-            font-size: 22px;
-            color: #1a2a3a;
-            margin-bottom: 25px;
-        }
-        .info-row {
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #555555;
-        }
-        .info-row strong { color: #057f2b; }
-        
-        .contact-form {
-            flex: 1.5;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-        }
-        .contact-form input:focus, .contact-form textarea:focus {
-            border-color: #057f2b;
-        }
-        .submit-btn {
-            background-color: #057f2b;
-            color: white;
-            border: none;
-            padding: 15px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* ======================================================= */
-        /* 5. KRİTİK MOBİL (RESPONSIVE) TASARIM AYARLARI */
-        /* ======================================================= */
-        @media (max-width: 1024px) {
-            .listings-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            .custom-header { padding: 15px 20px; }
-            .hamburger-menu { display: flex; } /* Mobil menü butonu açılır */
-
-            /* Menüyü mobile tam uyumlu hale getiriyoruz */
-            .menu-links {
-                position: fixed;
-                top: 0;
-                right: -100%; /* Başlangıçta gizli */
-                width: 75%;
-                height: 100vh;
-                background-color: #ffffff;
-                flex-direction: column;
-                justify-content: center;
-                gap: 40px;
-                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-                transition: right 0.4s cubic-bezier(0.1, 1, 0.1, 1);
-                z-index: 1000;
-            }
-            /* Menü açıldığında devreye girecek sınıf */
-            .menu-links.active {
-                right: 0;
-            }
-
-            .slide-title { font-size: 40px; }
-            .slide-tagline { font-size: 20px; }
-            .about-container, .contact-container { flex-direction: column; gap: 30px; }
-            .about-img { height: 280px; }
-            .section-wrapper { padding: 60px 20px; }
-            
-            /* Mobilde hover olmadığı için ilan kartı detayları direkt görünür veya tıklamayla açılır */
-            .project-card-hover {
-                opacity: 0.92;
-                height: auto;
-                top: auto;
-                bottom: 0;
-                background-color: rgba(26, 42, 58, 0.95); /* Mobilde okunurluk için şık koyu lacivert */
-                padding: 15px;
-            }
-            .project-card-overlay { display: none; }
-            .hover-main-title { font-size: 18px; margin-bottom: 5px; padding-bottom: 5px; border: none; text-align: left; width: 100%; }
-            .hover-detail-row { font-size: 13px; margin: 4px 0; justify-content: flex-start; width: 100%; }
-        }
-
-        @media (max-width: 480px) {
-            .listings-grid, .gallery-grid { grid-template-columns: 1fr; } /* Mobilde ilanlar tekli jilet gibi alt alta dizilir */
-            .project-card { height: 400px; }
-            .slide-title { font-size: 32px; }
-            .logo-text-bold { font-size: 26px; }
-            .logo-text-sub { font-size: 9px; }
-        }
-
-        /* Burger animasyon efektleri */
-        .hamburger-menu.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
-        .hamburger-menu.open span:nth-child(2) { opacity: 0; }
-        .hamburger-menu.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -7px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { width: 100%; overflow-x: hidden; background-color: #ffffff; color: #333333; }
+        .header-wrapper { width: 100%; background-color: #ffffff; border-bottom: 1px solid #f5f5f5; position: sticky; top: 0; z-index: 1000; }
+        .custom-header { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
+        .logo-box { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+        .logo-text-bold { font-size: 32px; font-weight: 800; color: #057f2b; letter-spacing: -1.5px; line-height: 1; }
+        .logo-text-sub { font-size: 11px; font-weight: 700; color: #1a2a3a; line-height: 1.3; border-left: 2px solid #cccccc; padding-left: 10px; letter-spacing: 1px; }
+        .menu-links { display: flex; gap: 32px; align-items: center; }
+        .menu-links a { text-decoration: none; color: #222222; font-size: 13.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; transition: color 0.2s ease; }
+        .menu-links a:hover { color: #057f2b; }
+        .lang-btn { background-color: #057f2b; color: white; padding: 6px 14px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .hamburger-menu { display: none; flex-direction: column; gap: 6px; cursor: pointer; }
+        .hamburger-menu span { width: 30px; height: 3px; background-color: #1a2a3a; transition: all 0.3s ease; }
+        .main-hero { position: relative; width: 100%; height: 85vh; background-color: #111111; overflow: hidden; }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.65); }
+        .hero-overlay-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; padding-right: 10%; background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%); z-index: 5; }
+        .slide-tagline { font-size: 26px; color: #057f2b; font-weight: 500; margin-bottom: 10px; }
+        .slide-title { font-size: 64px; font-weight: 700; color: #ffffff; margin-bottom: 35px; }
+        .slide-action-btn { display: inline-flex; align-items: center; gap: 12px; padding: 14px 35px; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: #ffffff; border-radius: 30px; text-decoration: none; font-size: 14px; backdrop-filter: blur(8px); }
+        .section-wrapper { max-width: 1440px; margin: 0 auto; padding: 80px 40px; }
+        .section-main-title { font-size: 32px; font-weight: 700; margin-bottom: 45px; position: relative; }
+        .section-main-title::after { content: ''; position: absolute; bottom: -12px; left: 0; width: 60px; height: 3px; background-color: #057f2b; }
+        .about-container { display: flex; gap: 50px; align-items: center; }
+        .about-img { flex: 1; width: 100%; height: 400px; object-fit: cover; border-radius: 12px; }
+        .listings-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .project-card { position: relative; height: 480px; border-radius: 12px; overflow: hidden; }
+        .project-card-img { width: 100%; height: 100%; object-fit: cover; }
+        .project-card-overlay { position: absolute; bottom: 0; width: 100%; padding: 35px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; }
     </style>
 </head>
 <body>
@@ -429,26 +45,18 @@
                 <div class="logo-text-bold">GARANTİ</div>
                 <div class="logo-text-sub">EMLAK<br>İNŞAAT</div>
             </a>
-            
             <div class="menu-links" id="navLinks">
-                <a href="#anasayfa" onclick="toggleMenu()">Anasayfa</a>
-                <a href="#kurumsal" onclick="toggleMenu()">Kurumsal</a>
-                <a href="#projelerimiz" onclick="toggleMenu()">Projelerimiz</a>
-                <a href="#galeri" onclick="toggleMenu()">Galeri</a>
-                <a href="#iletisim" onclick="toggleMenu()">İletişim</a>
-                <span class="lang-btn">TR ▾</span>
-            </div>
-
-            <div class="hamburger-menu" id="burgerBtn" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <a href="#anasayfa">Anasayfa</a>
+                <a href="#kurumsal">Kurumsal</a>
+                <a href="#projelerimiz">Projelerimiz</a>
+                <a href="#galeri">Galeri</a>
+                <a href="#iletisim">İletişim</a>
             </div>
         </div>
     </div>
 
     <div class="main-hero" id="anasayfa">
-        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80" class="hero-img" alt="Lüks Proje">
+        <img src="https://i.ibb.co/hK8b3h4S/IMG-20260621-WA0004.jpg" class="hero-img" alt="Ana Görsel">
         <div class="hero-overlay-content">
             <div class="slide-tagline">Doğayla İç İçe,</div>
             <div class="slide-title">Modern Yaşam</div>
@@ -460,113 +68,11 @@
         <div class="section-main-title">KURUMSAL</div>
         <div class="about-container">
             <div class="about-text">
-                <p><strong>Garanti Emlak & İnşaat</strong> olarak, kurulduğumuz günden bu yana gayrimenkul ve inşaat sektöründe güvenin, kalitenin ve profesyonelliğin adresi olmaya devam ediyoruz. Müşterilerimize sadece bir gayrimenkul değil, huzurla yaşayacakları lüks ve modern yaşam alanları sunmayı hedefliyoruz.</p><br>
-                <p>Doğru fiyat, maksimum memnuniyet ve şeffaf ticaret ilkelerimizle, bölgenin en prestijli konut, villa ve ticari projelerini portföyümüzde barındırıyoruz. Geleceğinizi garanti altına almak için uzman kadromuzla her adımda yanınızdayız.</p>
+                <p><strong>Garanti Emlak & İnşaat</strong> olarak, gayrimenkul ve inşaat sektöründe güvenin adresiyiz.</p>
             </div>
             <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=800&q=80" class="about-img">
         </div>
     </div>
-
-    <div class="section-wrapper" id="projelerimiz">
-        <div class="section-main-title">GÜNCEL İLANLARIMIZ</div>
-        <div class="listings-grid">
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80" class="project-card-img">
-                <div class="project-card-overlay">
-                    <div class="card-tag">Lüks Konut</div>
-                    <div class="card-title">Sky Zenith </div>
-                </div>
-                <div class="project-card-hover">
-                    <div class="hover-main-title">Sky Zenith</div>
-                    <div class="hover-detail-row">📐 <span>240 m²</span></div>
-                    <div class="hover-detail-row">🛏️ <span>4+2 Havuzlu</span></div>
-                    <div class="hover-detail-row">💰 <span>KİRALIK</span></div>
-                    <div class="hover-detail-row">💰 <span>65.000TL</span></div>
-                </div>
-            </div>
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=600&q=80" class="project-card-img">
-                <div class="project-card-overlay">
-                    <div class="card-tag">Satılık Daire</div>
-                    <div class="card-title">PANDORA APT.</div>
-                </div>
-                <div class="project-card-hover">
-                    <div class="hover-main-title">PANDORA APT.</div>
-                    <div class="hover-detail-row">📐 <span>165 m²</span></div>
-                    <div class="hover-detail-row">🛏️ <span>3+1 Rezidans</span></div>
-                    <div class="hover-detail-row">💰 <span>4.250.000 TL</span></div>
-                </div>
-            </div>
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" class="project-card-img">
-                <div class="project-card-overlay">
-                    <div class="card-tag">Yatırımlık</div>
-                    <div class="card-title">TREND PLAZA</div>
-                </div>
-                <div class="project-card-hover">
-                    <div class="hover-main-title">TREND PLAZA</div>
-                    <div class="hover-detail-row">📐 <span>130 m²</span></div>
-                    <div class="hover-detail-row">🛏️ <span>Ofis / İş Yeri</span></div>
-                    <div class="hover-detail-row">💰 <span>3.100.000 TL</span></div>
-                </div>
-            </div>
-            <div class="project-card">
-                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" class="project-card-img">
-                <div class="project-card-overlay">
-                    <div class="card-tag">Sıfır Proje</div>
-                    <div class="card-title">MODA REZİDANS</div>
-                </div>
-                <div class="project-card-hover">
-                    <div class="hover-main-title">MODA REZİDANS</div>
-                    <div class="hover-detail-row">📐 <span>180 m²</span></div>
-                    <div class="hover-detail-row">🛏️ <span>3+1 Geniş</span></div>
-                    <div class="hover-detail-row">💰 <span>3.950.000 TL</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="section-wrapper" id="galeri">
-        <div class="section-main-title">GALERİ</div>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=600&q=80"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=80"></div>
-            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=600&q=80"></div>
-        </div>
-    </div>
-
-    <div class="section-wrapper" id="iletisim">
-        <div class="section-main-title">İLETİŞİM</div>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Bizimle İletişime Geçin</h3>
-                <div class="info-row">📍 <strong>Adres:</strong> Mersin / Tarsus Merkez Ofis</div>
-                <div class="info-row">📞 <strong>Telefon:</strong> +90 505 032 73 04</div>
-                <div class="info-row">✉️ <strong>E-posta:</strong> garantiemlakoffice@gmail.com</div>
-                <div class="info-row">⏰ <strong>Çalışma Saatleri:</strong> 08:00 - 18:00 (Pazar Hariç)</div>
-            </div>
-            <form class="contact-form" onsubmit="event.preventDefault(); alert('Mesajınız başarıyla iletildi!');">
-                <input type="text" placeholder="Adınız Soyadınız" required>
-                <input type="email" placeholder="E-posta Adresiniz" required>
-                <input type="tel" placeholder="Telefon Numaranız">
-                <textarea rows="5" placeholder="Mesajınız veya İlan Hakkında Sorunuz..." required></textarea>
-                <button type="submit" class="submit-btn">Mesaj Gönder</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function toggleMenu() {
-            // Sadece ekran genişliği mobil boyuttayken çalışsın
-            if (window.innerWidth <= 768) {
-                const navLinks = document.getElementById('navLinks');
-                const burgerBtn = document.getElementById('burgerBtn');
-                
-                navLinks.classList.toggle('active');
-                burgerBtn.classList.toggle('open');
-            }
-        }
-    </script>
 
 </body>
 </html>
