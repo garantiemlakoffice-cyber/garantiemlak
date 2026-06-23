@@ -8,126 +8,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 100%; max-width: 450px; overflow: hidden; padding: 40px 30px; transition: all 0.3s ease; }
+        .logo-area { text-align: center; margin-bottom: 30px; }
+        .logo-area i { font-size: 45px; color: #1e3c72; margin-bottom: 10px; }
+        .logo-area h1 { font-size: 24px; color: #333; font-weight: 700; }
+        .logo-area span { color: #2a5298; }
+        
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; transition: 0.3s; }
+        .form-control { width: 100%; padding: 15px 15px 15px 45px; border: 2px solid #eaeaea; border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; }
+        .form-control:focus { border-color: #2a5298; }
+        .form-control:focus + i { color: #2a5298; }
+        
+        /* Beni Hatırla Alanı */
+        .login-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 13px; color: #666; }
+        .remember-me { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .remember-me input { cursor: pointer; width: 16px; height: 16px; }
 
-        body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        /* Hata Mesajı Alanı */
+        .error-message { background-color: #ffeef0; color: #d9383a; padding: 10px; border-radius: 8px; border-left: 4px solid #d9383a; margin-bottom: 15px; font-size: 13px; display: none; }
 
-        .container {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-            padding: 40px 30px;
-            transition: all 0.3s ease;
-        }
-
-        .logo-area {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-area i {
-            font-size: 45px;
-            color: #1e3c72;
-            margin-bottom: 10px;
-        }
-
-        .logo-area h1 {
-            font-size: 24px;
-            color: #333;
-            font-weight: 700;
-        }
-
-        .logo-area span {
-            color: #2a5298;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .form-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-            transition: 0.3s;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border: 2px solid #eaeaea;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: #2a5298;
-        }
-
-        .form-control:focus + i {
-            color: #2a5298;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
-            transition: 0.3s;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(42, 82, 152, 0.4);
-        }
-
-        .switch-form {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .switch-form a {
-            color: #1e3c72;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .switch-form a:hover {
-            text-decoration: underline;
-        }
-
-        /* Form geçiş animasyonları için gizleme klası */
-        .hidden {
-            display: none;
-        }
+        .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3); transition: 0.3s; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(42, 82, 152, 0.4); }
+        .switch-form { text-align: center; margin-top: 25px; font-size: 14px; color: #666; }
+        .switch-form a { color: #1e3c72; text-decoration: none; font-weight: 600; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -139,15 +46,25 @@
             <p style="font-size: 12px; color: #888; margin-top: 5px;">Emlak Portföy Yönetim Sistemi</p>
         </div>
 
+        <div id="errorBox" class="error-message"></div>
+
         <form id="loginForm">
             <div class="form-group">
-                <input type="email" class="form-control" placeholder="E-posta Adresiniz" required>
+                <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required>
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Şifreniz" required>
+                <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required>
                 <i class="fa-solid fa-lock"></i>
             </div>
+
+            <div class="login-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe"> Beni Hatırla
+                </label>
+                <span style="color: #888; font-size: 11px;">Test için: admin@garantiemlak.online / 123456</span>
+            </div>
+
             <button type="submit" class="btn-submit">Sisteme Giriş Yap</button>
             <div class="switch-form">
                 Hesabınız yok mu? <a href="#" id="toRegister">Kayıt Olun</a>
@@ -179,29 +96,55 @@
         const registerForm = document.getElementById('registerForm');
         const toRegister = document.getElementById('toRegister');
         const toLogin = document.getElementById('toLogin');
+        
+        const loginEmailInput = document.getElementById('loginEmail');
+        const loginPasswordInput = document.getElementById('loginPassword');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+        const errorBox = document.getElementById('errorBox');
 
-        toRegister.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
+        // SAYFA AÇILDIĞINDA: Tarayıcı hafızasında kayıtlı e-posta var mı kontrol et (Beni Hatırla kontrolü)
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedEmail = localStorage.getItem('rememberedEmail');
+            if (savedEmail) {
+                loginEmailInput.value = savedEmail;
+                rememberMeCheckbox.checked = true;
+            }
         });
 
-        toLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-        });
+        // Form Geçişleri
+        toRegister.addEventListener('click', (e) => { e.preventDefault(); loginForm.classList.add('hidden'); registerForm.classList.remove('hidden'); errorBox.style.display = 'none'; });
+        toLogin.addEventListener('click', (e) => { e.preventDefault(); registerForm.classList.add('hidden'); loginForm.classList.remove('hidden'); });
 
-        // Form gönderildiğinde şimdilik ana sayfaya yönlendirmiş gibi yapalım
+        // GÜVENLİ VE GERÇEKÇİ GİRİŞ KONTROLÜ
         loginForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-    // Direkt yeni yaptığımız panel.html sayfasına yönlendiriyoruz
-          window.location.href = 'panel.html';
+            e.preventDefault();
+            errorBox.style.display = 'none'; // Önceki hataları temizle
+
+            const email = loginEmailInput.value;
+            const password = loginPasswordInput.value;
+
+            // Gerçekçi Bilgi Kontrolü
+            if (email === 'admin@garantiemlak.online' && password === '123456') {
+                
+                // Eğer "Beni Hatırla" seçildiyse e-postayı tarayıcıya kaydet
+                if (rememberMeCheckbox.checked) {
+                    localStorage.setItem('rememberedEmail', email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+
+                // Bilgiler doğruysa panele uçur
+                window.location.href = 'panel.html';
+            } else {
+                // Bilgiler yanlışsa şık bir kırmızı kutuda uyarı ver
+                errorBox.innerText = 'Hata: E-posta adresi veya şifre hatalı! Lütfen tekrar deneyin.';
+                errorBox.style.display = 'block';
+            }
         });
 
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Kayıt oluşturuldu! Giriş yapabilirsiniz.');
+            alert('Kayıt simülasyonu başarılı! Artık admin bilgileriyle giriş yapabilirsiniz.');
             registerForm.classList.add('hidden');
             loginForm.classList.remove('hidden');
         });
