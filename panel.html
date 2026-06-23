@@ -8,188 +8,199 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #f4f6f9;
-            display: flex;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f4f6f9; display: flex; min-height: 100vh; }
 
         /* Yan Menü (Sidebar) */
-        .sidebar {
-            width: 260px;
-            background-color: #1e3c72;
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-brand {
-            font-size: 20px;
-            font-weight: 700;
-            text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 25px;
-        }
-
-        .sidebar-brand span {
-            color: #00d2ff;
-        }
-
-        .menu-list {
-            list-style: none;
-        }
-
-        .menu-item a {
-            display: flex;
-            align-items: center;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: 0.3s;
-        }
-
-        .menu-item a i {
-            margin-right: 15px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .menu-item a:hover, .menu-item.active a {
-            background-color: rgba(255,255,255,0.15);
-            color: white;
-        }
+        .sidebar { width: 260px; background-color: #1e3c72; color: white; padding: 20px; display: flex; flex-direction: column; }
+        .sidebar-brand { font-size: 20px; font-weight: 700; text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px; }
+        .sidebar-brand span { color: #00d2ff; }
+        .menu-list { list-style: none; }
+        .menu-item a { display: flex; align-items: center; color: rgba(255,255,255,0.8); text-decoration: none; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; transition: 0.3s; cursor: pointer; }
+        .menu-item a i { margin-right: 15px; width: 20px; text-align: center; }
+        .menu-item:hover a, .menu-item.active a { background-color: rgba(255,255,255,0.15); color: white; }
 
         /* Ana İçerik Alanı */
-        .main-content {
-            flex: 1;
-            padding: 30px;
-            overflow-y: auto;
-        }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            background: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+        /* Sayfa Bölümleri (Başlangıçta özet hariç gizli olacaklar) */
+        .page-section { display: none; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); min-height: 400px; }
+        .page-section.active { display: block; }
 
-        /* Özet Kartları (İstatistik) */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+        /* Form Elemanları Tasarımı */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: #333; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        .btn-primary { background: #1e3c72; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-primary:hover { background: #2a5298; }
 
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* Özet Kartları */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .stat-info h3 { font-size: 28px; color: #333; }
+        .stat-info p { color: #888; font-size: 14px; }
+        .stat-icon { font-size: 30px; color: #2a5298; background: #eef2f7; padding: 15px; border-radius: 10px; }
 
-        .stat-info h3 {
-            font-size: 28px;
-            color: #333;
-        }
-
-        .stat-info p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .stat-icon {
-            font-size: 30px;
-            color: #2a5298;
-            background: #eef2f7;
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        /* Alt Bölümler Alanı */
-        .content-box {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            min-height: 300px;
-        }
+        /* Tablo Tasarımı */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; color: #333; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-brand">
-            GARANTİ <span>EMLAK</span>
-        </div>
+        <div class="sidebar-brand">GARANTİ <span>EMLAK</span></div>
         <ul class="menu-list">
-            <li class="menu-item active"><a href="#"><i class="fa-solid fa-chart-pie"></i> Panel Özet</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-building"></i> Kişisel Portföy</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-users"></i> Müşteri Kayıt (CRM)</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-calendar-days"></i> Randevu Sistemi</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-map-location-dot"></i> Ada Parsel Sorgu</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-wand-magic-sparkles"></i> AI İlan Sihirbazı</a></li>
-            <li class="menu-item"><a href="#"><i class="fa-solid fa-note-sticky"></i> Notlarım</a></li>
+            <li class="menu-item active" onclick="showPage('dashboard')"><a><i class="fa-solid fa-chart-pie"></i> Panel Özet</a></li>
+            <li class="menu-item" onclick="showPage('portfolio')"><a><i class="fa-solid fa-building"></i> Kişisel Portföy</a></li>
+            <li class="menu-item" onclick="showPage('ai-wizard')"><a><i class="fa-solid fa-wand-magic-sparkles"></i> AI İlan Sihirbazı</a></li>
+            <li class="menu-item" onclick="alert('Yakında eklenecek!')"><a><i class="fa-solid fa-users"></i> Müşteri Kayıt</a></li>
+            <li class="menu-item" onclick="alert('Yakında eklenecek!')"><a><i class="fa-solid fa-calendar-days"></i> Randevular</a></li>
+            <li class="menu-item" onclick="alert('Yakında eklenecek!')"><a><i class="fa-solid fa-map-location-dot"></i> Ada Parsel</a></li>
             <li class="menu-item" style="margin-top: 50px;"><a href="index.html" style="color: #ff6b6b;"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="header">
-            <h2>Hoş Geldiniz, Garanti Emlak Temsilcisi</h2>
-            <div class="user-info">
-                <i class="fa-solid fa-bell" style="margin-right: 20px; cursor: pointer; color: #666;"></i>
-                <strong>Yönetici Paneli</strong>
+            <h2>Garanti Emlak Yönetim Paneli</h2>
+            <strong>Yönetici</strong>
+        </div>
+
+        <div id="dashboard" class="page-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info"><h3 id="portfolioCount">1</h3><p>Aktif Portföy</p></div>
+                    <div class="stat-icon"><i class="fa-solid fa-house"></i></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info"><h3>48</h3><p>Kayıtlı Müşteri</p></div>
+                    <div class="stat-icon"><i class="fa-solid fa-user-tie"></i></div>
+                </div>
+            </div>
+            <div style="background: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid #1e3c72;">
+                <h4>📌 Canlı Hatırlatıcı</h4>
+                <p style="margin-top: 5px; color:#555;">Sisteme başarıyla giriş yaptınız. Menüler arası geçiş artık aktif!</p>
             </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>12</h3>
-                    <p>Aktif Portföy</p>
+        <div id="portfolio" class="page-section">
+            <h3>🏠 Kişisel Emlak Portföyü</h3>
+            <p style="color: #666; margin-bottom: 20px;">Buradan yeni ilan ekleyebilir ve mevcut portföyünüzü görebilirsiniz.</p>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h4>Yeni İlan Ekle</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div class="form-group"><label>İlan Başlığı</label><input type="text" id="propTitle" class="form-control" placeholder="Örn: Satılık Lux 3+1"></div>
+                    <div class="form-group"><label>Bölge / Konum</label><input type="text" id="propLocation" class="form-control" placeholder="Örn: Gazipaşa Bulvarı"></div>
+                    <div class="form-group"><label>Fiyat (TL)</label><input type="number" id="propPrice" class="form-control" placeholder="Örn: 3500000"></div>
+                    <div class="form-group"><label>Oda Sayısı</label><input type="text" id="propRooms" class="form-control" placeholder="Örn: 3+1"></div>
                 </div>
-                <div class="stat-icon"><i class="fa-solid fa-house"></i></div>
+                <button class="btn-primary" onclick="addProperty()">Portföye Kaydet</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>48</h3>
-                    <p>Kayıtlı Müşteri</p>
-                </div>
-                <div class="stat-icon"><i class="fa-solid fa-user-tie"></i></div>
+
+            <h4>Mevcut İlanlarınız</h4>
+            <table>
+                <thead>
+                    <tr><th>Başlık</th><th>Konum</th><th>Oda</th><th>Fiyat</th></tr>
+                </thead>
+                <tbody id="portfolioTable">
+                    <tr><td>Örnek İlan: Kırklarsırtı Satılık Daire</td><td>Kırklarsırtı</td><td>3+1</td><td>4.250.000 TL</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="ai-wizard" class="page-section">
+            <h3>✨ Yapay Zekalı İlan Açıklaması Sihirbazı</h3>
+            <p style="color: #666; margin-bottom: 20px;">Evin özelliklerini yazın, yapay zeka saniyeler içinde sahibinden.com ilanı hazırlasın.</p>
+            
+            <div class="form-group">
+                <label>Evin Öne Çıkan Özelliklerini Virgülle Ayırarak Yazın:</label>
+                <textarea id="aiKeywords" class="form-control" rows="3" placeholder="Örn: 3+1, kombili, sıfır bina, geniş balkon, hastaneye yakın, lüks mutfak"></textarea>
             </div>
-            <div class="stat-card">
-                <div class="stat-info">
-                    <h3>3</h3>
-                    <p>Bugünkü Randevu</p>
+            <button class="btn-primary" onclick="generateAIResult()">Sihirbazı Çalıştır ✨</button>
+
+            <div style="margin-top: 25px;">
+                <h4>🤖 Oluşturulan Yapay Zeka Metni:</h4>
+                <div id="aiResult" style="background: #f0f4f8; padding: 20px; border-radius: 8px; min-height: 100px; margin-top: 10px; white-space: pre-line; color: #333; font-style: italic;">
+                    Sihirbazı çalıştırdığınızda harika bir ilan metni burada belirecek...
                 </div>
-                <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
             </div>
         </div>
 
-        <div class="content-box">
-            <h3>📌 Bugün Öne Çıkanlar & Hatırlatıcılar</h3>
-            <p style="color: #666; margin-top: 10px;">Menüleri tek tek aktif edeceğiz. Şu an tasarım iskeletimiz hazır!</p>
-            </div>
     </div>
 
+    <script>
+        // Menü Değiştirme Fonksiyonu
+        function showPage(pageId) {
+            // Önce tüm sayfaları gizle
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            // Tüm menü butonlarının "aktif" görüntüsünü kaldır
+            const menuItems = document.querySelectorAll('.menu-list .menu-item');
+            menuItems.forEach(item => item.classList.remove('active'));
+
+            // İstenen sayfayı göster
+            document.getElementById(pageId).classList.add('active');
+            
+            // Tıklanan menü butonunu aktif yap (Tasarım için görsel eşleştirme)
+            event.currentTarget.classList.add('active');
+        }
+
+        // Portföye Yeni Ev Ekleme Fonksiyonu (Simülasyon)
+        let currentCount = 1;
+        function addProperty() {
+            const title = document.getElementById('propTitle').value;
+            const location = document.getElementById('propLocation').value;
+            const price = document.getElementById('propPrice').value;
+            const rooms = document.getElementById('propRooms').value;
+
+            if(!title || !location || !price) {
+                alert('Lütfen gerekli alanları doldurun!');
+                return;
+            }
+
+            const table = document.getElementById('portfolioTable');
+            const newRow = table.insertRow();
+            newRow.innerHTML = `<td>${title}</td><td>${location}</td><td>${rooms}</td><td>${Number(price).toLocaleString('tr-TR')} TL</td>`;
+
+            // Sayaçları Güncelle
+            currentCount++;
+            document.getElementById('portfolioCount').innerText = currentCount;
+
+            // Formu Temizle
+            document.getElementById('propTitle').value = '';
+            document.getElementById('propLocation').value = '';
+            document.getElementById('propPrice').value = '';
+            document.getElementById('propRooms').value = '';
+
+            alert('Harika! Yeni mülk portföyünüze eklendi ve özete yansıtıldı.');
+        }
+
+        // Yapay Zeka İlan Oluşturma Fonksiyonu (Örnek Akıllı Algoritma)
+        function generateAIResult() {
+            const keywords = document.getElementById('aiKeywords').value;
+            if(!keywords) {
+                alert('Lütfen evle ilgili birkaç özellik yazın!');
+                return;
+            }
+
+            document.getElementById('aiResult').innerText = "Yapay zeka metni oluşturuyor, lütfen bekleyin...";
+
+            setTimeout(() => {
+                const text = `🔥 GARANTİ EMLAK'TAN KAÇIRILMAYACAK FIRSAT! 🔥\n\n` +
+                             `Bölgenin en gözde lokasyonunda yer alan, konfor ve şıklığı bir arada sunan muhteşem dairemiz satışta!\n\n` +
+                             `✨ ÖNE ÇIKAN ÖZELLİKLER:\n` + 
+                             keywords.split(',').map(k => `• ${k.trim()}`).join('\n') + 
+                             `\n\n📍 Lokasyon olarak toplu taşımaya, marketlere ve sosyal alanlara yürüme mesafesindedir. Hem oturum hem de yüksek kira getirisiyle yatırım için mükemmel bir seçenektir.\n\n` +
+                             `📞 Detaylı bilgi ve randevu için hemen bizimle iletişime geçin:\nGaranti Emlak Güvencesiyle!`;
+                
+                document.getElementById('aiResult').innerText = text;
+            }, 1200); // 1.2 saniye yükleniyor efekti sürecek
+        }
+    </script>
 </body>
 </html>
