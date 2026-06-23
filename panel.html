@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garanti Emlak - Yönetim Paneli</title>
+    
+    <!-- SIZMA ENGELLEYİCİ: Giriş anahtarı yoksa sayfanın geri kalanını yüklemeden anında şutlar -->
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('index.html');
+        }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #f0f4f1; display: flex; min-height: 100vh; color: #2d3748; }
 
-        /* SOL MENÜ (YEŞİL TEMA) */
+        /* YAN MENÜ */
         .sidebar { width: 280px; background-color: #11998e; color: white; padding: 25px 20px; display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.05); }
         .sidebar-brand { font-size: 22px; font-weight: 700; text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 25px; letter-spacing: 1px; }
         .sidebar-brand span { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -19,14 +27,14 @@
         .menu-item a i { margin-right: 15px; width: 22px; text-align: center; font-size: 16px; }
         .menu-item:hover a, .menu-item.active a { background-color: #ffffff; color: #11998e; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 
-        /* ANA ALAN */
+        /* ANA İÇERİK */
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 18px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 5px solid #11998e; }
         
         .page-section { display: none; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); min-height: 500px; }
         .page-section.active { display: block; }
 
-        /* FORM VE ELEMENTLER */
+        /* BİLEŞENLER */
         h3 { color: #11998e; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
         .form-group { margin-bottom: 15px; }
@@ -39,7 +47,7 @@
         .btn-green:hover { background: #0f857b; transform: translateY(-1px); }
         .btn-share { background: #38ef7d; color: #11998e; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
 
-        /* ÖZET KARTLARI */
+        /* İSTATİSTİKLER */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #e2e8f0; transition: 0.3s; }
         .stat-card:hover { border-bottom-color: #11998e; transform: translateY(-3px); }
@@ -51,10 +59,9 @@
         th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
         th { background-color: #f8fafc; color: #4a5568; font-weight: 600; }
 
-        /* EŞLEŞME ALANI VURGUSU */
         .match-badge { background: #edfaf1; color: #11998e; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; gap: 5px; }
         
-        /* TOAST BİLDİRİM */
+        /* PANEL TOAST */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
         .toast { background: white; padding: 16px 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; transform: translateX(120%); transition: transform 0.4s; margin-bottom: 10px; border-left: 5px solid #11998e; }
         .toast.show { transform: translateX(0); }
@@ -64,6 +71,7 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- MENÜ ÇUBUĞU -->
     <div class="sidebar">
         <div class="sidebar-brand">GARANTİ <span>EMLAK</span></div>
         <ul class="menu-list">
@@ -75,16 +83,18 @@
             <li class="menu-item" onclick="showPage('map-search')"><a><i class="fa-solid fa-map-location-dot"></i> Ada Parsel Sorgu</a></li>
             <li class="menu-item" onclick="showPage('sahibinden-filter')"><a><i class="fa-solid fa-filter"></i> Sahibinden Filtreleme</a></li>
             <li class="menu-item" onclick="showPage('notes')"><a><i class="fa-solid fa-note-sticky"></i> Özel Notlarım</a></li>
-            <li class="menu-item" style="margin-top: 30px;"><a href="index.html" style="color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> Güvenli Çıkış</a></li>
+            <li class="menu-item" style="margin-top: 30px;"><a onclick="logout()" style="color: #ff4d4d;"><i class="fa-solid fa-right-from-bracket"></i> Güvenli Çıkış</a></li>
         </ul>
     </div>
 
+    <!-- SAĞ TARAF PANEL ALANI -->
     <div class="main-content">
         <div class="header">
             <h2>Garanti Emlak Profesyonel Yönetim Sistemi</h2>
             <div><i class="fa-solid fa-circle-user" style="color:#11998e;"></i> <strong>Hoş Geldiniz, Yönetici</strong></div>
         </div>
 
+        <!-- 1. PANELE ÖZET -->
         <div id="dashboard" class="page-section active">
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-info"><h3 id="countPort">2</h3><p>Aktif Portföy</p></div><div class="stat-icon"><i class="fa-solid fa-house"></i></div></div>
@@ -93,10 +103,11 @@
             </div>
             <div style="background: #fff; padding: 25px; border-radius: 12px; border-left: 5px solid #38ef7d; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
                 <h4>🟢 Akıllı Bildirim Paneli</h4>
-                <p style="margin-top: 8px; color:#4a5568; font-size: 14px;"><i class="fa-solid fa-bolt" style="color:#11998e;"></i> Sisteminiz tamamen çalışır durumda. Yapmak istediğiniz işlemi sol menüden seçebilirsiniz.</p>
+                <p style="margin-top: 8px; color:#4a5568; font-size: 14px;"><i class="fa-solid fa-bolt" style="color:#11998e;"></i> Sisteminiz aktif. Yapmak istediğiniz işlemi sol menüden seçebilirsiniz.</p>
             </div>
         </div>
 
+        <!-- 2. PORTFÖYÜM -->
         <div id="portfolio" class="page-section">
             <h3><i class="fa-solid fa-building"></i> Kişisel Emlak Portföyü</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -121,6 +132,7 @@
             </table>
         </div>
 
+        <!-- 3. CRM MÜŞTERİ HAVUZU -->
         <div id="crm" class="page-section">
             <h3><i class="fa-solid fa-users"></i> Müşteri Kayıt & Akıllı Eşleştirme (CRM)</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -145,6 +157,7 @@
             </table>
         </div>
 
+        <!-- 4. YAPAY ZEKA İLAN SİHİRBAZI -->
         <div id="ai-wizard" class="page-section">
             <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Yapay Zekalı İlan Açıklaması Sihirbazı</h3>
             <div class="form-group">
@@ -157,6 +170,7 @@
             </div>
         </div>
 
+        <!-- 5. RANDEVULAR -->
         <div id="appointments" class="page-section">
             <h3><i class="fa-solid fa-calendar-days"></i> Randevu Sistemi & Ajanda</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -174,19 +188,21 @@
             </ul>
         </div>
 
+        <!-- 6. ADA PARSEL SORGULAMA -->
         <div id="map-search" class="page-section">
             <h3><i class="fa-solid fa-map-location-dot"></i> Gelişmiş Ada Parsel & Lokasyon Notları</h3>
             <div class="grid-2">
                 <div class="form-group"><label>İl / İlçe / Mahalle</label><input type="text" id="mZone" class="form-control" placeholder="Örn: Mersin / Tarsus / Gazipaşa"></div>
                 <div class="form-group"><label>Ada / Parsel No</label><input type="text" id="mNo" class="form-control" placeholder="Örn: 102 / 14"></div>
             </div>
-            <div class="form-group"><label>Bu Parsel Hakkında Sadece Sizin Göreceğiniz Özel Notlar:</label><textarea id="mNotes" class="form-control" rows="2" placeholder="Örn: Belediyeden kontrol edildi, 4 kata imarlı, önü kapanmaz müthiş kupon yer."></textarea></div>
+            <div class="form-group"><label>Bu Parsel Hakkında Özel Notlar:</label><textarea id="mNotes" class="form-control" rows="2" placeholder="Örn: Belediyeden kontrol edildi, 4 kata imarlı..."></textarea></div>
             <button class="btn-green" onclick="queryMap()">TKGM Sorgula & Haritaya İşle</button>
             <div style="margin-top: 20px; background: #eaeaea; height: 200px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #666; font-weight: 500;" id="mapFrame">
                 <i class="fa-solid fa-map" style="margin-right:10px;"></i> Coğrafi Harita Katmanı Yüklenmeye Hazır
             </div>
         </div>
 
+        <!-- 7. SAHİBİNDEN ANALİZ -->
         <div id="sahibinden-filter" class="page-section">
             <h3><i class="fa-solid fa-filter"></i> Sahibinden.com İlan Filtreleme Analiz Modülü</h3>
             <div class="form-group"><label>Analiz Etmek İstediğiniz Sahibinden İlan Linkini Girin:</label><input type="text" id="sUrl" class="form-control" placeholder="https://www.sahibinden.com/ilan/..."></div>
@@ -194,14 +210,16 @@
             <div style="margin-top: 20px;" id="sResult"></div>
         </div>
 
+        <!-- 8. MANTAR PANO NOTLARI -->
         <div id="notes" class="page-section">
             <h3><i class="fa-solid fa-note-sticky"></i> Emlakçı Özel Günlük Notları</h3>
-            <div class="form-group"><textarea id="newNoteText" class="form-control" rows="3" placeholder="Bugün yapılacak işleri veya unutulmaması gereken notları hızlıca buraya yazın..."></textarea></div>
+            <div class="form-group"><textarea id="newNoteText" class="form-control" rows="3" placeholder="Bugün yapılacak işleri hızlıca buraya yazın..."></textarea></div>
             <button class="btn-green" onclick="addNote()">Notu Hafızaya Al</button>
             <div id="notesContainer" style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"></div>
         </div>
     </div>
 
+    <!-- SOSYAL MEDYA INSTAGRAM KART OLUŞTURUCU (POP-UP) -->
     <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:white; padding:30px; border-radius:16px; text-align:center; max-width:400px; width:90%;">
             <div id="instacard" style="background:linear-gradient(135deg, #11998e, #38ef7d); color:white; padding:40px 20px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,0.15); margin-bottom:20px;">
@@ -215,6 +233,17 @@
     </div>
 
     <script>
+        // PANEL İÇİ ANLIK GÜVENLİK SORGUSU
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('index.html');
+        }
+
+        // ÇIKIŞ YAPILINCA YETKİ ANAHTARINI SİLMEK
+        function logout() {
+            sessionStorage.removeItem('isLoggedIn');
+            window.location.replace('index.html');
+        }
+
         function showPanelToast(msg) {
             const container = document.getElementById('toastContainer');
             const t = document.createElement('div'); t.className = 'toast show';
@@ -230,65 +259,58 @@
             event.currentTarget.classList.add('active');
         }
 
-        // PORTFÖY FONKSİYONU
         function addPort() {
             const t = document.getElementById('pTitle').value; const l = document.getElementById('pLoc').value;
             const p = document.getElementById('pPrice').value; const r = document.getElementById('pRoom').value;
-            if(!t || !p) { alert('Lütfen başlık ve fiyat girin.'); return; }
+            if(!t || !p) { alert('Lütfen başlık ve fiyat alanlarını doldurun.'); return; }
             const row = document.getElementById('portTable').insertRow();
             row.innerHTML = `<td>${t}</td><td>${l}</td><td>${r}</td><td>${Number(p).toLocaleString('tr-TR')} TL</td><td><button class="btn-share" onclick="makeCard('${t}','${Number(p).toLocaleString('tr-TR')} TL')">Görsel Yap 🖼️</button></td>`;
             document.getElementById('countPort').innerText = document.getElementById('portTable').rows.length;
-            showPanelToast('Mülk Kaydedildi! Akıllı Eşleştirme Sistemi Arka Planda Müşteri Arıyor...');
+            showPanelToast('Mülk Portföye İşlendi!');
         }
 
-        // CRM FONKSİYONU
         function addCrm() {
             const n = document.getElementById('cName').value; const l = document.getElementById('cLoc').value; const r = document.getElementById('cRoom').value;
-            if(!n || !l) { alert('Müşteri ismi ve bölge şarttır.'); return; }
+            if(!n || !l) { alert('Müşteri ismi ve bölge girilmesi zorunludur.'); return; }
             const row = document.getElementById('crmTable').insertRow();
-            row.innerHTML = `<td>${n} (${document.getElementById('cPhone').value})</td><td>${l}</td><td>${r}</td><td><span class="match-badge"><i class="fa-solid fa-fire"></i> Portföy Taranıyor...</span></td>`;
+            row.innerHTML = `<td>${n} (${document.getElementById('cPhone').value})</td><td>${l}</td><td>${r}</td><td><span class="match-badge"><i class="fa-solid fa-fire"></i> Kriter Taranıyor...</span></td>`;
             document.getElementById('countCrm').innerText = document.getElementById('crmTable').rows.length;
-            showPanelToast('Müşteri CRM Havuzuna Eklendi ve Kriter Eşleştirmesi Başladı!');
+            showPanelToast('Alıcı Bilgileri CRM Veritabanına Eklendi!');
         }
 
-        // AI SİHİRBAZI FONKSİYONU
         function runAI() {
             const kw = document.getElementById('aiKeywords').value;
-            if(!kw) { alert('Özellik yazın.'); return; }
-            document.getElementById('aiOutput').innerText = "Yapay Zeka Profesyonel Reklam Metni Hazırlıyor...";
+            if(!kw) { alert('Lütfen birkaç özellik belirtin.'); return; }
+            document.getElementById('aiOutput').innerText = "Yapay Zeka Metni Hazırlıyor, Lütfen Bekleyin...";
             setTimeout(() => {
-                document.getElementById('aiOutput').innerText = `🔥 GARANTİ EMLAK'TAN KAÇIRILMAYACAK FIRSAT! 🔥\n\nHarika bir yaşam alanı sizleri bekliyor. Tüm detayları titizlikle düşünülmüş mülkümüz satışa sunulmuştur.\n\n✨ Öne Çıkan Ayrıcalıklar:\n${kw.split(',').map(k => `• ${k.trim()}`).join('\n')}\n\nUlaşım akslarına yakın, krediye uygun ve yüksek prim garantili! Detaylı sunum için bizi arayın.`;
+                document.getElementById('aiOutput').innerText = `🔥 GARANTİ EMLAK'TAN KAÇIRILMAYACAK FIRSAT! 🔥\n\nHarika bir yaşam alanı sizleri bekliyor. Tüm detayları titizlikle düşünülmüş mülkümüz portföyümüzde satışa sunulmuştur.\n\n✨ Öne Çıkan Ayrıcalıklar:\n${kw.split(',').map(k => `• ${k.trim()}`).join('\n')}\n\nUlaşım akslarına yakın, krediye uygun ve yüksek prim garantili! Detaylı sunum için ofisimize bekleriz.`;
             }, 1000);
         }
 
-        // RANDEVU FONKSİYONU
         function addApp() {
             const u = document.getElementById('aUser').value; const d = document.getElementById('aDate').value;
             if(!u || !d) return;
             const li = document.createElement('li');
             li.style = "background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 10px; border-left: 4px solid #11998e;";
-            li.innerHTML = `<strong>${u}:</strong> Yer Gösterme / Randevu - <span style="color:#11998e; font-weight:600;">${d.replace('T', ' ')}</span>`;
+            li.innerHTML = `<strong>${u}:</strong> Yer Gösterme - <span style="color:#11998e; font-weight:600;">${d.replace('T', ' ')}</span>`;
             document.getElementById('appList').appendChild(li);
             document.getElementById('countApp').innerText = document.getElementById('appList').children.length;
-            showPanelToast('Randevu Takvime İşlendi!');
+            showPanelToast('Randevu Bilgisi Ajandaya Kaydedildi!');
         }
 
-        // ADA PARSEL FONKSİYONU
         function queryMap() {
             const z = document.getElementById('mZone').value; const n = document.getElementById('mNo').value; const notes = document.getElementById('mNotes').value;
             if(!z || !n) return;
-            document.getElementById('mapFrame').innerHTML = `<div style="text-align:center; color:#11998e;"><i class="fa-solid fa-spinner fa-spin" style="font-size:30px; margin-bottom:10px;"></i><br><b>${z} / ${n} Parseli Sorgulanıyor ve Sisteme Pini Atılıyor...</b><br><small style="color:#666;">Alınan Not: ${notes}</small></div>`;
-            showPanelToast('Ada Parsel Bilgisi ve Özel Konum Notu Sisteme Kaydedildi!');
+            document.getElementById('mapFrame').innerHTML = `<div style="text-align:center; color:#11998e;"><i class="fa-solid fa-spinner fa-spin" style="font-size:30px; margin-bottom:10px;"></i><br><b>${z} / ${n} Kadastro Katmanı Çekiliyor...</b><br><small style="color:#666;">Not: ${notes}</small></div>`;
+            showPanelToast('Konum Detayları Hafızaya Alındı!');
         }
 
-        // SAHİBİNDEN FİLTRELEME
         function filterSahibinden() {
             if(!document.getElementById('sUrl').value) return;
-            document.getElementById('sResult').innerHTML = `<div style="background:#f8fafc; padding:20px; border-radius:10px; border-left:4px solid #38ef7d;"><h4>📊 İlan Analiz Sonucu:</h4><p style="margin-top:5px; font-size:14px;">Girilen linkteki piyasa fiyat filtreleri tarandı. Bölge ortalamasına göre fiyat <b>%7 Daha Uygun</b>. Kelepir portföy adayı!</p></div>`;
-            showPanelToast('Filtre Analizi Başarılı!');
+            document.getElementById('sResult').innerHTML = `<div style="background:#f8fafc; padding:20px; border-radius:10px; border-left:4px solid #38ef7d;"><h4>📊 Filtre Analizi Sonucu:</h4><p style="margin-top:5px; font-size:14px;">İlan fiyat performansı incelendi. Girilen mülk konumu piyasa ortalamasından <b>%7 Daha Avantajlı</b> fiyatlandırılmıştır.</p></div>`;
+            showPanelToast('Link Analiz Edildi!');
         }
 
-        // NOT EKLEME
         function addNote() {
             const txt = document.getElementById('newNoteText').value; if(!txt) return;
             const card = document.createElement('div');
@@ -296,10 +318,9 @@
             card.innerText = txt;
             document.getElementById('notesContainer').appendChild(card);
             document.getElementById('newNoteText').value = '';
-            showPanelToast('Özel Not Mantar Panoya İğnelendi!');
+            showPanelToast('Not Panoya Tutturuldu!');
         }
 
-        // TEK TIKLA SOSYAL MEDYA GÖRSELİ OLUŞTURUCU
         function makeCard(title, price) {
             document.getElementById('mTitle').innerText = title;
             document.getElementById('mPrice').innerText = price;
