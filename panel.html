@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garanti Emlak - Yönetim Paneli</title>
     
-    <!-- SIZMA ENGELLEYİCİ: Giriş anahtarı yoksa sayfanın geri kalanını yüklemeden anında şutlar -->
     <script>
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             window.location.replace('index.html');
@@ -18,7 +17,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: #f0f4f1; display: flex; min-height: 100vh; color: #2d3748; }
 
-        /* YAN MENÜ */
+        /* YAN SOL MENÜ */
         .sidebar { width: 280px; background-color: #11998e; color: white; padding: 25px 20px; display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.05); }
         .sidebar-brand { font-size: 22px; font-weight: 700; text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 25px; letter-spacing: 1px; }
         .sidebar-brand span { color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -27,7 +26,7 @@
         .menu-item a i { margin-right: 15px; width: 22px; text-align: center; font-size: 16px; }
         .menu-item:hover a, .menu-item.active a { background-color: #ffffff; color: #11998e; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
 
-        /* ANA İÇERİK */
+        /* ANA PANELLER */
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 18px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 5px solid #11998e; }
         
@@ -47,7 +46,7 @@
         .btn-green:hover { background: #0f857b; transform: translateY(-1px); }
         .btn-share { background: #38ef7d; color: #11998e; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
 
-        /* İSTATİSTİKLER */
+        /* KARTLAR */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #e2e8f0; transition: 0.3s; }
         .stat-card:hover { border-bottom-color: #11998e; transform: translateY(-3px); }
@@ -61,7 +60,7 @@
 
         .match-badge { background: #edfaf1; color: #11998e; padding: 4px 8px; border-radius: 6px; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; gap: 5px; }
         
-        /* PANEL TOAST */
+        /* BİLDİRİMLER */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
         .toast { background: white; padding: 16px 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; transform: translateX(120%); transition: transform 0.4s; margin-bottom: 10px; border-left: 5px solid #11998e; }
         .toast.show { transform: translateX(0); }
@@ -71,7 +70,6 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- MENÜ ÇUBUĞU -->
     <div class="sidebar">
         <div class="sidebar-brand">GARANTİ <span>EMLAK</span></div>
         <ul class="menu-list">
@@ -87,14 +85,12 @@
         </ul>
     </div>
 
-    <!-- SAĞ TARAF PANEL ALANI -->
     <div class="main-content">
         <div class="header">
             <h2>Garanti Emlak Profesyonel Yönetim Sistemi</h2>
             <div><i class="fa-solid fa-circle-user" style="color:#11998e;"></i> <strong>Hoş Geldiniz, Yönetici</strong></div>
         </div>
 
-        <!-- 1. PANELE ÖZET -->
         <div id="dashboard" class="page-section active">
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-info"><h3 id="countPort">2</h3><p>Aktif Portföy</p></div><div class="stat-icon"><i class="fa-solid fa-house"></i></div></div>
@@ -103,11 +99,10 @@
             </div>
             <div style="background: #fff; padding: 25px; border-radius: 12px; border-left: 5px solid #38ef7d; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
                 <h4>🟢 Akıllı Bildirim Paneli</h4>
-                <p style="margin-top: 8px; color:#4a5568; font-size: 14px;"><i class="fa-solid fa-bolt" style="color:#11998e;"></i> Sisteminiz aktif. Yapmak istediğiniz işlemi sol menüden seçebilirsiniz.</p>
+                <p style="margin-top: 8px; color:#4a5568; font-size: 14px;"><i class="fa-solid fa-bolt" style="color:#11998e;"></i> Sisteminiz tamamen aktif. Sol menüden dilediğiniz veri modülüne geçiş yapabilirsiniz.</p>
             </div>
         </div>
 
-        <!-- 2. PORTFÖYÜM -->
         <div id="portfolio" class="page-section">
             <h3><i class="fa-solid fa-building"></i> Kişisel Emlak Portföyü</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -132,7 +127,6 @@
             </table>
         </div>
 
-        <!-- 3. CRM MÜŞTERİ HAVUZU -->
         <div id="crm" class="page-section">
             <h3><i class="fa-solid fa-users"></i> Müşteri Kayıt & Akıllı Eşleştirme (CRM)</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -157,7 +151,6 @@
             </table>
         </div>
 
-        <!-- 4. YAPAY ZEKA İLAN SİHİRBAZI -->
         <div id="ai-wizard" class="page-section">
             <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Yapay Zekalı İlan Açıklaması Sihirbazı</h3>
             <div class="form-group">
@@ -170,7 +163,6 @@
             </div>
         </div>
 
-        <!-- 5. RANDEVULAR -->
         <div id="appointments" class="page-section">
             <h3><i class="fa-solid fa-calendar-days"></i> Randevu Sistemi & Ajanda</h3>
             <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
@@ -188,7 +180,6 @@
             </ul>
         </div>
 
-        <!-- 6. ADA PARSEL SORGULAMA -->
         <div id="map-search" class="page-section">
             <h3><i class="fa-solid fa-map-location-dot"></i> Gelişmiş Ada Parsel & Lokasyon Notları</h3>
             <div class="grid-2">
@@ -202,7 +193,6 @@
             </div>
         </div>
 
-        <!-- 7. SAHİBİNDEN ANALİZ -->
         <div id="sahibinden-filter" class="page-section">
             <h3><i class="fa-solid fa-filter"></i> Sahibinden.com İlan Filtreleme Analiz Modülü</h3>
             <div class="form-group"><label>Analiz Etmek İstediğiniz Sahibinden İlan Linkini Girin:</label><input type="text" id="sUrl" class="form-control" placeholder="https://www.sahibinden.com/ilan/..."></div>
@@ -210,7 +200,6 @@
             <div style="margin-top: 20px;" id="sResult"></div>
         </div>
 
-        <!-- 8. MANTAR PANO NOTLARI -->
         <div id="notes" class="page-section">
             <h3><i class="fa-solid fa-note-sticky"></i> Emlakçı Özel Günlük Notları</h3>
             <div class="form-group"><textarea id="newNoteText" class="form-control" rows="3" placeholder="Bugün yapılacak işleri hızlıca buraya yazın..."></textarea></div>
@@ -219,7 +208,6 @@
         </div>
     </div>
 
-    <!-- SOSYAL MEDYA INSTAGRAM KART OLUŞTURUCU (POP-UP) -->
     <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:white; padding:30px; border-radius:16px; text-align:center; max-width:400px; width:90%;">
             <div id="instacard" style="background:linear-gradient(135deg, #11998e, #38ef7d); color:white; padding:40px 20px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,0.15); margin-bottom:20px;">
@@ -233,12 +221,12 @@
     </div>
 
     <script>
-        // PANEL İÇİ ANLIK GÜVENLİK SORGUSU
+        // PANEL İÇİ EN SIKI GÜVENLİK SORGUSU
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             window.location.replace('index.html');
         }
 
-        // ÇIKIŞ YAPILINCA YETKİ ANAHTARINI SİLMEK
+        // GÜVENLİ ÇIKIŞ YAPILINCA TARAYICI ANAHTARINI SİL
         function logout() {
             sessionStorage.removeItem('isLoggedIn');
             window.location.replace('index.html');
