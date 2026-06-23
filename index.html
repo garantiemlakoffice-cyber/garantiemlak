@@ -194,8 +194,9 @@
 
         // Form gönderildiğinde şimdilik ana sayfaya yönlendirmiş gibi yapalım
         loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Giriş başarılı! Şimdi ana panele yönlendiriliyorsunuz (Bir sonraki aşamada burayı bağlayacağız).');
+          e.preventDefault();
+    // Direkt yeni yaptığımız panel.html sayfasına yönlendiriyoruz
+          window.location.href = 'panel.html';
         });
 
         registerForm.addEventListener('submit', (e) => {
