@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garanti Emlak - Giriş Sistemi</title>
+    <link href="https://fonts.googleapis.com/css2 family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f0f4f1; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #2d3748; }
+        .hidden { display: none !important; }
+        .auth-container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px 30px; }
+        .logo-area { text-align: center; margin-bottom: 30px; }
+        .logo-area i { font-size: 50px; color: #11998e; margin-bottom: 10px; }
+        .logo-area h1 { font-size: 24px; color: #2d3748; font-weight: 700; }
+        .logo-area span { color: #11998e; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #11998e; }
+        .form-control { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; background: #f8fafc; }
+        .form-control:focus { border-color: #11998e; background: #fff; }
+        .btn-submit { width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #0f857b; }
+        .switch-text { text-align: center; margin-top: 20px; font-size: 14px; }
+        .switch-text a { color: #11998e; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <!-- GİRİŞ -->
+        <div id="loginBox">
+            <div class="logo-area">
+                <i class="fa-solid fa-house-chimney"></i>
+                <h1>GARANTİ <span>EMLAK</span></h1>
+                <p style="font-size: 12px; color: #718096;">Yönetim Paneli Girişi</p>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="btn-submit">Sisteme Giriş Yap</button>
+            </form>
+            <div class="switch-text">Hesabınız yok mu? <a href="#" onclick="toggleAuth(true)">Kayıt Olun</a></div>
+        </div>
+
+        <!-- KAYIT -->
+        <div id="registerBox" class="hidden">
+            <div class="logo-area">
+                <i class="fa-solid fa-user-plus"></i>
+                <h1>Kayıt <span>Ol</span></h1>
+            </div>
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <input type="text" id="regName" class="form-control" placeholder="Adınız Soyadınız" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" class="form-control" placeholder="E-posta Adresiniz" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre Belirleyin" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="btn-submit">Kayıt Ol</button>
+            </form>
+            <div class="switch-text">Profiliniz var mı? <a href="#" onclick="toggleAuth(false)">Giriş Yapın</a></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAuth(show) {
+            document.getElementById('loginBox').className = show ? 'hidden' : '';
+            document.getElementById('registerBox').className = show ? '' : 'hidden';
+        }
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
+            if(users[email]) { alert('Bu e-posta kayıtlı!'); return; }
+            users[email] = { name, password };
+            localStorage.setItem('emlakUsers', JSON.stringify(users));
+            alert('Kayıt başarılı, giriş yapabilirsiniz.');
+            toggleAuth(false);
+        }
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
+            if(users[email] && users[email].password === password) {
+                localStorage.setItem('currentEmlakUser', email);
+                localStorage.setItem('currentEmlakName', users[email].name);
+                window.location.href = 'index.html';
+            } else {
+                alert('Hatalı kullanıcı veya şifre!');
+            }
+        }
+    </script>
+</body>
+</html>
