@@ -3,142 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garanti Emlak - Giriş Paneli</title>
+    <title>Garanti Emlak - Portföy Yönetimi</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); width: 100%; max-width: 450px; padding: 40px 30px; position: relative; }
+        body { background: #f0f4f1; min-height: 100vh; color: #2d3748; display: flex; justify-content: center; align-items: center; }
+        
+        .hidden { display: none !important; }
+        
+        /* GİRİŞ & KAYIT EKRANI STİLLERİ */
+        .auth-container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px 30px; }
         .logo-area { text-align: center; margin-bottom: 30px; }
         .logo-area i { font-size: 50px; color: #11998e; margin-bottom: 10px; }
-        .logo-area h1 { font-size: 26px; color: #2d3748; font-weight: 700; letter-spacing: 1px; }
+        .logo-area h1 { font-size: 24px; color: #2d3748; font-weight: 700; }
         .logo-area span { color: #11998e; }
         .form-group { margin-bottom: 20px; position: relative; }
-        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #11998e; transition: 0.3s; font-size: 18px; }
-        .form-control { width: 100%; padding: 15px 15px 15px 50px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; transition: 0.3s; background-color: #f8fafc; }
-        .form-control:focus { border-color: #11998e; background-color: #fff; }
-        .login-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 13px; color: #4a5568; }
-        .remember-me { display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
-        .remember-me input { cursor: pointer; width: 18px; height: 18px; accent-color: #11998e; }
-        .btn-submit { width: 100%; padding: 15px; background: #11998e; border: none; border-radius: 12px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(17, 153, 142, 0.3); }
-        .btn-submit:hover { background: #0f857b; transform: translateY(-2px); }
-        .switch-form { text-align: center; margin-top: 25px; font-size: 14px; color: #4a5568; }
-        .switch-form a { color: #11998e; text-decoration: none; font-weight: 600; }
-        .hidden { display: none; }
+        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #11998e; }
+        .form-control { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; }
+        .form-control:focus { border-color: #11998e; }
+        .btn-submit { width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #0f857b; }
+        .switch-text { text-align: center; margin-top: 20px; font-size: 14px; }
+        .switch-text a { color: #11998e; text-decoration: none; font-weight: 600; }
 
-        /* TOAST BİLDİRİMLERİ */
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
-        .toast { background: white; padding: 16px 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); margin-bottom: 10px; }
-        .toast.show { transform: translateX(0); }
-        .toast.success { border-left: 5px solid #38ef7d; }
-        .toast.error { border-left: 5px solid #ff4d4d; }
-        .toast i { font-size: 20px; }
-        .toast.success i { color: #38ef7d; }
-        .toast.error i { color: #ff4d4d; }
+        /* PANEL EKRANI STİLLERİ */
+        .panel-container { width: 100%; min-height: 100vh; display: flex; background: #f0f4f1; }
+        .sidebar { width: 260px; background: #11998e; color: white; padding: 30px 20px; display: flex; flex-direction: column; }
+        .main-content { flex: 1; padding: 30px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-bottom: 25px; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f8fafc; color: #4a5568; }
+        
+        .logout-btn { margin-top: auto; background: #ff4d4d; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600; text-align: center; width: 100%; }
     </style>
 </head>
 <body>
 
-    <div class="toast-container" id="toastContainer"></div>
-
-    <div class="container">
-        <div class="logo-area">
-            <i class="fa-solid fa-house-chimney"></i>
-            <h1>GARANTİ <span>EMLAK</span></h1>
-            <p style="font-size: 12px; color: #718096; margin-top: 5px; font-weight: 500;">Yemyeşil Gelecek, Güvenli Portföy</p>
+    <div id="authScreen" class="auth-container">
+        <div id="loginBox">
+            <div class="logo-area">
+                <i class="fa-solid fa-house-chimney"></i>
+                <h1>GARANTİ <span>EMLAK</span></h1>
+                <p style="font-size: 12px; color: #718096;">Kullanıcı Girişi</p>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="btn-submit">Giriş Yap</button>
+            </form>
+            <div class="switch-text">Hesabınız yok mu? <a href="#" onclick="toggleAuth(true)">Kayıt Olun</a></div>
         </div>
 
-        <!-- GİRİŞ FORMU (Tarayıcı müdahalelerine karşı korumalı) -->
-        <form id="loginForm" autocomplete="off" onsubmit="return false;">
-            <div class="form-group">
-                <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required autocomplete="off">
-                <i class="fa-solid fa-envelope"></i>
+        <div id="registerBox" class="hidden">
+            <div class="logo-area">
+                <i class="fa-solid fa-user-plus"></i>
+                <h1>Kayıt <span>Ol</span></h1>
+                <p style="font-size: 12px; color: #718096;">Hemen ücretsiz hesabınızı oluşturun</p>
             </div>
-            <div class="form-group">
-                <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required autocomplete="new-password">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="login-options">
-                <label class="remember-me"><input type="checkbox" id="rememberMe"> Beni Hatırla</label>
-                <span style="color: #a0aec0; font-size: 11px;">admin@garantiemlak.online / 123456</span>
-            </div>
-            <button type="button" id="submitBtn" class="btn-submit">Sisteme Giriş Yap</button>
-            <div class="switch-form">Hesabınız yok mu? <a href="#" id="toRegister">Kayıt Olun</a></div>
-        </form>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <input type="text" id="regName" class="form-control" placeholder="Adınız Soyadınız" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" class="form-control" placeholder="E-posta Adresiniz" required>
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre Belirleyin" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <button type="submit" class="btn-submit">Kayıt Ol</button>
+            </form>
+            <div class="switch-text">Zaten üye misiniz? <a href="#" onclick="toggleAuth(false)">Giriş Yapın</a></div>
+        </div>
+    </div>
 
-        <!-- KAYIT FORMU -->
-        <form id="registerForm" class="hidden">
-            <div class="form-group"><input type="text" class="form-control" placeholder="Adınız Soyadınız" required><i class="fa-solid fa-user"></i></div>
-            <div class="form-group"><input type="email" class="form-control" placeholder="E-posta Adresiniz" required><i class="fa-solid fa-envelope"></i></div>
-            <div class="form-group"><input type="password" class="form-control" placeholder="Şifre Oluşturun" required><i class="fa-solid fa-lock"></i></div>
-            <button type="submit" class="btn-submit">Hesap Oluştur</button>
-            <div class="switch-form">Zaten üye misiniz? <a href="#" id="toLogin">Giriş Yapın</a></div>
-        </form>
+    <div id="panelScreen" class="panel-container hidden">
+        <div class="sidebar">
+            <h2 style="text-align: center; margin-bottom: 30px; letter-spacing: 1px;">GARANTİ EMLAK</h2>
+            <p style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;"><i class="fa-solid fa-user"></i> <span id="userBadge">Kullanıcı</span></p>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
+        </div>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2 style="color: #11998e; margin-bottom: 20px;"><i class="fa-solid fa-plus-circle"></i> Bana Özel Yeni Portföy Ekle</h2>
+                <form id="portfolioForm" onsubmit="addPortfolio(event)">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:5px; font-weight:500;">İlan Başlığı</label>
+                            <input type="text" id="pTitle" class="form-control" style="padding-left:15px;" placeholder="Örn: Gazipaşa'da Satılık 3+1" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:5px; font-weight:500;">Fiyat (TL)</label>
+                            <input type="number" id="pPrice" class="form-control" style="padding-left:15px;" placeholder="Örn: 4500000" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit" style="width: auto; padding: 10px 25px;">Portföyü Kaydet</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 style="color: #11998e; margin-bottom: 15px;"><i class="fa-solid fa-list"></i> Benim Portföy Listem</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>İlan Başlığı</th>
+                            <th>Fiyat</th>
+                            <th>İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="portfolioTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script>
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const loginEmailInput = document.getElementById('loginEmail');
-        const loginPasswordInput = document.getElementById('loginPassword');
-        const rememberMeCheckbox = document.getElementById('rememberMe');
-        const submitBtn = document.getElementById('submitBtn');
+        let currentUserEmail = "";
 
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark';
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i><div>${message}</div>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 50);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
+        // Giriş ve Kayıt kutuları arasında geçiş
+        function toggleAuth(showRegister) {
+            if (showRegister) {
+                document.getElementById('loginBox').classList.add('hidden');
+                document.getElementById('registerBox').classList.remove('hidden');
+            } else {
+                document.getElementById('registerBox').classList.add('hidden');
+                document.getElementById('loginBox').classList.remove('hidden');
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedEmail = localStorage.getItem('rememberedEmail');
-            if (savedEmail) { loginEmailInput.value = savedEmail; rememberMeCheckbox.checked = true; }
-        });
-
-        document.getElementById('toRegister').addEventListener('click', (e) => { e.preventDefault(); loginForm.classList.add('hidden'); registerForm.classList.remove('hidden'); });
-        document.getElementById('toLogin').addEventListener('click', (e) => { e.preventDefault(); registerForm.classList.add('hidden'); loginForm.classList.remove('hidden'); });
-
-        // Tetikleyiciyi butona tıklama (Click) olayına çektik, form submit karmaşası bitti
-        submitBtn.addEventListener('click', () => {
-            // İleri düzey filtreleme: Görünmez boşlukları, tabları ve Türkçe karakter büyütme hatalarını yok etme
-            let email = loginEmailInput.value.trim().replace(/\s+/g, '').toLowerCase();
-            let password = loginPasswordInput.value.trim();
-
-            // Olası Türkçe I/i harfi dönüşüm hatasını fixle
-            email = email.replace(/ı/g, 'i');
-
-            // F12 Konsolunda ne gittiğini gör diye:
-            console.log("Gönderilen Mail:", email);
-            console.log("Gönderilen Şifre:", password);
-
-            const dogruMail = 'admin@garantiemlak.online';
-            const dogruSifre = '123456';
-
-            if (email === dogruMail && password === dogruSifre) {
-                if (rememberMeCheckbox.checked) { localStorage.setItem('rememberedEmail', email); } 
-                else { localStorage.removeItem('rememberedEmail'); }
-                
-                sessionStorage.setItem('isLoggedIn', 'true');
-                
-                showToast('Giriş Başarılı! Yönlendiriliyorsunuz...', 'success');
-                setTimeout(() => { window.location.href = 'panel.html'; }, 1000);
-            } else {
-                showToast('Hatalı E-posta veya Şifre girdiniz!', 'error');
-            }
-        });
-
-        registerForm.addEventListener('submit', (e) => {
+        // KAYIT OLMA FONKSİYONU
+        function handleRegister(e) {
             e.preventDefault();
-            showToast('Kayıt oluşturuldu! Giriş yapabilirsiniz.', 'success');
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-        });
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPassword').value;
+
+            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
+
+            if (users[email]) {
+                alert('Bu e-posta adresiyle zaten bir hesap var!');
+                return;
+            }
+
+            // Yeni kullanıcıyı kaydet
+            users[email] = { name: name, password: password };
+            localStorage.setItem('emlakUsers', JSON.stringify(users));
+
+            alert('Kayıt başarılı! Şimdi giriş yapabilirsiniz.');
+            document.getElementById('registerForm').reset();
+            toggleAuth(false); // Giriş ekranına yönlendir
+        }
+
+        // GİRİŞ YAPMA FONKSİYONU
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+
+            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
+
+            if (users[email] && users[email].password === password) {
+                currentUserEmail = email;
+                document.getElementById('userBadge').innerText = users[email].name;
+                
+                // Ekranları değiştir
+                document.getElementById('authScreen').classList.add('hidden');
+                document.getElementById('panelScreen').classList.remove('hidden');
+                document.body.style.alignItems = "stretch";
+
+                // Kullanıcıya ait portföyleri listele
+                loadUserPortfolio();
+            } else {
+                alert('E-posta veya şifre hatalı!');
+            }
+        }
+
+        // PORTFÖYÜ LOKALDEN YÜKLEME
+        function loadUserPortfolio() {
+            const tbody = document.getElementById('portfolioTableBody');
+            tbody.innerHTML = "";
+
+            // Her kullanıcının portföyünü ayırmak için "portfolios_mailadresi" şeklinde anahtar kullanıyoruz
+            let myPortfolios = JSON.parse(localStorage.getItem('portfolios_' + currentUserEmail)) || [];
+
+            if (myPortfolios.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#a0aec0;">Henüz portföy eklemediniz.</td></tr>`;
+                return;
+            }
+
+            myPortfolios.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><b>${item.title}</b></td>
+                    <td>${Number(item.price).toLocaleString('tr-TR')} TL</td>
+                    <td><button onclick="deletePortfolio(${index})" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Sil</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // YENİ PORTFÖY EKLEME
+        function addPortfolio(e) {
+            e.preventDefault();
+            const title = document.getElementById('pTitle').value.trim();
+            const price = document.getElementById('pPrice').value;
+
+            let myPortfolios = JSON.parse(localStorage.getItem('portfolios_' + currentUserEmail)) || [];
+            myPortfolios.push({ title: title, price: price });
+
+            localStorage.setItem('portfolios_' + currentUserEmail, JSON.stringify(myPortfolios));
+            
+            document.getElementById('portfolioForm').reset();
+            loadUserPortfolio();
+        }
+
+        // PORTFÖY SİLME
+        function deletePortfolio(index) {
+            if (confirm('Bu ilanı silmek istediğinize emin misiniz?')) {
+                let myPortfolios = JSON.parse(localStorage.getItem('portfolios_' + currentUserEmail)) || [];
+                myPortfolios.splice(index, 1);
+                localStorage.setItem('portfolios_' + currentUserEmail, JSON.stringify(myPortfolios));
+                loadUserPortfolio();
+            }
+        }
+
+        // ÇIKISH YAPMA
+        function handleLogout() {
+            currentUserEmail = "";
+            document.getElementById('loginForm').reset();
+            document.getElementById('panelScreen').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.body.style.alignItems = "center";
+        }
     </script>
 </body>
 </html>
