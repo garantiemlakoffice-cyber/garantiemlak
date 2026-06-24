@@ -3,353 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garanti Emlak - Gelişmiş CRM & Portföy Paneli</title>
+    <title>Garanti Emlak - Profesyonel Yönetim Paneli</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f0f4f1; min-height: 100vh; color: #2d3748; display: flex; justify-content: center; align-items: center; }
+        body { background: #f0f4f1; min-height: 100vh; color: #2d3748; display: flex; }
         
-        .hidden { display: none !important; }
-        
-        /* GİRİŞ & KAYIT EKRANI STİLLERİ */
-        .auth-container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px 30px; }
-        .logo-area { text-align: center; margin-bottom: 30px; }
-        .logo-area i { font-size: 50px; color: #11998e; margin-bottom: 10px; }
-        .logo-area h1 { font-size: 24px; color: #2d3748; font-weight: 700; }
-        .logo-area span { color: #11998e; }
-        .form-group { margin-bottom: 15px; position: relative; }
-        .form-group i.input-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #11998e; }
-        .form-control { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; background: #f8fafc; }
-        .form-control:focus { border-color: #11998e; background: #fff; }
-        select.form-control { padding-left: 45px; cursor: pointer; appearance: none; }
-        .btn-submit { width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { background: #0f857b; }
-        .switch-text { text-align: center; margin-top: 20px; font-size: 14px; }
-        .switch-text a { color: #11998e; text-decoration: none; font-weight: 600; }
-
-        /* PANEL EKRANI STİLLERİ */
-        .panel-container { width: 100%; min-height: 100vh; display: flex; background: #f0f4f1; }
-        .sidebar { width: 280px; background: #11998e; color: white; padding: 25px 20px; display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.05); }
-        .sidebar-brand { font-size: 22px; font-weight: 700; text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 25px; letter-spacing: 1px; }
+        .sidebar { width: 280px; background: #11998e; color: white; padding: 25px 20px; display: flex; flex-direction: column; box-shadow: 4px 0 15px rgba(0,0,0,0.05); min-height: 100vh; }
+        .sidebar-brand { font-size: 22px; font-weight: 700; text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 25px; }
         .menu-list { list-style: none; }
-        .menu-item a { display: flex; align-items: center; color: rgba(255,255,255,0.85); text-decoration: none; padding: 12px 15px; border-radius: 10px; margin-bottom: 8px; transition: 0.3s; cursor: pointer; font-weight: 500; }
-        .menu-item a i { margin-right: 15px; width: 22px; text-align: center; font-size: 16px; }
+        .menu-item a { display: flex; align-items: center; color: rgba(255,255,255,0.85); text-decoration: none; padding: 12px 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; font-weight: 500; }
         .menu-item:hover a, .menu-item.active a { background-color: #ffffff; color: #11998e; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-        .logout-btn { margin-top: auto; background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; text-align: center; width: 100%; }
+        .menu-item a i { margin-right: 15px; width: 22px; text-align: center; }
+        .logout-btn { margin-top: auto; background: #ff4d4d; color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; }
 
-        /* İÇERİK ALANI STİLLERİ */
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 18px 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-left: 5px solid #11998e; }
-        .page-section { display: none; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); min-height: 500px; }
+        .page-section { display: none; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .page-section.active { display: block; }
         
         h3 { color: #11998e; margin-bottom: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px; }
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        th, td { padding: 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
-        th { background-color: #f8fafc; color: #4a5568; font-weight: 600; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 14px; }
+        .form-control { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc; }
+        .form-control:focus { border-color: #11998e; background: #fff; }
         
-        .btn-green { background: #11998e; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-green:hover { background: #0f857b; }
-        .btn-orange { background: #ff9f43; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-orange:hover { background: #ee5a24; }
-        .btn-share { background: #38ef7d; color: #11998e; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
-        .btn-danger { background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; }
+        /* Gelişmiş Kart Yapısı */
+        .portfolio-card { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .owner-section { background: #eef2f7; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13px; }
+        .buyers-section { background: #edfaf1; padding: 12px; border-radius: 8px; margin-top: 10px; font-size: 13px; border-left: 3px solid #38ef7d; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #e2e8f0; }
-        .stat-info h3 { font-size: 32px; color: #2d3748; margin: 0; }
-        .stat-icon { font-size: 32px; color: #11998e; background: #edfaf1; padding: 15px; border-radius: 12px; }
+        .btn-green { background: #11998e; color: white; border: none; padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+        .btn-danger { background: #ff4d4d; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- ================= AUTH SCREEN ================= -->
-    <div id="authScreen" class="auth-container">
-        <div id="loginBox">
-            <div class="logo-area">
-                <i class="fa-solid fa-house-chimney"></i>
-                <h1>GARANTİ <span>EMLAK</span></h1>
-                <p style="font-size: 12px; color: #718096;">Profesyonel Yönetim Girişi</p>
-            </div>
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required>
-                    <i class="fa-solid fa-envelope input-icon"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required>
-                    <i class="fa-solid fa-lock input-icon"></i>
-                </div>
-                <button type="submit" class="btn-submit">Sisteme Giriş Yap</button>
-            </form>
-            <div class="switch-text">Hesabınız yok mu? <a href="#" onclick="toggleAuth(true)">Kayıt Olun</a></div>
-        </div>
-
-        <div id="registerBox" class="hidden">
-            <div class="logo-area">
-                <i class="fa-solid fa-user-plus"></i>
-                <h1>Kayıt <span>Ol</span></h1>
-                <p style="font-size: 12px; color: #718096;">Yeni Danışman Profili Oluşturun</p>
-            </div>
-            <form id="registerForm" onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <input type="text" id="regName" class="form-control" placeholder="Adınız Soyadınız" required>
-                    <i class="fa-solid fa-user input-icon"></i>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="regEmail" class="form-control" placeholder="E-posta Adresiniz" required>
-                    <i class="fa-solid fa-envelope input-icon"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre Belirleyin" required>
-                    <i class="fa-solid fa-lock input-icon"></i>
-                </div>
-                <button type="submit" class="btn-submit">Kayıt Ol ve Profil Aç</button>
-            </form>
-            <div class="switch-text">Zaten profiliniz var mı? <a href="#" onclick="toggleAuth(false)">Giriş Yapın</a></div>
-        </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-brand">GARANTİ <span>EMLAK</span></div>
+        <ul class="menu-list">
+            <li class="menu-item active" id="menu-portfolio" onclick="showPage('portfolio')"><a><i class="fa-solid fa-building"></i> Portföy & İlişkiler</a></li>
+            <li class="menu-item" id="menu-crm" onclick="showPage('crm')"><a><i class="fa-solid fa-users"></i> Müşteri Kayıt (CRM)</a></li>
+            <li class="menu-item" id="menu-sahibinden" onclick="showPage('sahibinden')"><a><i class="fa-solid fa-filter"></i> Sahibinden Filtreleme</a></li>
+            <li class="menu-item" id="menu-ai" onclick="showPage('ai')"><a><i class="fa-solid fa-wand-magic-sparkles"></i> AI İlan Sihirbazı</a></li>
+            <li class="menu-item" id="menu-webtapu" onclick="showPage('webtapu')"><a><i class="fa-solid fa-map-location-dot"></i> Web Tapu Sorgu</a></li>
+        </ul>
+        <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış Yap</button>
     </div>
 
-    <!-- ================= MAIN PANEL SCREEN ================= -->
-    <div id="panelScreen" class="panel-container hidden">
-        <div class="sidebar">
-            <div class="sidebar-brand">GARANTİ <span>EMLAK</span></div>
-            <ul class="menu-list">
-                <li class="menu-item active" id="menu-dashboard" onclick="showPage('dashboard')"><a><i class="fa-solid fa-chart-pie"></i> Panel Özet</a></li>
-                <li class="menu-item" id="menu-portfolio" onclick="showPage('portfolio')"><a><i class="fa-solid fa-building"></i> Kişisel Portföy</a></li>
-                <li class="menu-item" id="menu-sahibinden-filter" onclick="showPage('sahibinden-filter')"><a><i class="fa-solid fa-filter"></i> Sahibinden Filtre</a></li>
-                <li class="menu-item" id="menu-ai-wizard" onclick="showPage('ai-wizard')"><a><i class="fa-solid fa-wand-magic-sparkles"></i> AI İlan Sihirbazı</a></li>
-                <li class="menu-item" id="menu-crm" onclick="showPage('crm')"><a><i class="fa-solid fa-users"></i> Müşteri Kayıt (CRM)</a></li>
-                <li class="menu-item" id="menu-appointments" onclick="showPage('appointments')"><a><i class="fa-solid fa-calendar-days"></i> Randevu Sistemi</a></li>
-                <li class="menu-item" id="menu-map-search" onclick="showPage('map-search')"><a><i class="fa-solid fa-map-location-dot"></i> Ada Parsel Sorgu</a></li>
-                <li class="menu-item" id="menu-notes" onclick="showPage('notes')"><a><i class="fa-solid fa-note-sticky"></i> Özel Notlarım</a></li>
-            </ul>
-            <button class="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sistemden Çık</button>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header">
+            <h2>Garanti Emlak Profesyonel Yönetim Altyapısı</h2>
+            <div id="userNameBadge">Danışman: -</div>
         </div>
-        
-        <div class="main-content">
-            <div class="header">
-                <h2>Garanti Emlak Profesyonel Yönetim Sistemi</h2>
-                <div><i class="fa-solid fa-circle-user" style="color:#11998e;"></i> <strong id="userBadge">Danışman</strong></div>
-            </div>
 
-            <!-- MODÜL 1: PANEL ÖZET -->
-            <div id="dashboard" class="page-section active">
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-info"><h3 id="countPort">0</h3><p>Aktif Portföyün</p></div><div class="stat-icon"><i class="fa-solid fa-house"></i></div></div>
-                    <div class="stat-card"><div class="stat-info"><h3 id="countCrm">0</h3><p>Kayıtlı Müşterin</p></div><div class="stat-icon"><i class="fa-solid fa-user-tie"></i></div></div>
-                    <div class="stat-card"><div class="stat-info"><h3 id="countApp">0</h3><p>Aktif Randevun</p></div><div class="stat-icon"><i class="fa-solid fa-clock"></i></div></div>
+        <!-- MODÜL 1: PORTFÖY YÖNETİMİ -->
+        <div id="portfolio" class="page-section active">
+            <h3><i class="fa-solid fa-building"></i> Yeni Portföy & Mülk Kaydı</h3>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <div class="grid-2">
+                    <div class="form-group"><label>Mülk/İlan Başlığı</label><input type="text" id="pTitle" class="form-control" placeholder="Örn: Gazipaşa'da Lüks Daire"></div>
+                    <div class="form-group"><label>Tarsus Mahallesi</label><select id="pLoc" class="form-control"></select></div>
                 </div>
-                <div style="background: #fff; padding: 25px; border-radius: 12px; border-left: 5px solid #38ef7d; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-                    <h4>🟢 Akıllı Danışman Bildirimi</h4>
-                    <p style="margin-top: 8px; color:#4a5568; font-size: 14px;"><i class="fa-solid fa-bolt" style="color:#11998e;"></i> Gelişmiş Tarsus veri haritası ve dinamik filtreleme modülleri başarıyla yüklendi.</p>
+                <div class="grid-3">
+                    <div class="form-group"><label>Fiyat (TL)</label><input type="text" id="pPrice" class="form-control" placeholder="Örn: 3.500.000" oninput="formatMoney(this)"></div>
+                    <div class="form-group"><label>Oda Sayısı</label>
+                        <select id="pRoom" class="form-control">
+                            <option value="1+1">1+1</option><option value="2+1">2+1</option><option value="3+1" selected>3+1</option><option value="4+1">4+1</option><option value="Duplex">Dubleks</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Bulunduğu Kat</label><select id="pFloor" class="form-control"></select></div>
                 </div>
-            </div>
-
-            <!-- MODÜL 2: PORTFÖYÜM -->
-            <div id="portfolio" class="page-section">
-                <h3><i class="fa-solid fa-building"></i> Kişisel Emlak Portföyü</h3>
-                <div style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #e2e8f0;">
-                    <h4 style="margin-bottom: 10px;">Yeni Portföy Ekle</h4>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Mülk Başlığı</label>
-                            <input type="text" id="pTitle" class="form-control" style="padding-left:15px;" placeholder="Örn: Satılık Masrafsız Daire">
-                        </div>
-                        <div class="form-group">
-                            <label>Tarsus Mahallesi</label>
-                            <select id="pLoc" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Fiyat (TL)</label>
-                            <input type="number" id="pPrice" class="form-control" style="padding-left:15px;" placeholder="Fiyat">
-                        </div>
-                        <div class="form-group">
-                            <label>Bulunduğu Kat</label>
-                            <select id="pFloor" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Bina Yaşı</label>
-                            <select id="pAge" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Oda Sayısı / Ekstra Özellik</label>
-                        <input type="text" id="pRoom" class="form-control" style="padding-left:15px;" placeholder="Örn: 3+1, Geniş Balkonlu">
-                    </div>
-                    <button class="btn-green" onclick="addPortfolioData()">Sisteme Kaydet</button>
+                <div class="grid-2">
+                    <div class="form-group"><label>Bina Yaşı</label><select id="pAge" class="form-control"></select></div>
+                    <div class="form-group"><label>Özel Portföy Notu (Emlakçıya Özel)</label><input type="text" id="pNote" class="form-control" placeholder="Örn: Anahtar bizde, tapuda ufak bir ipotek var."></div>
                 </div>
-                <h4>Mevcut Portföy Listen</h4>
-                <table>
-                    <thead><tr><th>Başlık</th><th>Mahalle</th><th>Kat/Yaş</th><th>Fiyat</th><th>İşlem</th></tr></thead>
-                    <tbody id="portTable"></tbody>
-                </table>
-            </div>
-
-            <!-- MODÜL 3: SAHİBİNDEN FILTER (YENİLENEN KISIM) -->
-            <div id="sahibinden-filter" class="page-section">
-                <h3><i class="fa-solid fa-filter"></i> Sahibinden.com Akıllı İlan Filtreleme Dünyası</h3>
-                <p style="font-size: 13px; color:#718096; margin-bottom: 20px;">Aşağıdan aradığınız kriterleri seçin. Sistem otomatik olarak sahibinden.com altyapısına uygun filtre linki üretecektir.</p>
                 
-                <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>İlan Türü</label>
-                            <select id="sMode" class="form-control" style="padding-left:15px;">
-                                <option value="satilik">Satılık Konut</option>
-                                <option value="kiralik">Kiralık Konut</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Mahalle (Tarsus)</label>
-                            <select id="sLoc" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                    </div>
-                    <div class="grid-3">
-                        <div class="form-group">
-                            <label>Maksimum Fiyat (TL)</label>
-                            <input type="number" id="sPrice" class="form-control" style="padding-left:15px;" placeholder="Örn: 5000000">
-                        </div>
-                        <div class="form-group">
-                            <label>Maksimum Bina Yaşı</label>
-                            <select id="sAge" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Bulunduğu Kat (En Az)</label>
-                            <select id="sFloor" class="form-control" style="padding-left:15px;"></select>
-                        </div>
-                    </div>
-                    <button class="btn-orange" onclick="triggerSahibindenFilter()"><i class="fa-solid fa-arrow-up-right-from-square"></i> Sahibinden.com'da Filtrele ve Listele</button>
+                <h4 style="margin: 15px 0 10px 0; color:#11998e; font-size:15px; border-top:1px dashed #e2e8f0; padding-top:15px;">👤 Mülk Sahibi Bilgileri</h4>
+                <div class="grid-2">
+                    <div class="form-group"><label>Mülk Sahibi Adı Soyadı</label><input type="text" id="pOwnerName" class="form-control" placeholder="Mülk Sahibi"></div>
+                    <div class="form-group"><label>Mülk Sahibi Telefon</label><input type="text" id="pOwnerPhone" class="form-control" placeholder="05xx xxx xx xx"></div>
                 </div>
+                <button class="btn-green" onclick="savePortfolio()">Mülkü ve Bağlantıları Kaydet</button>
             </div>
 
-            <!-- MODÜL 4: AI WIZARD (GELİŞTİRİLMİŞ UZUN METİN) -->
-            <div id="ai-wizard" class="page-section">
-                <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Profesyonel Uzun İlan Açıklaması Sihirbazı</h3>
+            <h4>Mevcut Portföy Kartları & İlişkili Müşteri Yapısı</h4>
+            <div id="portfolioContainer" style="margin-top:15px;"></div>
+        </div>
+
+        <!-- MODÜL 2: CRM MÜŞTERİ KAYIT -->
+        <div id="crm" class="page-section">
+            <h3><i class="fa-solid fa-users"></i> Alıcı / Arayışta Olan Müşteri CRM Kaydı</h3>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                <div class="grid-2">
+                    <div class="form-group"><label>Müşteri Adı Soyadı</label><input type="text" id="cName" class="form-control" placeholder="Alıcı Müşteri"></div>
+                    <div class="form-group"><label>Müşteri Telefonu</label><input type="text" id="cPhone" class="form-control" placeholder="05xx..."></div>
+                </div>
                 <div class="form-group">
-                    <label style="font-weight: 500;">Mülkün akla gelen tüm niteliklerini yazın (virgülle ayırın):</label>
-                    <textarea id="aiKeywords" class="form-control" rows="3" style="padding-left:15px;" placeholder="Örn: ebeveyn banyolu, vestiyer var, asansörlü, kapalı otopark, hastaneye yakın, güney cephe"></textarea>
+                    <label style="color: #ff9f43; font-weight:600;">🔥 Bu Müşterinin Talip Olduğu Daireyi Seçin:</label>
+                    <select id="cTargetProperty" class="form-control"><option value="">-- Herhangi bir mülkle eşleştirme (Genel Alıcı) --</option></select>
                 </div>
-                <button class="btn-green" onclick="runAI()">Zenginleştirilmiş Premium İlan Metni Üret ✨</button>
-                <div style="margin-top: 20px; background: #edfaf1; padding: 25px; border-radius: 12px; font-size:14px; line-height:1.6; color:#1a202c; white-space: pre-line; border: 1px dashed #11998e;" id="aiOutput">
-                    Butona bastığınızda kurumsal sahibinden.com emlakçı formatında derinlemesine hazırlanmış uzun ilan metni burada görüntülenecektir...
-                </div>
+                <button class="btn-green" onclick="saveCrm()">Müşteriyi CRM Havuzuna Ekle</button>
             </div>
+            <h4>Genel Kayıtlı Müşteri Portföy Listesi</h4>
+            <div id="crmListContainer" style="margin-top:15px;"></div>
+        </div>
 
-            <!-- DİĞER MODÜLLER (CRM, RANDEVU, HARİTA, NOTLAR) -->
-            <div id="crm" class="page-section">
-                <h3><i class="fa-solid fa-users"></i> Alıcı Müşteri CRM</h3>
+        <!-- MODÜL 3: SAHİBİNDEN FİLTRE MOTORU -->
+        <div id="sahibinden" class="page-section">
+            <h3><i class="fa-solid fa-filter"></i> Sahibinden.com Gerçek Zamanlı Filtreleme</h3>
+            <div style="background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px;">
                 <div class="grid-2">
-                    <input type="text" id="cName" class="form-control" placeholder="Müşteri Adı Soyadı" style="padding-left:15px;">
-                    <input type="text" id="cPhone" class="form-control" placeholder="Telefon" style="padding-left:15px;">
+                    <div class="form-group"><label>İlan Tipi</label><select id="sMode" class="form-control"><option value="satilik">Satılık</option><option value="kiralik">Kiralık</option></select></div>
+                    <div class="form-group"><label>Mahalle (Tarsus)</label><select id="sLoc" class="form-control"></select></div>
                 </div>
-                <button class="btn-green" onclick="addCrmData()">Müşteri Kaydet</button>
-                <table style="margin-top:20px;"><thead><tr><th>Müşteri</th><th>İşlem</th></tr></thead><tbody id="crmTable"></tbody></table>
-            </div>
-
-            <div id="appointments" class="page-section">
-                <h3><i class="fa-solid fa-calendar-days"></i> Randevu Sistemi</h3>
                 <div class="grid-2">
-                    <input type="text" id="aUser" class="form-control" placeholder="Randevu Notu" style="padding-left:15px;">
-                    <input type="datetime-local" id="aDate" class="form-control" style="padding-left:15px;">
+                    <div class="form-group"><label>Maksimum Fiyat (TL)</label><input type="text" id="sPrice" class="form-control" placeholder="Örn: 4.000.000" oninput="formatMoney(this)"></div>
+                    <div class="form-group"><label>Bina Yaşı (En Çok)</label><select id="sAge" class="form-control"></select></div>
                 </div>
-                <button class="btn-green" onclick="addAppData()">Randevu Planla</button>
-                <table style="margin-top:20px;"><thead><tr><th>Detay</th><th>Zaman</th><th>İşlem</th></tr></thead><tbody id="appTable"></tbody></table>
+                <button class="btn-green" onclick="goToSahibinden()"><i class="fa-solid fa-magnifying-glass"></i> Sahibinden.com Verilerini Filtrele</button>
             </div>
+        </div>
 
-            <div id="map-search" class="page-section">
-                <h3><i class="fa-solid fa-map-location-dot"></i> Ada Parsel Teknik Not Dağarcığı</h3>
-                <div class="grid-2">
-                    <input type="text" id="mZone" class="form-control" placeholder="Bölge / Mahalle" style="padding-left:15px;">
-                    <input type="text" id="mNo" class="form-control" placeholder="Ada/Parsel No" style="padding-left:15px;">
-                </div>
-                <textarea id="mNotes" class="form-control" rows="2" placeholder="Teknik imar durumu notları..." style="padding-left:15px; margin-top:10px;"></textarea>
-                <button class="btn-green" style="margin-top:10px;" onclick="queryMapData()">Hafızaya Al</button>
-                <div style="margin-top: 20px;" id="mapListContainer"></div>
-            </div>
+        <!-- MODÜL 4: AI SEÇENEĞİ -->
+        <div id="ai" class="page-section">
+            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Detaylı Yapay Zeka İlan Metni Hazırlayıcı</h3>
+            <div class="form-group"><label>Mülke Ait Özellikler (Virgülle yazın)</label><textarea id="aiKeywords" class="form-control" rows="3" placeholder="Örn: geniş mutfak, doğalgaz kombi, asansör, güney cephe, spot aydınlatma"></textarea></div>
+            <button class="btn-green" onclick="generateAiText()">Premium Kurumsal Açıklama Üret</button>
+            <div id="aiOutput" style="margin-top:20px; background:#edfaf1; padding:20px; border-radius:10px; border:1px dashed #11998e; white-space:pre-line;"></div>
+        </div>
 
-            <div id="notes" class="page-section">
-                <h3><i class="fa-solid fa-note-sticky"></i> Günlük Özel Notlar</h3>
-                <textarea id="newNoteText" class="form-control" rows="3" placeholder="Hatırlatıcı not yaz..." style="padding-left:15px;"></textarea>
-                <button class="btn-green" style="margin-top:10px;" onclick="addNoteData()">Not Defterine Ekle</button>
-                <div id="notesContainer" style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"></div>
-            </div>
+        <!-- MODÜL 5: WEB TAPU -->
+        <div id="webtapu" class="page-section">
+            <h3><i class="fa-solid fa-map-location-dot"></i> TKGM Web Tapu Parsel Sorgu Entegrasyonu</h3>
+            <p style="font-size:14px; margin-bottom:15px; color:#718096;">Harita üzerinden ada parsel detaylarına bakmak için aşağıdaki butona basın, sistem sizi doğrudan devletin resmi koordinat altyapısına bağlar.</p>
+            <button class="btn-green" onclick="window.open('https://parselsorgu.tkgm.gov.tr/', '_blank')"><i class="fa-solid fa-earth-americas"></i> TKGM Parsel Sorgu Ekranını Aç</button>
         </div>
     </div>
 
-    <!-- INSTAGRAM POP-UP MODAL -->
-    <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
-        <div style="background:white; padding:30px; border-radius:16px; text-align:center; max-width:400px; width:90%;">
-            <div id="instacard" style="background:linear-gradient(135deg, #11998e, #38ef7d); color:white; padding:40px 20px; border-radius:12px; box-shadow:0 10px 20px rgba(0,0,0,0.15); margin-bottom:20px;">
-                <h2 style="letter-spacing:1px; margin-bottom:10px;">GARANTİ EMLAK</h2>
-                <div style="border:2px solid white; display:inline-block; padding:5px 15px; border-radius:20px; margin-bottom:20px; font-weight:600;">PORTFÖY PAYLAŞIMI</div>
-                <h3 id="mTitle" style="color:white; font-size:20px; margin-bottom:15px;">Şık Daire</h3>
-                <h1 id="mPrice" style="font-size:28px; font-weight:700;">0 TL</h1>
-            </div>
-            <button class="btn-green" onclick="document.getElementById('imageModal').style.display='none'">Kapat</button>
-        </div>
-    </div>
-
-    <!-- ================= JAVASCRIPT ÇALIŞMA MANTIĞI ================= -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
-        let currentUserEmail = "";
+        const currentUser = localStorage.getItem('currentEmlakUser');
+        const currentName = localStorage.getItem('currentEmlakName');
+        
+        if(!currentUser) { window.location.href = 'login.html'; }
+        document.getElementById('userNameBadge').innerText = "Danışman: " + currentName;
 
-        // TARSUS MAHALLELERİ EKSİKSİZ VERİ SETİ
-        const tarsusMahalleleri = [
-            "Altaylılar Mah.", "Anıt Mah.", "Bağlar Mah.", "Barbaros Mah.", "Beydeğirmeni Mah.", 
-            "Caminur Mah.", "Cumhuriyet Mah.", "Çağlayan Mah.", "Duatepe Mah.", "Ergenekon Mah.", 
-            "Fatih Mah.", "Ferahimşalvuz Mah.", "Gazi Mah.", "Gazipaşa Mah.", "Girne Mah.", 
-            "Gözlükule Mah.", "Hacıhamzalı Mah.", "İsmetpaşa Mah.", "Kavaklı Mah.", "Kemalpaşa Mah.", 
-            "Kırklarsırtı Mah.", "Kızılmurat Mah.", "Mithatpaşa Mah.", "Öğretmenler Mah.", "Piri Ömerli Mah.", 
-            "Reşadiye Mah.", "Sadıkeli Mah.", "Şehitishak Mah.", "Şehitler Mah.", "Şehitmustafa Mah.", 
-            "Tekke Mah.", "Tozkoparan Mah.", "Ulaş Mah.", "Yaköy Mah.", "Yarbay Şemsettin Mah.", "Yeni Mah."
-        ];
+        const mahalleler = ["Altaylılar Mah.", "Anıt Mah.", "Bağlar Mah.", "Barbaros Mah.", "Caminur Mah.", "Cumhuriyet Mah.", "Çağlayan Mah.", "Duatepe Mah.", "Ergenekon Mah.", "Fatih Mah.", "Ferahimşalvuz Mah.", "Gazi Mah.", "Gazipaşa Mah.", "Girne Mah.", "Gözlükule Mah.", "İsmetpaşa Mah.", "Kavaklı Mah.", "Kemalpaşa Mah.", "Kırklarsırtı Mah.", "Kızılmurat Mah.", "Mithatpaşa Mah.", "Öğretmenler Mah.", "Piri Ömerli Mah.", "Reşadiye Mah.", "Şehitishak Mah.", "Şehitler Mah.", "Şehitmustafa Mah.", "Tekke Mah.", "Tozkoparan Mah.", "Yeni Mah."];
 
-        // SİSTEM YÜKLENDİĞİNDE AÇILIR LİSTELERİ DOLDURMA
         window.onload = function() {
-            const pLocSelect = document.getElementById('pLoc');
-            const sLocSelect = document.getElementById('sLoc');
-            
-            tarsusMahalleleri.forEach(m => {
-                let opt1 = document.createElement('option'); opt1.value = m; opt1.innerText = m; pLocSelect.appendChild(opt1);
-                let opt2 = document.createElement('option'); opt2.value = m.replace(" Mah.","").toLowerCase(); opt2.innerText = m; sLocSelect.appendChild(opt2);
+            // Mahalle Selectlerini Doldur
+            const pLoc = document.getElementById('pLoc'); const sLoc = document.getElementById('sLoc');
+            mahalleler.forEach(m => {
+                let o1 = document.createElement('option'); o1.value = m; o1.innerText = m; pLoc.appendChild(o1);
+                let o2 = document.createElement('option'); o2.value = m.replace(" Mah.","").toLowerCase(); o2.innerText = m; sLoc.appendChild(o2);
             });
-
-            // Kat Seçenekleri (Giriş + 20 Kat)
+            // Katları Doldur
             const pFloor = document.getElementById('pFloor');
-            const sFloor = document.getElementById('sFloor');
-            let floors = ["Giriş Katı", "Bahçe Katı", "Yüksek Giriş"];
-            for(let i=1; i<=20; i++) floors.push(i + ". Kat");
-            floors.forEach(f => {
-                let o1 = document.createElement('option'); o1.value = f; o1.innerText = f; pFloor.appendChild(o1);
-                let o2 = document.createElement('option'); o2.value = f; o2.innerText = f; sFloor.appendChild(o2);
-            });
-
-            // Bina Yaşı Seçenekleri (0 - 40)
-            const pAge = document.getElementById('pAge');
-            const sAge = document.getElementById('sAge');
-            let ages = ["0 (Sıfır Bina)", "1-5 Yıllık", "5-10 Yıllık"];
-            for(let j=11; j<=40; j++) ages.push(j + " Yaşında");
-            ages.forEach(a => {
-                let o1 = document.createElement('option'); o1.value = a; o1.innerText = a; pAge.appendChild(o1);
-                let o2 = document.createElement('option'); o2.value = a; o2.innerText = a; sAge.appendChild(o2);
-            });
+            for(let i=0; i<=20; i++) {
+                let o = document.createElement('option'); o.value = i===0 ? "Giriş Katı" : i + ". Kat"; o.innerText = o.value; pFloor.appendChild(o);
+            }
+            // Yaşları Doldur
+            const pAge = document.getElementById('pAge'); const sAge = document.getElementById('sAge');
+            for(let j=0; j<=40; j++) {
+                let o1 = document.createElement('option'); o1.value = j; o1.innerText = j===0 ? "Sıfır Bina" : j + " Yaşında"; pAge.appendChild(o1);
+                let o2 = document.createElement('option'); o2.value = j; o2.innerText = j===0 ? "Sıfır Bina" : j + " Yaşında"; sAge.appendChild(o2);
+            }
+            renderAll();
         };
 
-        // GİRİŞ / KAYIT GEÇİŞİ
-        function toggleAuth(showRegister) {
-            if (showRegister) {
-                document.getElementById('loginBox').classList.add('hidden');
-                document.getElementById('registerBox').classList.remove('hidden');
-            } else {
-                document.getElementById('registerBox').classList.add('hidden');
-                document.getElementById('loginBox').classList.remove('hidden');
-            }
+        // Otomatik Sayı Biçimlendirme (Binlik Ayırıcı)
+        function formatMoney(input) {
+            let value = input.value.replace(/\D/g, "");
+            value = new Intl.NumberFormat('tr-TR').format(value);
+            input.value = value === "0" ? "" : value;
         }
 
         function showPage(id) {
@@ -359,184 +191,133 @@
             document.getElementById('menu-' + id).classList.add('active');
         }
 
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPassword').value;
-
-            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
-            if (users[email]) { alert('Bu e-posta adresi zaten kayıtlı!'); return; }
-
-            users[email] = { name: name, password: password };
-            localStorage.setItem('emlakUsers', JSON.stringify(users));
-            alert('Profil başarıyla oluşturuldu!');
-            document.getElementById('registerForm').reset();
-            toggleAuth(false);
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const password = document.getElementById('loginPassword').value;
-
-            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
-
-            if (users[email] && users[email].password === password) {
-                currentUserEmail = email;
-                document.getElementById('userBadge').innerText = users[email].name;
-                document.getElementById('authScreen').classList.add('hidden');
-                document.getElementById('panelScreen').classList.remove('hidden');
-                document.body.style.alignItems = "stretch";
-
-                loadAllUserData();
-                showPage('dashboard');
-            } else {
-                alert('Hatalı e-posta veya şifre girdiniz!');
-            }
-        }
-
-        function handleLogout() {
-            currentUserEmail = "";
-            document.getElementById('loginForm').reset();
-            document.getElementById('panelScreen').classList.add('hidden');
-            document.getElementById('authScreen').classList.remove('hidden');
-            document.body.style.alignItems = "center";
-        }
-
-        function loadAllUserData() {
-            loadPortfolios();
-            loadCrm();
-            loadAppointments();
-            loadMapNotes();
-            loadNotes();
-        }
-
-        // PORTFÖY YÖNETİMİ
-        function loadPortfolios() {
-            const tbody = document.getElementById('portTable'); tbody.innerHTML = "";
-            let list = JSON.parse(localStorage.getItem('port_' + currentUserEmail)) || [];
-            document.getElementById('countPort').innerText = list.length;
-            
-            list.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td><b>${item.title}</b><br><small style="color:#718096;">${item.room}</small></td><td>${item.loc}</td><td>${item.floor} / ${item.age}</td><td>${Number(item.price).toLocaleString('tr-TR')} TL</td>
-                    <td>
-                        <button class="btn-share" onclick="makeCard('${item.title}','${Number(item.price).toLocaleString('tr-TR')} TL')">Görsel 🖼️</button>
-                        <button class="btn-danger" onclick="deleteItem('port', ${index})">Sil</button>
-                    </td>`;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function addPortfolioData() {
-            const title = document.getElementById('pTitle').value.trim(); 
+        // PORTFÖY KAYIT
+        function savePortfolio() {
+            const title = document.getElementById('pTitle').value.trim();
             const loc = document.getElementById('pLoc').value;
-            const price = document.getElementById('pPrice').value; 
+            const price = document.getElementById('pPrice').value;
+            const room = document.getElementById('pRoom').value;
             const floor = document.getElementById('pFloor').value;
             const age = document.getElementById('pAge').value;
-            const room = document.getElementById('pRoom').value.trim();
-            if(!title || !price) { alert('Başlık ve Fiyat girmek zorunludur!'); return; }
+            const note = document.getElementById('pNote').value.trim();
+            const ownerName = document.getElementById('pOwnerName').value.trim();
+            const ownerPhone = document.getElementById('pOwnerPhone').value.trim();
+
+            if(!title || !price) { alert('Başlık ve Fiyat zorunludur.'); return; }
+
+            let list = JSON.parse(localStorage.getItem('ports_' + currentUser)) || [];
+            list.push({ id: Date.now(), title, loc, price, room, floor, age, note, ownerName, ownerPhone });
+            localStorage.setItem('ports_' + currentUser, JSON.stringify(list));
             
-            let list = JSON.parse(localStorage.getItem('port_' + currentUserEmail)) || [];
-            list.push({title, loc, price, floor, age, room});
-            localStorage.setItem('port_' + currentUserEmail, JSON.stringify(list));
-            document.getElementById('pTitle').value=''; document.getElementById('pPrice').value=''; document.getElementById('pRoom').value='';
-            loadPortfolios();
+            document.getElementById('pTitle').value = ''; document.getElementById('pPrice').value = ''; document.getElementById('pNote').value = '';
+            document.getElementById('pOwnerName').value = ''; document.getElementById('pOwnerPhone').value = '';
+            renderAll();
         }
 
-        // SAHİBİNDEN.COM DİNAMİK FİLTRE MOTORU
-        function triggerSahibindenFilter() {
+        // CRM MÜŞTERİ KAYIT
+        function saveCrm() {
+            const name = document.getElementById('cName').value.trim();
+            const phone = document.getElementById('cPhone').value.trim();
+            const targetPropId = document.getElementById('cTargetProperty').value;
+
+            if(!name) { alert('Müşteri ismi boş bırakılamaz.'); return; }
+
+            let list = JSON.parse(localStorage.getItem('crm_' + currentUser)) || [];
+            list.push({ name, phone, targetPropId });
+            localStorage.setItem('crm_' + currentUser, JSON.stringify(list));
+
+            document.getElementById('cName').value = ''; document.getElementById('cPhone').value = '';
+            renderAll();
+        }
+
+        // VERİLERİ EKRANA BASMA (PORTFÖY + MÜLK SAHİBİ + TALİP MÜŞTERİ BAĞLANTISI)
+        function renderAll() {
+            const ports = JSON.parse(localStorage.getItem('ports_' + currentUser)) || [];
+            const crm = JSON.parse(localStorage.getItem('crm_' + currentUser)) || [];
+
+            // CRM Selectini güncelle
+            const cTargetSelect = document.getElementById('cTargetProperty');
+            cTargetSelect.innerHTML = '<option value="">-- Herhangi bir mülkle eşleştirme --</option>';
+            ports.forEach(p => {
+                let o = document.createElement('option'); o.value = p.id; o.innerText = `${p.title} (${p.loc})`;
+                cTargetSelect.appendChild(o);
+            });
+
+            // Portföyleri Listele
+            const container = document.getElementById('portfolioContainer');
+            container.innerHTML = '';
+            
+            ports.forEach((p, idx) => {
+                // Bu daireye talip olan CRM müşterilerini filtrele
+                const talipMusteriler = crm.filter(c => c.targetPropId == p.id);
+                let talipHtml = talipMusteriler.map(t => `• <b>${t.name}</b> - Tel: ${t.phone}`).join('<br>') || '<i>Bu daireye henüz talip olan bir müşteri kaydedilmedi.</i>';
+
+                let card = document.createElement('div');
+                card.className = 'portfolio-card';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:between; align-items:center; justify-content: space-between;">
+                        <h4>🏠 ${p.title} - <span style="color:#11998e">${p.price} TL</span></h4>
+                        <button class="btn-danger" onclick="deletePort(${idx})">Sil</button>
+                    </div>
+                    <p style="margin-top:5px; font-size:13px;"><b>Özellikler:</b> ${p.loc} | Oda: ${p.room} | Kat: ${p.floor} | Yaş: ${p.age}</p>
+                    <p style="font-size:13px; color:#e58e26;"><b>Emlakçı Notu:</b> ${p.note || 'Not yok'}</p>
+                    
+                    <div class="owner-section">
+                        <b>👤 Mülk Sahibi Bilgileri:</b><br>
+                        İsim: ${p.ownerName || 'Girilmedi'} | Tel: ${p.ownerPhone || 'Girilmedi'}
+                    </div>
+                    
+                    <div class="buyers-section">
+                        <b>🔥 Bu Daireye Talip Olan Müşteriler (CRM):</b><br>
+                        ${talipHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Genel CRM Listesini Bas
+            const crmContainer = document.getElementById('crmListContainer');
+            crmContainer.innerHTML = '';
+            crm.forEach((c, idx) => {
+                let targetPropertyText = "Genel Alıcı";
+                if(c.targetPropId) {
+                    const found = ports.find(p => p.id == c.targetPropId);
+                    if(found) targetPropertyText = `Talip Olduğu Mülk: ${found.title}`;
+                }
+                let div = document.createElement('div');
+                div.style = "background:#fff; border:1px solid #e2e8f0; padding:12px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;";
+                div.innerHTML = `<div><b>${c.name}</b> (${c.phone}) - <span style="color:#ff9f43; font-weight:500;">${targetPropertyText}</span></div>
+                                 <button class="btn-danger" onclick="deleteCrm(${idx})">Sil</button>`;
+                crmContainer.appendChild(div);
+            });
+        }
+
+        function deletePort(idx) { if(confirm('Mülkü silmek istiyor musunuz?')) { let list = JSON.parse(localStorage.getItem('ports_' + currentUser)); list.splice(idx,1); localStorage.setItem('ports_' + currentUser, JSON.stringify(list)); renderAll(); } }
+        function deleteCrm(idx) { if(confirm('Müşteriyi silmek istiyor musunuz?')) { let list = JSON.parse(localStorage.getItem('crm_' + currentUser)); list.splice(idx,1); localStorage.setItem('crm_' + currentUser, JSON.stringify(list)); renderAll(); } }
+
+        // REAL SAHİBİNDEN FILTER MOTORU
+        function goToSahibinden() {
             const mode = document.getElementById('sMode').value;
             const mahalle = document.getElementById('sLoc').value;
-            const price = document.getElementById('sPrice').value;
-
-            // Sahibinden url mantığını Tarsus/Mersin lokasyon kırılımına göre simüle ediyoruz
-            let baseUrl = `https://www.sahibinden.com/${mode}/mersin-tarsus-${mahalle}`;
+            const price = document.getElementById('sPrice').value.replace(/\D/g, "");
             
-            if(price) {
-                baseUrl += `?price_max=${price}`;
-            }
-            
-            alert('Seçtiğiniz kriterlere uygun Sahibinden.com veri havuzuna yönlendiriliyorsunuz...');
-            window.open(baseUrl, '_blank');
+            // Gerçek sahibinden arama şablonu oluşturma
+            let targetUrl = `https://www.sahibinden.com/${mode}/mersin-tarsus-${mahalle}`;
+            if(price) { targetUrl += `?price_max=${price}`; }
+            window.open(targetUrl, '_blank');
         }
 
-        // YAPAY ZEKA GELİŞTİRİLMİŞ UZUN AÇIKLAMA MOTORU
-        function runAI() {
+        // AI METİN SİHİRBAZI
+        function generateAiText() {
             const kw = document.getElementById('aiKeywords').value;
-            if(!kw) { alert('Lütfen sihirbaza birkaç anahtar kelime yazın.'); return; }
-            document.getElementById('aiOutput').innerText = "Yapay Zeka derin emlak pazarlama stratejisiyle metni örüyor, lütfen bekleyin...";
-            
+            if(!kw) return;
+            document.getElementById('aiOutput').innerText = "Premium metin yazılıyor...";
             setTimeout(() => {
-                document.getElementById('aiOutput').innerText = `🏢 GARANTİ EMLAK'TAN TARSUS'UN EN DEĞERLİ LOKASYONUNDA YAŞAM ALANI 🏢\n\nGaranti Emlak güvencesiyle, hem lüks bir yaşam sürmek hem de geleceğe dönük yüksek prim avantajı sağlamak isteyen yatırımcılarımız için kaçırılmayacak bir portföyü beğeninize sunuyoruz. Kurumsal süreç yönetimi ile tapu ve devir işlemleriniz profesyonel ekibimizce takip edilmektedir.\n\n✨ MÜLKÜN TEKNİK VE DEKORATİF ÖNE ÇIKAN ÖZELLİKLERİ:\n${kw.split(',').map(k => `  • Hassas Detay: ${k.trim()} (Birinci Sınıf Malzeme Yardımıyla Yapılmıştır)`).join('\n')}\n\n📍 LOKASYON VE ÇEVRE AVANTAJLARI:\nMülkümüz Tarsus'un merkezi ağlarına, ulaşım hatlarına, eğitim kurumlarına ve günlük sosyal alanlara yürüme mesafesinde yer almaktadır. Gün boyu harika bir ışık alan cephe yapısına sahiptir. Komşuluk ilişkilerinin nezih olduğu, huzurla oturabileceğiniz bir bölgedir.\n\n💼 GARANTİ EMLAK DEĞERLENDİRMESİ:\nKredi kullanımına uygun, kat mülkiyeti sorunu olmayan, şeffaf pazarlık usulüyle satışa açık premium bir mülktür. Detaylı sunum, video gösterimi ve yerinde inceleme randevusu oluşturmak adına sizleri kahve içmeye ofisimize bekliyoruz.\n\n📞 İletişim: Garanti Emlak Güvencesiyle`;
-            }, 1000);
+                document.getElementById('aiOutput').innerText = `🔥 GARANTİ EMLAK'TAN TARSUS'TA YÜKSEK PRİM VADEDEN PRESTİJLİ MÜLK 🔥\n\nGaranti Emlak kalitesi ve güvencesiyle pazara sunulan, konumuyla ve yapısıyla bölgenin en dikkat çeken mülkünü gururla sunarız. Alım-satım ve tapu devir operasyonlarınız baştan sona profesyonel danışman ekibimiz tarafından kurumsal ciddiyetle yönetilecektir.\n\n✨ ÖNE ÇIKAN DEKORATİF VE TEKNİK ÖZELLİKLER:\n${kw.split(',').map(k => `• ${k.trim()} (Kullanışlı ve modern altyapı mimarisine uygun)`).join('\n')}\n\n📍 BÖLGESEL AVANTAJLAR VE LOKASYON:\nMülkümüz Tarsus genelinde ulaşım akslarına, eğitim kurumlarına, market ve sosyal etkinlik alanlarına harika bir konum avantajı sağlamaktadır. Önü açık ferah bir cephede konumlanmıştır.\n\n💼 DETAYLI SUNUM VE PAZARLIK ŞARTLARI:\nKrediye tam uyumlu olan mülkümüz, şeffaf pazarlık usullerine tabidir. Yer gösterme randevusu almak ve detayları kurumsal ofisimizde konuşmak üzere bizimle hemen iletişime geçebilirsiniz.\n\nGaranti Emlak - Geleceğinizi Garantiye Alın.`;
+            }, 700);
         }
 
-        // DİĞER FONKSİYONLAR
-        function loadCrm() {
-            const tbody = document.getElementById('crmTable'); tbody.innerHTML = "";
-            let list = JSON.parse(localStorage.getItem('crm_' + currentUserEmail)) || [];
-            document.getElementById('countCrm').innerText = list.length;
-            list.forEach((item, index) => {
-                const tr = document.createElement('tr'); tr.innerHTML = `<td><b>${item.name}</b> (${item.phone})</td><td><button class="btn-danger" onclick="deleteItem('crm', ${index})">Sil</button></td>`; tbody.appendChild(tr);
-            });
-        }
-        function addCrmData() {
-            const name = document.getElementById('cName').value.trim(); const phone = document.getElementById('cPhone').value.trim();
-            if(!name) return;
-            let list = JSON.parse(localStorage.getItem('crm_' + currentUserEmail)) || []; list.push({name, phone});
-            localStorage.setItem('crm_' + currentUserEmail, JSON.stringify(list)); document.getElementById('cName').value=''; document.getElementById('cPhone').value=''; loadCrm();
-        }
-        function loadAppointments() {
-            const tbody = document.getElementById('appTable'); tbody.innerHTML = "";
-            let list = JSON.parse(localStorage.getItem('app_' + currentUserEmail)) || [];
-            document.getElementById('countApp').innerText = list.length;
-            list.forEach((item, index) => {
-                const tr = document.createElement('tr'); tr.innerHTML = `<td><b>${item.user}</b></td><td>${item.date.replace('T', ' ')}</td><td><button class="btn-danger" onclick="deleteItem('app', ${index})">İptal</button></td>`; tbody.appendChild(tr);
-            });
-        }
-        function addAppData() {
-            const user = document.getElementById('aUser').value.trim(); const date = document.getElementById('aDate').value; if(!user || !date) return;
-            let list = JSON.parse(localStorage.getItem('app_' + currentUserEmail)) || []; list.push({user, date});
-            localStorage.setItem('app_' + currentUserEmail, JSON.stringify(list)); document.getElementById('aUser').value=''; loadAppointments();
-        }
-        function loadMapNotes() {
-            const container = document.getElementById('mapListContainer'); container.innerHTML = "";
-            let list = JSON.parse(localStorage.getItem('map_' + currentUserEmail)) || [];
-            list.forEach((item, index) => {
-                const div = document.createElement('div'); div.style = "background:#f8fafc; padding:15px; border-radius:10px; margin-bottom:10px; border-left:4px solid #11998e; position:relative;";
-                div.innerHTML = `<b>📍 Bölge:</b> ${item.zone} | <b>Ada/Parsel:</b> ${item.no}<br><small>${item.notes}</small><button onclick="deleteItem('map', ${index})" style="position:absolute; right:15px; top:15px; background:none; border:none; color:#ff4d4d; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>`; container.appendChild(div);
-            });
-        }
-        function queryMapData() {
-            const zone = document.getElementById('mZone').value.trim(); const no = document.getElementById('mNo').value.trim(); const notes = document.getElementById('mNotes').value.trim(); if(!zone || !no) return;
-            let list = JSON.parse(localStorage.getItem('map_' + currentUserEmail)) || []; list.push({zone, no, notes});
-            localStorage.setItem('map_' + currentUserEmail, JSON.stringify(list)); document.getElementById('mZone').value=''; document.getElementById('mNo').value=''; document.getElementById('mNotes').value=''; loadMapNotes();
-        }
-        function loadNotes() {
-            const container = document.getElementById('notesContainer'); container.innerHTML = "";
-            let list = JSON.parse(localStorage.getItem('notes_' + currentUserEmail)) || [];
-            list.forEach((item, index) => {
-                const div = document.createElement('div'); div.style = "background:#fffde7; padding:15px; border-radius:10px; border-left:4px solid #fbc02d; font-size:13px; position:relative;";
-                div.innerHTML = `${item} <button onclick="deleteItem('notes', ${index})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#999; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>`; container.appendChild(div);
-            });
-        }
-        function addNoteData() {
-            const txt = document.getElementById('newNoteText').value.trim(); if(!txt) return;
-            let list = JSON.parse(localStorage.getItem('notes_' + currentUserEmail)) || []; list.push(txt);
-            localStorage.setItem('notes_' + currentUserEmail, JSON.stringify(list)); document.getElementById('newNoteText').value = ''; loadNotes();
-        }
-        function deleteItem(type, index) {
-            if(confirm('Silmek istediğinize emin misiniz?')) {
-                let list = JSON.parse(localStorage.getItem(type + '_' + currentUserEmail)) || []; list.splice(index, 1);
-                localStorage.setItem(type + '_' + currentUserEmail, JSON.stringify(list)); loadAllUserData();
-            }
-        }
-        function makeCard(title, price) {
-            document.getElementById('mTitle').innerText = title; document.getElementById('mPrice').innerText = price;
-            document.getElementById('imageModal').style.display = 'flex';
-        }
+        function logout() { localStorage.removeItem('currentEmlakUser'); window.location.href = 'login.html'; }
     </script>
 </body>
 </html>
