@@ -10,16 +10,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
-            /* Tam istediğin gibi göz alıcı, ultra modern fosforlu yeşil tonları */
             --fosfor-yesil: #10b981; /* Canlı Fosforlu Yeşil */
             --koyu-zemin: #0f172a;  /* Gece Mavisi / Siyah */
-            --hafif-yesil: #f0fdf4; /* Arka planlar için çok hafif yeşil parıltı */
+            --hafif-yesil: #f0fdf4; /* Arka planlar için hafif yeşil parıltı */
         }
         .rounded-box { border-radius: 20px; }
         .btn-custom { border-radius: 50px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .btn-custom:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25); }
         
-        /* Yenilenen Premium Uyarı Kutusu */
+        /* Premium Uyarı Kutusu */
         .premium-alert {
             border-radius: 24px;
             background: linear-gradient(135deg, #ffffff 0%, var(--hafif-yesil) 100%);
@@ -78,7 +77,7 @@
 <!-- ANA İÇERİK -->
 <div class="container mx-auto my-12 px-4">
     
-    <!-- YENİLENEN PREMIUM UYARI KUTUSU -->
+    <!-- PREMIUM UYARI KUTUSU -->
     <div class="premium-alert p-6 mb-12 shadow-sm flex items-start space-x-4 animate__animated animate__zoomIn">
         <div class="p-3 bg-emerald-100 rounded-2xl text-[var(--fosfor-yesil)] text-2xl shadow-inner">
             ⚡
@@ -91,24 +90,27 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
-        <!-- SOL MENÜ: DANIŞMANLARIMIZ (SADECE İSİMLER, RESİMSİZ) -->
+        <!-- SOL MENÜ: GÜNCELLENEN DANIŞMANLARIMIZ (SADECE İSİMLER) -->
         <aside class="lg:col-span-1 bg-white p-6 shadow-xl rounded-box h-fit border border-slate-100 animate__animated animate__fadeInLeft">
             <h3 class="text-lg font-black text-slate-900 mb-4 pb-2 border-b-2 border-emerald-500/20 tracking-tight" id="danismanlar">
                 Danışmanlarımız
             </h3>
-            <div class="space-y-2">
+            <div class="space-y-3">
+                <!-- Salih Perçikli -->
                 <div class="p-3 bg-slate-50 hover:bg-[var(--hafif-yesil)] rounded-xl transition duration-300 border-l-4 border-emerald-500">
-                    <h4 class="font-bold text-sm text-slate-800">Salih PERÇİKLİ</h4>
+                    <h4 class="font-bold text-sm text-slate-800">Salih Perçikli</h4>
                     <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker / Firma Sahibi</p>
-                     <div class="space-y-1">
-                    <h4 class="font-bold text-sm text-slate-800">Doğukan PERÇİKLİ</h4>
-                    <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker</p>
-                    <h4 class="font-bold text-sm text-slate-800">Tamer CANBAZ</h4>
-                    <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker / WEB</p>
-                         
-                    
                 </div>
-                <!-- İhtiyaç halinde altına yeni danışman isimleri aynı formatta eklenebilir -->
+                <!-- Doğukan Perçikli -->
+                <div class="p-3 bg-slate-50 hover:bg-[var(--hafif-yesil)] rounded-xl transition duration-300 border-l-4 border-emerald-500">
+                    <h4 class="font-bold text-sm text-slate-800">Doğukan Perçikli</h4>
+                    <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker</p>
+                </div>
+                <!-- Tamer Canbaz -->
+                <div class="p-3 bg-slate-50 hover:bg-[var(--hafif-yesil)] rounded-xl transition duration-300 border-l-4 border-emerald-500">
+                    <h4 class="font-bold text-sm text-slate-800">Tamer Canbaz</h4>
+                    <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker / Web</p>
+                </div>
             </div>
         </aside>
 
