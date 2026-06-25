@@ -3,434 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garanti Emlak - Gayrimenkul Portalı</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Garanti Emlak - Sahibinden Tarzı Emlak Platformu</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f4f7f6; color: #2d3748; }
-
-        /* NAVBAR */
-        .navbar { background: #11998e; color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .brand { font-size: 24px; font-weight: 700; cursor: pointer; }
-        .brand span { color: #fffb00; }
-        .nav-btns { display: flex; gap: 15px; align-items: center; }
-        .btn-auth { background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 500; text-decoration: none; }
-        .btn-auth:hover { background: white; color: #11998e; }
-        .btn-logout { background: #ff4d4d; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; display: none; }
-
-        /* PORTAL ALANI (MÜŞTERİ VİTRİNİ) */
-        .portal-container { display: grid; grid-template-columns: 280px 1fr; gap: 30px; padding: 30px 40px; max-width: 1600px; margin: 0 auto; }
-        
-        /* SOL TARAF: DANIŞMAN FİLTRESİ */
-        .sidebar { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); height: fit-content; }
-        .sidebar h3 { font-size: 18px; color: #11998e; margin-bottom: 15px; border-bottom: 2px solid #f4f7f6; padding-bottom: 10px; }
-        .agent-list { list-style: none; }
-        .agent-item { padding: 12px 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 500; transition: all 0.2s; background: #f8fafc; border: 1px solid #e2e8f0; }
-        .agent-item i { color: #11998e; font-size: 18px; }
-        .agent-item:hover, .agent-item.active { background: #11998e; color: white; border-color: #11998e; }
-        .agent-item:hover i, .agent-item.active i { color: white; }
-
-        /* ÜST KISIM: ARAMA VE FİLTRELEME BARLARI */
-        .main-content { display: flex; flex-direction: column; gap: 25px; }
-        .filter-wrapper { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 15px; }
-        .search-row { display: grid; grid-template-columns: 1fr 200px; gap: 15px; }
-        .filter-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        
-        .form-control { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; background: #f8fafc; transition: all 0.2s; }
-        .form-control:focus { border-color: #11998e; background: white; }
-        .btn-search { background: #ff9f43; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 10px rgba(255,159,67,0.2); }
-        .btn-search:hover { background: #f08f2e; }
-
-        /* İLAN KARTLARI */
-        .listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-        .listing-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; display: flex; flex-direction: column; position: relative; }
-        .listing-badge-no { position: absolute; top: 15px; left: 15px; background: #2d3748; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .listing-badge-type { position: absolute; top: 15px; right: 15px; background: #ff9f43; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .listing-img-placeholder { height: 180px; background: linear-gradient(135deg, #11998e, #38ef7d); display: flex; align-items: center; justify-content: center; color: white; font-size: 40px; }
-        .listing-body { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
-        .listing-price { font-size: 22px; font-weight: 700; color: #11998e; }
-        .listing-title { font-size: 16px; font-weight: 600; color: #2d3748; line-height: 1.4; }
-        .listing-details { font-size: 13px; color: #718096; display: flex; flex-wrap: wrap; gap: 10px; background: #f8fafc; padding: 10px; border-radius: 8px; }
-        .listing-agent-footer { margin-top: auto; border-top: 1px solid #e2e8f0; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-        .agent-name-tag { font-weight: 600; color: #2b6cb0; display: flex; align-items: center; gap: 6px; }
-
-        /* DANIŞMAN PANEL MODÜLÜ (GİZLİ PANEL) */
-        .panel-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: none; }
-        .panel-box { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-top: 5px solid #11998e; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 14px; }
-        .btn-submit { background: #11998e; color: white; border: none; padding: 12px 25px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; font-size: 15px; margin-top: 10px; }
-        
-        /* GİRİŞ POPUP/MODAL SİMÜLASYONU */
-        .login-box { display: none; max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #ff9f43; }
-
-        /* DANIŞMANIN KENDİ İLAN TABLOSU */
-        .my-listings { margin-top: 30px; width: 100%; border-collapse: collapse; text-align: left; }
-        .my-listings th, .my-listings td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
-        .my-listings th { background: #f8fafc; color: #4a5568; }
-        .btn-danger { background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <div class="brand" onclick="goHome()">GARANTİ <span>EMLAK</span></div>
-        <div class="nav-btns">
-            <span id="welcomeMsg" style="font-weight: 500; display: none; margin-right: 15px;"></span>
-            <button id="btnGoPanel" class="btn-auth" style="display: none; background: #ff9f43; border-color: #ff9f43;" onclick="openPanel()">İlan Yönetim Panelim</button>
-            <button id="btnAuthAction" class="btn-auth" onclick="toggleAuthView()">Danışman Girişi</button>
-            <button id="btnLogout" class="btn-logout" onclick="logoutAccount()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
-        </div>
-    </div>
-
-    <!-- SİMÜLE EDİLMİŞ DANIŞMAN GİRİŞ EKRANI -->
-    <div id="loginSection" class="login-box">
-        <h3 style="margin-bottom: 15px; text-align: center; color: #ff9f43;"><i class="fa-solid fa-user-lock"></i> Danışman Giriş Paneli</h3>
-        <div class="form-group">
-            <label>Danışman İsmi Seçin</label>
-            <select id="loginUser" class="form-control">
-                <option value="Tamer Bey">Tamer Bey</option>
-                <option value="Ali Bey">Ali Bey</option>
-                <option value="Merve Hanım">Merve Hanım</option>
-                <option value="Can Bey">Can Bey</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Giriş Şifresi</label>
-            <input type="password" class="form-control" value="12345" placeholder="Şifre">
-        </div>
-        <button class="btn-submit" style="background:#ff9f43;" onclick="loginAccount()">Sisteme Giriş Yap</button>
-    </div>
-
-    <!-- DANIŞMANIN İLAN YÜKLEME PANELİ -->
-    <div id="panelSection" class="panel-container">
-        <div class="panel-box">
-            <div class="panel-header">
-                <h3><i class="fa-solid fa-house-medical"></i> Merhaba <span id="panelAgentName" style="color: #11998e;">-</span>, Yeni İlan Ekle</h3>
-                <button class="btn-auth" style="color: #11998e; border-color: #11998e;" onclick="goHome()">Vitrini / Ana Sayfayı Gör</button>
+    <!-- Üst Menü / Navbar -->
+    <nav class="bg-[#486484] text-white p-4 flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-6 max-w-7xl mx-auto w-full justify-between">
+            <div class="flex items-center space-x-6">
+                <a href="index.html" class="text-2xl font-bold tracking-wider text-[#ffe800]">GARANTİ EMLAK</a>
+                <!-- İlan No ile Arama Sistemi -->
+                <div class="flex">
+                    <input type="text" id="searchListingNo" placeholder="İlan No ile Ara..." class="p-2 text-black rounded-l w-64 focus:outline-none text-sm">
+                    <button onclick="searchByNo()" class="bg-[#ffe800] text-black px-4 font-bold rounded-r hover:bg-yellow-500 text-sm">Ara</button>
+                </div>
             </div>
             
-            <div class="grid-2">
-                <div class="form-group"><label>İlan Başlığı</label><input type="text" id="iTitle" class="form-control" placeholder="Örn: Gazipaşa Bulvarında Satılık 3+1"></div>
-                <div class="form-group"><label>Tarsus Mahallesi</label><select id="iLoc" class="form-control"></select></div>
+            <div class="flex space-x-4 items-center">
+                <span id="welcomeMsg" class="text-sm font-semibold hidden"></span>
+                <a href="login.html" id="loginBtn" class="bg-[#039be5] text-white px-4 py-2 rounded text-xs font-bold hover:bg-cyan-600 shadow">Giriş Yap / Kayıt Ol</a>
+                <a href="panel.html" id="panelBtn" class="bg-yellow-600 text-white px-4 py-2 rounded text-xs font-bold hover:bg-yellow-700 shadow hidden">Yönetim Paneli</a>
+                <button onclick="logout()" id="logoutBtn" class="bg-red-600 text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-red-700 hidden">Çıkış</button>
             </div>
-            <div class="grid-3">
-                <div class="form-group"><label>Fiyat (TL)</label><input type="text" id="iPrice" class="form-control" placeholder="Örn: 3.500.000" oninput="formatMoney(this)"></div>
-                <div class="form-group"><label>İlan Türü</label>
-                    <select id="iType" class="form-control"><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select>
-                </div>
-                <div class="form-group"><label>Oda Sayısı</label>
-                    <select id="iRoom" class="form-control">
-                        <option value="1+1">1+1</option><option value="2+1">2+1</option><option value="3+1" selected>3+1</option><option value="4+1">4+1</option>
-                    </select>
-                </div>
-            </div>
-            <div class="grid-2">
-                <div class="form-group"><label>Bina Yaşı</label><input type="number" id="iAge" class="form-control" placeholder="Örn: 5"></div>
-                <div class="form-group"><label>Bulunduğu Kat</label><input type="text" id="iFloor" class="form-control" placeholder="Örn: 4. Kat"></div>
-            </div>
-            <button class="btn-submit" onclick="addListing()">İlanı Portalıma Yayına Al</button>
-
-            <h4 style="margin-top:30px; border-top:1px dashed #e2e8f0; padding-top:20px;">📦 Benim Yayındaki İlanlarım</h4>
-            <table class="my-listings">
-                <thead><tr><th>İlan No</th><th>Başlık</th><th>Fiyat</th><th>Tür</th><th>İşlem</th></tr></thead>
-                <tbody id="myListingsBody"></tbody>
-            </table>
         </div>
-    </div>
+    </nav>
 
-    <!-- MÜŞTERİ PORTAL ALANI (ANA SAYFA) -->
-    <div id="portalSection" class="portal-container">
+    <!-- Ana İçerik Alanı -->
+    <div class="max-w-7xl mx-auto flex mt-4 px-4 gap-4">
         
-        <!-- SOL PANEL: DANIŞMAN SEÇİM ALANI -->
-        <div class="sidebar">
-            <h3><i class="fa-solid fa-users-gear"></i> Danışmanlarımız</h3>
-            <ul class="agent-list">
-                <li class="agent-item active" id="agent-all" onclick="filterByAgent('all')"><i class="fa-solid fa-layer-group"></i> Tüm İlanlar</li>
-                <li class="agent-item" id="agent-tamer" onclick="filterByAgent('Tamer Bey')"><i class="fa-solid fa-user-tie"></i> Tamer Bey</li>
-                <li class="agent-item" id="agent-ali" onclick="filterByAgent('Ali Bey')"><i class="fa-solid fa-user-tie"></i> Ali Bey</li>
-                <li class="agent-item" id="agent-merve" onclick="filterByAgent('Merve Hanım')"><i class="fa-solid fa-user-tie"></i> Merve Hanım</li>
-                <li class="agent-item" id="agent-can" onclick="filterByAgent('Can Bey')"><i class="fa-solid fa-user-tie"></i> Can Bey</li>
-            </ul>
-        </div>
-
-        <!-- SAĞ PANEL: FİLTRELER VE İLAN LİSTESİ -->
-        <div class="main-content">
-            
-            <!-- ÜST FİLTRELEME VE ARAMA BARBARI -->
-            <div class="filter-wrapper">
-                <div class="search-row">
-                    <input type="text" id="searchId" class="form-control" placeholder="🔍 İlan No Girin (Örn: GRN-1001)...">
-                    <button class="btn-search" onclick="renderPortal()"><i class="fa-solid fa-magnifying-glass"></i> İlan Ara</button>
-                </div>
-                <div class="filter-row">
-                    <select id="fType" class="form-control" onchange="renderPortal()">
-                        <option value="all">Tüm Türler (Satılık/Kiralık)</option><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option>
-                    </select>
-                    <select id="fRoom" class="form-control" onchange="renderPortal()">
-                        <option value="all">Tüm Oda Sayıları</option><option value="1+1">1+1</option><option value="2+1">2+1</option><option value="3+1">3+1</option><option value="4+1">4+1</option>
-                    </select>
-                    <select id="fLoc" class="form-control" onchange="renderPortal()">
-                        <option value="all">Tüm Tarsus Mahalleleri</option>
-                    </select>
-                    <input type="text" id="fMaxPrice" class="form-control" placeholder="Maksimum Fiyat (TL)" oninput="formatMoney(this); renderPortal();">
+        <!-- Sol Taraf: Filtreleme ve Danışmanlar -->
+        <aside class="w-1/4 space-y-4">
+            <!-- Filtreleme Sistemi -->
+            <div class="bg-white p-4 rounded shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 text-sm flex items-center justify-between">
+                    <span>Detaylı Filtre</span>
+                    <button onclick="clearFilters()" class="text-xs text-blue-600 hover:underline">Temizle</button>
+                </h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 block mb-1">Şehir</label>
+                        <select id="filterCity" onchange="applyFilters()" class="w-full border p-2 rounded text-xs bg-white">
+                            <option value="">Tümü</option>
+                            <option value="Mersin">Mersin</option>
+                            <option value="Adana">Adana</option>
+                            <option value="İstanbul">İstanbul</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-gray-500 block mb-1">Oda Sayısı</label>
+                        <select id="filterRooms" onchange="applyFilters()" class="w-full border p-2 rounded text-xs bg-white">
+                            <option value="">Tümü</option>
+                            <option value="1+1">1+1</option>
+                            <option value="2+1">2+1</option>
+                            <option value="3+1">3+1</option>
+                            <option value="4+1">4+1</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <!-- İLANLARIN LİSTELENECEĞİ ALAN -->
-            <h3 id="viewTitle" style="color:#11998e;"><i class="fa-solid fa-building-user"></i> Tüm Güncel İlanlar</h3>
-            <div class="listings-grid" id="portalListingsGrid"></div>
-        </div>
+            <!-- Danışmanlar Listesi -->
+            <div class="bg-white p-4 rounded shadow-sm border border-gray-200">
+                <h3 class="font-bold text-gray-700 border-b pb-2 mb-3 text-sm">Gayrimenkul Danışmanları</h3>
+                <ul id="agentsList" class="space-y-1">
+                    <!-- Dinamik yüklenecek -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Sağ Taraf: İlanlar Listesi -->
+        <main class="w-3/4">
+            <div class="border border-gray-200 rounded shadow-sm bg-white">
+                <div class="bg-gray-50 p-3 font-bold text-gray-700 border-b border-gray-200 text-xs flex justify-between items-center">
+                    <span>Tüm İlanlar</span>
+                    <span id="listingCount" class="text-gray-500 font-normal">0 sonuç bulundu</span>
+                </div>
+                
+                <!-- İlan Kartları Yuvası -->
+                <div id="listingsWrapper" class="divide-y divide-gray-100">
+                    <!-- Dinamik İlanlar Buraya Gelecek -->
+                </div>
+            </div>
+        </main>
+
     </div>
 
-    <!-- JAVASCRIPT MOTORU -->
+    <!-- Veritabanı ve Mantık Scripti -->
     <script>
-        // Tarsus Mahalle Listesi
-        const mahalleler = ["Altaylılar Mah.", "Anıt Mah.", "Bağlar Mah.", "Barbaros Mah.", "Caminur Mah.", "Cumhuriyet Mah.", "Çağlayan Mah.", "Duatepe Mah.", "Ergenekon Mah.", "Fatih Mah.", "Ferahimşalvuz Mah.", "Gazi Mah.", "Gazipaşa Mah.", "Girne Mah.", "Gözlükule Mah.", "İsmetpaşa Mah.", "Kavaklı Mah.", "Kemalpaşa Mah.", "Kırklarsırtı Mah.", "Kızılmurat Mah.", "Mithatpaşa Mah.", "Öğretmenler Mah.", "Piri Ömerli Mah.", "Reşadiye Mah.", "Şehitishak Mah.", "Şehitler Mah.", "Şehitmustafa Mah.", "Tekke Mah.", "Tozkoparan Mah.", "Yeni Mah."];
-        
-        let selectedAgentFilter = "all";
-        let activeUser = localStorage.getItem('activeAgent') || null;
+        // Örnek Başlangıç Verileri (Eğer hafıza boşsa yüklenecek)
+        if(!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([
+                { username: 'tamerC', password: 'TamerC', role: 'admin', isApproved: true },
+                { username: 'ahmet_danisman', password: '123', role: 'agent', isApproved: true, phone: '0532 111 2233' },
+                { username: 'mehmet_emlak', password: '123', role: 'agent', isApproved: false, phone: '0544 222 4455' }
+            ]));
+        }
+        if(!localStorage.getItem('listings')) {
+            localStorage.setItem('listings', JSON.stringify([
+                { listingNo: 482910, title: 'Tarsus Kırklarsırtı Mahallesinde Satılık Lüx 3+1 Daire', price: 2850000, city: 'Mersin', district: 'Tarsus', rooms: '3+1', agent: 'ahmet_danisman', image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=300&q=80' },
+                { listingNo: 719204, title: 'Gazipaşa Bulvarı Üzerinde Devren Satılık Mağaza / Dükkan', price: 1250000, city: 'Mersin', district: 'Tarsus', rooms: 'Dükkan', agent: 'ahmet_danisman', image: 'https://images.unsplash.com/photo-1582037928867-67704ea56333?auto=format&fit=crop&w=300&q=80' }
+            ]));
+        }
 
-        window.onload = function() {
-            // Mahalle select kutularını doldur
-            const iLoc = document.getElementById('iLoc');
-            const fLoc = document.getElementById('fLoc');
-            mahalleler.forEach(m => {
-                let o1 = document.createElement('option'); o1.value = m; o1.innerText = m; iLoc.appendChild(o1);
-                let o2 = document.createElement('option'); o2.value = m; o2.innerText = m; fLoc.appendChild(o2);
-            });
+        let selectedAgent = null;
 
-            // Demo veriler yoksa yükle (İlk açılışta boş kalmasın diye)
-            if(!localStorage.getItem('all_listings_db')) {
-                const demoData = [
-                    { id: "GRN-1001", title: "Gazipaşa Bulvarı Üzeri Geniş 3+1 Daire", loc: "Gazipaşa Mah.", price: "3.450.000", type: "Satılık", room: "3+1", age: "5", floor: "4. Kat", agent: "Tamer Bey" },
-                    { id: "GRN-1002", title: "Kırklarsırtı Mahallesinde Masrafsız Kiralık", loc: "Kırklarsırtı Mah.", price: "15.000", type: "Kiralık", room: "2+1", age: "10", floor: "2. Kat", agent: "Ali Bey" },
-                    { id: "GRN-1003", title: "Öğretmenler Mahallesinde Sıfır Lüks Daire", loc: "Öğretmenler Mah.", price: "4.200.000", type: "Satılık", room: "3+1", age: "0", floor: "5. Kat", agent: "Merve Hanım" }
-                ];
-                localStorage.setItem('all_listings_db', JSON.stringify(demoData));
-                localStorage.setItem('listing_seq', "1004");
+        function initPage() {
+            // Giriş kontrolü
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if(currentUser) {
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('welcomeMsg').classList.remove('hidden');
+                document.getElementById('welcomeMsg').innerText = `Hoş geldin, ${currentUser.username}`;
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                if(currentUser.role === 'admin' || currentUser.role === 'agent') {
+                    document.getElementById('panelBtn').classList.remove('hidden');
+                }
             }
 
-            checkUserStatus();
-            renderPortal();
-        };
-
-        function formatMoney(input) {
-            let value = input.value.replace(/\D/g, "");
-            value = new Intl.NumberFormat('tr-TR').format(value);
-            input.value = value === "0" ? "" : value;
+            renderAgents();
+            renderListings();
         }
 
-        // OTURUM KONTROLÜ
-        function checkUserStatus() {
-            if(activeUser) {
-                document.getElementById('welcomeMsg').innerText = "🔑 " + activeUser;
-                document.getElementById('welcomeMsg').style.display = "inline-block";
-                document.getElementById('btnGoPanel').style.display = "inline-block";
-                document.getElementById('btnAuthAction').style.display = "none";
-                document.getElementById('btnLogout').style.display = "inline-block";
-            } else {
-                document.getElementById('welcomeMsg').style.display = "none";
-                document.getElementById('btnGoPanel').style.display = "none";
-                document.getElementById('btnAuthAction').style.display = "inline-block";
-                document.getElementById('btnLogout').style.display = "none";
-            }
-        }
-
-        function toggleAuthView() {
-            goHome();
-            const loginBox = document.getElementById('loginSection');
-            const portalBox = document.getElementById('portalSection');
-            if(loginBox.style.display === "block") {
-                goHome();
-            } else {
-                loginBox.style.display = "block";
-                portalBox.style.display = "none";
-            }
-        }
-
-        function loginAccount() {
-            const user = document.getElementById('loginUser').value;
-            localStorage.setItem('activeAgent', user);
-            activeUser = user;
-            checkUserStatus();
-            openPanel();
-        }
-
-        function logoutAccount() {
-            localStorage.removeItem('activeAgent');
-            activeUser = null;
-            checkUserStatus();
-            goHome();
-        }
-
-        // EKRANLAR ARASI GEÇİŞ
-        function goHome() {
-            document.getElementById('loginSection').style.display = "none";
-            document.getElementById('panelSection').style.display = "none";
-            document.getElementById('portalSection').style.display = "grid";
-            renderPortal();
-        }
-
-        function openPanel() {
-            document.getElementById('loginSection').style.display = "none";
-            document.getElementById('portalSection').style.display = "none";
-            document.getElementById('panelSection').style.display = "block";
-            document.getElementById('panelAgentName').innerText = activeUser;
-            renderPanelListings();
-        }
-
-        // DANIŞMAN FİLTRELEME AKSİYONU
-        function filterByAgent(agentName) {
-            selectedAgentFilter = agentName;
-            document.querySelectorAll('.agent-item').forEach(el => el.classList.remove('active'));
+        function renderAgents() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const approvedAgents = users.filter(u => u.role === 'agent' && u.isApproved);
+            const listContainer = document.getElementById('agentsList');
             
-            if(agentName === 'all') {
-                document.getElementById('agent-all').classList.add('active');
-                document.getElementById('viewTitle').innerHTML = `<i class="fa-solid fa-building-user"></i> Tüm Güncel İlanlar`;
-            } else {
-                if(agentName === 'Tamer Bey') document.getElementById('agent-tamer').classList.add('active');
-                if(agentName === 'Ali Bey') document.getElementById('agent-ali').classList.add('active');
-                if(agentName === 'Merve Hanım') document.getElementById('agent-merve').classList.add('active');
-                if(agentName === 'Can Bey') document.getElementById('agent-can').classList.add('active');
-                
-                document.getElementById('viewTitle').innerHTML = `<i class="fa-solid fa-user-tag"></i> ${agentName} Portföyüne Ait İlanlar`;
-            }
-            renderPortal();
-        }
-
-        // GİZLİ PANEL: İLAN EKLEME
-        function addListing() {
-            const title = document.getElementById('iTitle').value.trim();
-            const loc = document.getElementById('iLoc').value;
-            const price = document.getElementById('iPrice').value;
-            const type = document.getElementById('iType').value;
-            const room = document.getElementById('iRoom').value;
-            const age = document.getElementById('iAge').value;
-            const floor = document.getElementById('iFloor').value;
-
-            if(!title || !price) { alert("Lütfen Başlık ve Fiyat alanlarını doldurun kanka!"); return; }
-
-            let seq = parseInt(localStorage.getItem('listing_seq') || "1001");
-            let ilanNo = "GRN-" + seq;
-            localStorage.setItem('listing_seq', (seq + 1).toString());
-
-            let db = JSON.parse(localStorage.getItem('all_listings_db')) || [];
-            db.push({ id: ilanNo, title, loc, price, type, room, age, floor, agent: activeUser });
-            localStorage.setItem('all_listings_db', JSON.stringify(db));
-
-            // Temizle
-            document.getElementById('iTitle').value = "";
-            document.getElementById('iPrice').value = "";
-            document.getElementById('iAge').value = "";
-            document.getElementById('iFloor').value = "";
-
-            alert(`${ilanNo} Numaralı İlan Başarıyla Portala Eklendi!`);
-            renderPanelListings();
-        }
-
-        // GİZLİ PANEL: DANIŞMANIN KENDİ İLANLARINI TABLOYA BASMA
-        function renderPanelListings() {
-            let db = JSON.parse(localStorage.getItem('all_listings_db')) || [];
-            let myData = db.filter(item => item.agent === activeUser);
-            let tbody = document.getElementById('myListingsBody');
-            tbody.innerHTML = "";
-
-            myData.forEach(item => {
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><b>${item.id}</b></td>
-                    <td>${item.title}</td>
-                    <td><span style="color:#11998e; font-weight:600;">${item.price} ₺</span></td>
-                    <td>${item.type}</td>
-                    <td><button class="btn-danger" onclick="deleteListing('${item.id}')">Sil</button></td>
-                `;
-                tbody.appendChild(tr);
+            let html = `<li onclick="selectAgent(null)" class="p-2 rounded cursor-pointer text-xs font-semibold transition ${!selectedAgent ? 'bg-[#ffe800] text-black' : 'hover:bg-gray-100'}">🌟 Tüm İlanlar</li>`;
+            
+            approvedAgents.forEach(agent => {
+                html += `<li onclick="selectAgent('${agent.username}')" class="p-2 rounded cursor-pointer text-xs font-medium transition ${selectedAgent === agent.username ? 'bg-[#486484] text-white font-bold' : 'hover:bg-gray-100'}">👤 ${agent.username}</li>`;
             });
+            listContainer.innerHTML = html;
         }
 
-        function deleteListing(id) {
-            if(confirm("Bu ilanı sistemden tamamen kaldırmak istediğine emin misin kanka?")) {
-                let db = JSON.parse(localStorage.getItem('all_listings_db')) || [];
-                db = db.filter(item => item.id !== id);
-                localStorage.setItem('all_listings_db', JSON.stringify(db));
-                renderPanelListings();
-            }
-        }
+        function renderListings(filteredListings = null) {
+            const listings = filteredListings || JSON.parse(localStorage.getItem('listings')) || [];
+            const wrapper = document.getElementById('listingsWrapper');
+            document.getElementById('listingCount').innerText = `${listings.length} sonuç bulundu`;
 
-        // MÜŞTERİ ANA SAYFASI: TÜM VERİLERİ FİLTRELEYEREK KARTLARA BASMA (CORE ENGINE)
-        function renderPortal() {
-            let db = JSON.parse(localStorage.getItem('all_listings_db')) || [];
-            let grid = document.getElementById('portalListingsGrid');
-            grid.innerHTML = "";
-
-            // ARAMA VE FİLTRE PARAMETRELERİNİ AL
-            const searchIdVal = document.getElementById('searchId').value.trim().toUpperCase();
-            const fTypeVal = document.getElementById('fType').value;
-            const fRoomVal = document.getElementById('fRoom').value;
-            const fLocVal = document.getElementById('fLoc').value;
-            const fMaxPriceVal = parseFloat(document.getElementById('fMaxPrice').value.replace(/\D/g, "")) || Infinity;
-
-            // FİLTRELEME SÜZGECİ
-            let filtered = db.filter(item => {
-                // 1. İlan No Arama Kriteri (Eğer yazıldıysa diğer filtreleri ezer)
-                if(searchIdVal !== "" && !item.id.includes(searchIdVal)) return false;
-                
-                // 2. Sol taraftan seçilen Danışman Kriteri
-                if(selectedAgentFilter !== "all" && item.agent !== selectedAgentFilter) return false;
-
-                // 3. İlan Türü (Satılık/Kiralık)
-                if(fTypeVal !== "all" && item.type !== fTypeVal) return false;
-
-                // 4. Oda Sayısı
-                if(fRoomVal !== "all" && item.room !== fRoomVal) return false;
-
-                // 5. Mahalle / Konum
-                if(fLocVal !== "all" && item.loc !== fLocVal) return false;
-
-                // 6. Maksimum Fiyat Sınırı
-                let itemPriceNum = parseFloat(item.price.replace(/\D/g, "")) || 0;
-                if(itemPriceNum > fMaxPriceVal) return false;
-
-                return true;
-            });
-
-            if(filtered.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:40px; color:#718096; font-style:italic;">Kriterlere uygun ilan bulunamadı kanka.</div>`;
+            if(listings.length === 0) {
+                wrapper.innerHTML = `<div class="p-8 text-center text-gray-500 text-sm">Aradığınız kriterlere uygun ilan bulunamadı.</div>`;
                 return;
             }
 
-            // KARTLARI EKRANA ÇIKAR
-            filtered.reverse().forEach(item => {
-                let card = document.createElement('div');
-                card.className = "listing-card";
-                card.innerHTML = `
-                    <div class="listing-badge-no">${item.id}</div>
-                    <div class="listing-badge-type">${item.type}</div>
-                    <div class="listing-img-placeholder"><i class="fa-solid fa-house-chimney"></i></div>
-                    <div class="listing-body">
-                        <div class="listing-price">${item.price} ₺</div>
-                        <div class="listing-title">${item.title}</div>
-                        <div class="listing-details">
-                            <span>📍 ${item.loc}</span>
-                            <span>🚪 ${item.room}</span>
-                            <span>🏢 ${item.floor || 'Giriş'}</span>
-                            <span>🎂 ${item.age === "0" ? 'Sıfır' : item.age + ' Yaş'}</span>
-                        </div>
-                        <div class="listing-agent-footer">
-                            <span class="agent-name-tag"><i class="fa-solid fa-user-tie"></i> ${item.agent}</span>
-                            <a href="https://wa.me/905000000000" target="_blank" style="color:#25D366; text-decoration:none; font-weight:600;"><i class="fa-brands fa-whatsapp"></i> İletişime Geç</a>
-                        </div>
+            let html = '';
+            listings.forEach(item => {
+                html += `
+                <div class="flex border-b border-gray-100 py-3 hover:bg-yellow-50/50 transition px-3 items-center">
+                    <img src="${item.image || 'https://via.placeholder.com/140x100?text=Garanti+Emlak'}" alt="" class="w-32 h-20 object-cover rounded border border-gray-200 shadow-sm">
+                    <div class="flex-1 ml-4">
+                        <h4 class="text-blue-700 font-bold text-sm hover:underline cursor-pointer">${item.title}</h4>
+                        <p class="text-[11px] text-gray-400 mt-0.5">İlan No: <span class="font-bold text-gray-600">${item.listingNo}</span></p>
+                        <p class="text-xs text-gray-600 mt-1">${item.city} / ${item.district} / ${item.rooms}</p>
                     </div>
-                `;
-                grid.appendChild(card);
+                    <div class="text-right pr-2">
+                        <span class="text-blue-900 font-bold text-base">${Number(item.price).toLocaleString('tr-TR')} TL</span>
+                        <p class="text-[10px] text-gray-400 mt-2">Danışman: <span class="font-semibold text-gray-600">${item.agent}</span></p>
+                    </div>
+                </div>`;
             });
+            wrapper.innerHTML = html;
         }
+
+        function selectAgent(agentName) {
+            selectedAgent = agentName;
+            renderAgents();
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let listings = JSON.parse(localStorage.getItem('listings')) || [];
+            const city = document.getElementById('filterCity').value;
+            const rooms = document.getElementById('filterRooms').value;
+
+            if(selectedAgent) {
+                listings = listings.filter(l => l.agent === selectedAgent);
+            }
+            if(city) {
+                listings = listings.filter(l => l.city === city);
+            }
+            if(rooms) {
+                listings = listings.filter(l => l.rooms === rooms);
+            }
+
+            renderListings(listings);
+        }
+
+        function searchByNo() {
+            const no = document.getElementById('searchListingNo').value.trim();
+            if(!no) { applyFilters(); return; }
+            let listings = JSON.parse(localStorage.getItem('listings')) || [];
+            listings = listings.filter(l => l.listingNo.toString() === no);
+            renderListings(listings);
+        }
+
+        function clearFilters() {
+            document.getElementById('filterCity').value = '';
+            document.getElementById('filterRooms').value = '';
+            selectedAgent = null;
+            renderAgents();
+            renderListings();
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.reload();
+        }
+
+        window.onload = initPage;
     </script>
 </body>
 </html>
