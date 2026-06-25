@@ -3,193 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yönetim Paneli - Garanti Emlak</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Garanti Emlak - Yönetim Paneli</title>
+    <!-- Tailwind CSS ve FontAwesome ikonları -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-sans">
 
-    <nav class="bg-[#486484] text-white p-4 shadow-md flex justify-between items-center">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold tracking-wider text-[#ffe800]">GARANTİ EMLAK YÖNETİM</a>
-            <a href="index.html" class="text-xs font-semibold bg-gray-700 px-3 py-1.5 rounded hover:bg-gray-600">Sitiye Dön ➔</a>
+    <!-- ÜST MENÜ BAR-->
+    <nav class="bg-blue-900 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide"><i class="fa-solid fa-building-shield mr-2"></i>GARANTİ EMLAK PANAL</h1>
+            <div class="flex items-center gap-4">
+                <span id="adminGirisBilgisi" class="text-sm bg-blue-800 px-3 py-1 rounded-full border border-blue-700"></span>
+                <button onclick="cikisYap()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm font-semibold transition">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Çıkış Yap
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto mt-6 px-4 space-y-6">
+    <div class="container mx-auto mt-8 p-4">
         
-        <!-- ADMIN PANELİ -->
-        <section id="adminSection" class="hidden bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-lg font-bold text-orange-600 border-b pb-2 mb-4">👑 Sistem Admin Onay Paneli (tamerC)</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-600 font-bold border-b">
-                            <th class="p-3">Danışman Adı</th>
-                            <th class="p-3">Telefon</th>
-                            <th class="p-3">Rol</th>
-                            <th class="p-3">Durum</th>
-                            <th class="p-3 text-right">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pendingAgentsTable" class="divide-y"></tbody>
-                </table>
+        <!-- 👑 Sadece TamerC (Admin) İçin Onay Bekleyenler Paneli -->
+        <div id="adminOnayBolumu" class="hidden mb-8 bg-white rounded-lg shadow-lg border-t-4 border-amber-500 overflow-hidden">
+            <div class="bg-gradient-to-r destruction from-amber-500 to-orange-600 p-4 text-white flex justify-between items-center">
+                <h2 class="text-xl font-bold"><i class="fa-solid fa-user-check mr-2"></i> 👑 Sistem Admin Onay Paneli (TamerC)</h2>
+                <span id="onayBekleyenSayisi" class="bg-white text-orange-600 font-bold px-3 py-1 rounded-full text-sm">0 Bekleyen</span>
             </div>
-        </section>
+            
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Danışman Adı</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefon Numarası</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-Posta</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
+                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="onayBekleyenListesi" class="bg-white divide-y divide-gray-200">
+                            <!-- JS ile onay bekleyenler buraya dolacak -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Liste boşsa çıkacak uyarı -->
+                <div id="bosListeUyarisi" class="hidden text-center py-8 text-gray-500">
+                    <i class="fa-solid fa-circle-check text-4xl text-green-500 mb-2"></i>
+                    <p class="text-lg font-medium">Onay bekleyen danışman başvurusu yok!</p>
+                </div>
+            </div>
+        </div>
 
-        <!-- İLAN EKLEME PANELİ -->
-        <section class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4">➕ Yeni İlan Girişi (Sahibinden Formatı)</h2>
-            <form onsubmit="addListing(event)" class="grid grid-cols-2 gap-4 text-xs">
-                <div class="col-span-2">
-                    <label class="font-semibold text-gray-600 block mb-1">İlan Başlığı</label>
-                    <input type="text" id="listTitle" required placeholder="Örn: Tarsus Gazipaşa Bulvarında Satılık Acele 3+1" class="w-full border p-2 rounded">
-                </div>
-                <div>
-                    <label class="font-semibold text-gray-600 block mb-1">Fiyat (TL)</label>
-                    <input type="number" id="listPrice" required placeholder="Fiyat girin" class="w-full border p-2 rounded">
-                </div>
-                <div>
-                    <label class="font-semibold text-gray-600 block mb-1">Metrekare (m²)</label>
-                    <input type="number" id="listM2" required placeholder="Örn: 135" class="w-full border p-2 rounded">
-                </div>
-                <div>
-                    <label class="font-semibold text-gray-600 block mb-1">Şehir</label>
-                    <select id="listCity" class="w-full border p-2 rounded bg-white">
-                        <option value="Mersin">Mersin</option>
-                        <option value="Adana">Adana</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="font-semibold text-gray-600 block mb-1">İlçe / Mahalle</label>
-                    <input type="text" id="listDistrict" required placeholder="Örn: Tarsus / Gazipaşa" class="w-full border p-2 rounded">
-                </div>
-                <div>
-                    <label class="font-semibold text-gray-600 block mb-1">Oda Sayısı</label>
-                    <select id="listRooms" class="w-full border p-2 rounded bg-white">
-                        <option value="1+1">1+1</option>
-                        <option value="2+1">2+1</option>
-                        <option value="3+1">3+1</option>
-                        <option value="4+1">4+1</option>
-                    </select>
-                </div>
-                <div>
-                    <!-- OTOMATİK BOYUTLANDIRMALI FOTOĞRAF YÜKLEME SİSTEMİ -->
-                    <label class="font-semibold text-gray-800 block mb-1 text-blue-600">📸 Telefon / Bilgisayardan Fotoğraf Seç (Otomatik Optimize Edilir)</label>
-                    <input type="file" id="listImageFile" accept="image/*" class="w-full border p-1.5 rounded bg-gray-50 cursor-pointer">
-                </div>
-                <div class="col-span-2">
-                    <label class="font-semibold text-gray-600 block mb-1">Detaylı İlan Açıklaması</label>
-                    <textarea id="listDesc" rows="4" placeholder="İlan detaylarını, binanın yaşını, konum avantajlarını buraya yazın..." class="w-full border p-2 rounded"></textarea>
-                </div>
-                <div class="col-span-2">
-                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold p-3 rounded shadow text-sm">İlanı Eksiksiz Olarak Canlıya Al</button>
-                </div>
-            </form>
-        </section>
+        <!-- DANIŞMANIN KENDİ İLAN EKLEME ALANI (Normal Panel İçeriği) -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2"><i class="fa-solid fa-plus mr-2"></i>Yeni İlan Ekle</h2>
+            <!-- İlan Ekleme Form Elemanları Buraya Gelecek -->
+            <p class="text-gray-600 text-sm">Buradan ilanlarınızı ve fotoğraflarınızı yönetebilirsiniz.</p>
+        </div>
+
     </div>
 
+    <!-- SİSTEM JAVASCRIPT KODLARI -->
     <script>
-        let currentUser = null;
-        let base64Image = "";
-
-        function checkAuth() {
-            currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if(!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'agent')) {
-                alert('Bu sayfaya erişim yetkiniz yok!');
-                window.location.href = 'index.html';
-                return;
-            }
-            if(currentUser.role === 'admin') {
-                document.getElementById('adminSection').classList.remove('hidden');
-                renderPendingAgents();
-            }
-
-            // Dosya yükleme olayını dinle ve anında base64'e çevir (Boyutla uğraştırmaz)
-            document.getElementById('listImageFile').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        base64Image = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        }
-
-        function renderPendingAgents() {
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const pending = users.filter(u => u.role === 'agent' && !u.isApproved);
-            const tbody = document.getElementById('pendingAgentsTable');
-
-            if(pending.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">Onay bekleyen danışman başvurusu yok.</td></tr>`;
+        // Sayfa açıldığında giriş yapanı ve listeyi kontrol et
+        document.addEventListener("DOMContentLoaded", function() {
+            const aktifKullanici = JSON.parse(localStorage.getItem("aktifKullanici"));
+            
+            if (!aktifKullanici) {
+                alert("Önce giriş yapmalısın kanka!");
+                window.location.href = "login.html";
                 return;
             }
 
-            let html = '';
-            pending.forEach(agent => {
-                html += `
-                <tr class="hover:bg-gray-50">
-                    <td class="p-3 font-semibold">${agent.username}</td>
-                    <td class="p-3">${agent.phone || '-'}</td>
-                    <td class="p-3 text-blue-600 font-bold">${agent.role}</td>
-                    <td class="p-3"><span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded text-[10px] font-bold">Onay Bekliyor</span></td>
-                    <td class="p-3 text-right space-x-2">
-                        <button onclick="approveAgent('${agent.username}', true)" class="bg-green-600 text-white px-2.5 py-1 rounded hover:bg-green-700 font-bold">Onayla</button>
-                        <button onclick="approveAgent('${agent.username}', false)" class="bg-red-600 text-white px-2.5 py-1 rounded hover:bg-red-700 font-bold">Reddet</button>
-                    </td>
-                </tr>`;
-            });
-            tbody.innerHTML = html;
-        }
+            // Üst barda kimin giriş yaptığını göster
+            document.getElementById("adminGirisBilgisi").innerHTML = `<i class="fa-solid fa-user mr-1"></i> ${aktifKullanici.adSoyad} (${aktifKullanici.rol})`;
 
-        function approveAgent(username, status) {
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            if(status) {
-                users = users.map(u => u.username === username ? { ...u, isApproved: true } : u);
-                alert(`${username} onaylandı.`);
+            // Eğer tamerC (Admin) girdiyse gizli onay panelini aç ve listeyi yükle
+            if (aktifKullanici.kullaniciAdi === "tamerC") {
+                document.getElementById("adminOnayBolumu").classList.remove("hidden");
+                onayListesiniYenile();
+            }
+        });
+
+        // Onay bekleyen danışmanları listeleyen fonksiyon
+        function onayListesiniYenile() {
+            const kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
+            const tbody = document.getElementById("onayBekleyenListesi");
+            const bosUyari = document.getElementById("bosListeUyarisi");
+            
+            // Sadece rolü 'Danışman' olan ve durumu 'Bekliyor' olanları filtrele
+            const bekleyenler = kullanicilar.filter(user => user.rol === "Danışman" && user.durum === "Bekliyor");
+            
+            // Sayaç güncelle
+            document.getElementById("onayBekleyenSayisi").textContent = `${bekleyenler.length} Bekleyen`;
+            
+            tbody.innerHTML = "";
+
+            if (bekleyenler.length === 0) {
+                bosUyari.classList.remove("hidden");
+                return;
             } else {
-                users = users.filter(u => u.username !== username);
+                bosUyari.classList.add("hidden");
             }
-            localStorage.setItem('users', JSON.stringify(users));
-            renderPendingAgents();
+
+            bekleyenler.forEach(user => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-gray-50 transition";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-950">${user.adSoyad}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-600">${user.telefon || 'Belirtilmedi'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-600">${user.eposta || 'Belirtilmedi'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200 animate-pulse">
+                            Onay Bekliyor
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex justify-center gap-2">
+                        <button onclick="danismanOnayla('${user.kullaniciAdi}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded flex items-center gap-1 shadow transition">
+                            <i class="fa-solid fa-check"></i> Onayla
+                        </button>
+                        <button onclick="danismanReddet('${user.kullaniciAdi}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded flex items-center gap-1 shadow transition">
+                            <i class="fa-solid fa-trash"></i> Sil
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        function addListing(e) {
-            e.preventDefault();
-            const title = document.getElementById('listTitle').value.trim();
-            const price = document.getElementById('listPrice').value;
-            const m2 = document.getElementById('listM2').value;
-            const city = document.getElementById('listCity').value;
-            const district = document.getElementById('listDistrict').value.trim();
-            const rooms = document.getElementById('listRooms').value;
-            const desc = document.getElementById('listDesc').value.trim();
+        // Danışmanı aktif etme fonksiyonu
+        function danismanOnayla(kullaniciAdi) {
+            let kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
+            
+            kullanicilar = kullanicilar.map(user => {
+                if (user.kullaniciAdi === kullaniciAdi) {
+                    user.durum = "Aktif";
+                }
+                return user;
+            });
 
-            const randomNo = Math.floor(100000 + Math.random() * 900000);
-            let listings = JSON.parse(localStorage.getItem('listings')) || [];
-
-            const newListing = {
-                listingNo: randomNo,
-                title: title,
-                price: Number(price),
-                m2: m2,
-                city: city,
-                district: district,
-                rooms: rooms,
-                desc: desc,
-                agent: currentUser.username,
-                image: base64Image || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80'
-            };
-
-            listings.unshift(newListing);
-            localStorage.setItem('listings', JSON.stringify(listings));
-
-            alert(`Mükemmel! İlan başarıyla yayınlandı. İlan No: ${randomNo}`);
-            window.location.href = 'index.html';
+            localStorage.setItem("kullanicilar", JSON.stringify(kullanicilar));
+            alert("Danışman başarıyla onaylandı! Artık sisteme girip ilan ekleyebilir.");
+            onayListesiniYenile(); // Listeyi anlık güncelle
         }
 
-        window.onload = checkAuth;
+        // Başvuruyu reddedip silme fonksiyonu
+        function danismanReddet(kullaniciAdi) {
+            if (confirm("Bu danışman başvurusunu tamamen silmek istediğine emin misin?")) {
+                let kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
+                kullanicilar = kullanicilar.filter(user => user.kullaniciAdi !== kullaniciAdi);
+                
+                localStorage.setItem("kullanicilar", JSON.stringify(kullanicilar));
+                alert("Başvuru silindi.");
+                onayListesiniYenile(); // Listeyi anlık güncelle
+            }
+        }
+
+        // Çıkış yapma fonksiyonu
+        function cikisYap() {
+            localStorage.removeItem("aktifKullanici");
+            window.location.href = "login.html";
+        }
     </script>
 </body>
 </html>
