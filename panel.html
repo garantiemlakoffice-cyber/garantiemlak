@@ -4,166 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garanti Emlak - Yönetim Paneli</title>
-    <!-- Tailwind CSS ve FontAwesome ikonları -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans min-h-screen">
 
-    <!-- ÜST MENÜ BAR-->
-    <nav class="bg-blue-900 text-white p-4 shadow-md">
+    <!-- NAV BAR -->
+    <nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wide"><i class="fa-solid fa-building-shield mr-2"></i>GARANTİ EMLAK PANAL</h1>
+            <h1 class="text-xl font-black tracking-wider"><i class="fa-solid fa-building-shield mr-2"></i>GARANTİ EMLAK SİSTEMİ</h1>
             <div class="flex items-center gap-4">
-                <span id="adminGirisBilgisi" class="text-sm bg-blue-800 px-3 py-1 rounded-full border border-blue-700"></span>
-                <button onclick="cikisYap()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm font-semibold transition">
-                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Çıkış Yap
+                <span id="kullaniciRozet" class="text-xs bg-blue-800 border border-blue-700 px-3 py-1 rounded-full font-medium"></span>
+                <button onclick="oturumKapat()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-xs font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-power-off"></i> Güvenli Çıkış
                 </button>
             </div>
         </div>
     </nav>
 
-    <div class="container mx-auto mt-8 p-4">
+    <div class="container mx-auto mt-6 p-4 space-y-6">
         
-        <!-- 👑 Sadece TamerC (Admin) İçin Onay Bekleyenler Paneli -->
-        <div id="adminOnayBolumu" class="hidden mb-8 bg-white rounded-lg shadow-lg border-t-4 border-amber-500 overflow-hidden">
-            <div class="bg-gradient-to-r destruction from-amber-500 to-orange-600 p-4 text-white flex justify-between items-center">
-                <h2 class="text-xl font-bold"><i class="fa-solid fa-user-check mr-2"></i> 👑 Sistem Admin Onay Paneli (TamerC)</h2>
-                <span id="onayBekleyenSayisi" class="bg-white text-orange-600 font-bold px-3 py-1 rounded-full text-sm">0 Bekleyen</span>
+        <!-- 👑 ADMIN ONAY PANELİ (Sadece tamerC'de görünür) -->
+        <div id="adminOnayKutusu" class="hidden bg-white rounded-xl shadow-md border-t-4 border-amber-500 overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-4 text-white flex justify-between items-center">
+                <h2 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> 👑 Onay Bekleyen Danışman Başvuruları</h2>
+                <span id="sayacRozet" class="bg-white text-orange-600 font-bold px-2.5 py-0.5 rounded-full text-xs">0 Bekleyen</span>
             </div>
-            
-            <div class="p-6">
+            <div class="p-4">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 text-sm">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Danışman Adı</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telefon Numarası</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-Posta</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
-                                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
+                                <th class="px-4 py-2 text-left font-semibold text-gray-600">Ad Soyad</th>
+                                <th class="px-4 py-2 text-left font-semibold text-gray-600">Telefon</th>
+                                <th class="px-4 py-2 text-left font-semibold text-gray-600">E-Posta</th>
+                                <th class="px-4 py-2 text-center font-semibold text-gray-600">İşlemler</th>
                             </tr>
                         </thead>
-                        <tbody id="onayBekleyenListesi" class="bg-white divide-y divide-gray-200">
-                            <!-- JS ile onay bekleyenler buraya dolacak -->
+                        <tbody id="onayListesiGövde" class="divide-y divide-gray-100">
+                            <!-- JS dinamik besleyecek -->
                         </tbody>
                     </table>
                 </div>
-                <!-- Liste boşsa çıkacak uyarı -->
-                <div id="bosListeUyarisi" class="hidden text-center py-8 text-gray-500">
-                    <i class="fa-solid fa-circle-check text-4xl text-green-500 mb-2"></i>
-                    <p class="text-lg font-medium">Onay bekleyen danışman başvurusu yok!</p>
+                <div id="onayBosUyarisi" class="hidden text-center py-6 text-gray-400 text-sm">
+                    <i class="fa-solid fa-circle-check text-2xl text-green-500 mb-1"></i> Onay bekleyen hiçbir başvuru yok, her şey temiz!
                 </div>
             </div>
         </div>
 
-        <!-- DANIŞMANIN KENDİ İLAN EKLEME ALANI (Normal Panel İçeriği) -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2"><i class="fa-solid fa-plus mr-2"></i>Yeni İlan Ekle</h2>
-            <!-- İlan Ekleme Form Elemanları Buraya Gelecek -->
-            <p class="text-gray-600 text-sm">Buradan ilanlarınızı ve fotoğraflarınızı yönetebilirsiniz.</p>
+        <!-- 🏠 YENİ İLAN EKLEME FORMU (Aktif olan herkes kullanabilir) -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2"><i class="fa-solid fa-plus-circle text-blue-900"></i> Yeni Portföy / İlan Ekle</h2>
+            <form id="ilanFormu" onsubmit="kaydetIlan(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">İlan Başlığı</label>
+                    <input type="text" id="ilanBaslik" required placeholder="Örn: Tarsus Satılık 3+1 Daire" class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Fiyat (TL)</label>
+                    <input type="number" id="ilanFiyat" required placeholder="Fiyat girin" class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-900">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">İlan Tipi</label>
+                    <select id="ilanTipi" class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-900">
+                        <option value="Satılık">Satılık</option>
+                        <option value="Kiralık">Kiralık</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">İlan Açıklaması</label>
+                    <textarea id="ilanAciklama" rows="3" required placeholder="Gayrimenkul detaylarını buraya yazın..." class="w-full p-2 border rounded text-sm focus:ring-2 focus:ring-blue-900"></textarea>
+                </div>
+                <div class="md:col-span-3 flex justify-end">
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-2 rounded text-sm transition shadow">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1"></i> İlanı Yayınla
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 📊 MEVCUT İLANLAR LİSTESİ -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2"><i class="fa-solid fa-list text-blue-900"></i> Sistemdeki Aktif İlanlar</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left font-semibold text-gray-600">Başlık</th>
+                            <th class="px-4 py-2 text-left font-semibold text-gray-600">Tip</th>
+                            <th class="px-4 py-2 text-left font-semibold text-gray-600">Fiyat</th>
+                            <th class="px-4 py-2 text-left font-semibold text-gray-600">Ekleyen Danışman</th>
+                            <th class="px-4 py-2 text-center font-semibold text-gray-600">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ilanlarTabloGövde" class="divide-y divide-gray-100">
+                        <!-- JS dinamik besleyecek -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="ilanlarBosUyarisi" class="hidden text-center py-6 text-gray-400 text-sm">
+                Henüz eklenmiş ilan bulunmuyor.
+            </div>
         </div>
 
     </div>
 
-    <!-- SİSTEM JAVASCRIPT KODLARI -->
     <script>
-        // Sayfa açıldığında giriş yapanı ve listeyi kontrol et
+        let guncelKullanici = null;
+
         document.addEventListener("DOMContentLoaded", function() {
-            const aktifKullanici = JSON.parse(localStorage.getItem("aktifKullanici"));
+            guncelKullanici = JSON.parse(localStorage.getItem("aktifKullanici"));
             
-            if (!aktifKullanici) {
-                alert("Önce giriş yapmalısın kanka!");
+            if (!guncelKullanici) {
+                alert("Oturum süresi dolmuş veya giriş yapılmamış! Giriş ekranına yönlendiriliyorsunuz.");
                 window.location.href = "login.html";
                 return;
             }
 
-            // Üst barda kimin giriş yaptığını göster
-            document.getElementById("adminGirisBilgisi").innerHTML = `<i class="fa-solid fa-user mr-1"></i> ${aktifKullanici.adSoyad} (${aktifKullanici.rol})`;
+            // Arayüz karşılama metni
+            document.getElementById("kullaniciRozet").innerHTML = `<i class="fa-solid fa-user-tie mr-1"></i> ${guncelKullanici.adSoyad} [${guncelKullanici.rol}]`;
 
-            // Eğer tamerC (Admin) girdiyse gizli onay panelini aç ve listeyi yükle
-            if (aktifKullanici.kullaniciAdi === "tamerC") {
-                document.getElementById("adminOnayBolumu").classList.remove("hidden");
-                onayListesiniYenile();
+            // Admin kontrolü
+            if (guncelKullanici.kullaniciAdi === "tamerC") {
+                document.getElementById("adminOnayKutusu").classList.remove("hidden");
+                onayListesiniGetir();
             }
+
+            ilanlariListele();
         });
 
-        // Onay bekleyen danışmanları listeleyen fonksiyon
-        function onayListesiniYenile() {
+        // ONAY LİSTESİ YÖNETİMİ
+        function onayListesiniGetir() {
             const kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
-            const tbody = document.getElementById("onayBekleyenListesi");
-            const bosUyari = document.getElementById("bosListeUyarisi");
+            const bekleyenler = kullanicilar.filter(u => u.rol === "Danışman" && u.durum === "Bekliyor");
             
-            // Sadece rolü 'Danışman' olan ve durumu 'Bekliyor' olanları filtrele
-            const bekleyenler = kullanicilar.filter(user => user.rol === "Danışman" && user.durum === "Bekliyor");
-            
-            // Sayaç güncelle
-            document.getElementById("onayBekleyenSayisi").textContent = `${bekleyenler.length} Bekleyen`;
+            document.getElementById("sayacRozet").textContent = `${bekleyenler.length} Bekleyen`;
+            const tbody = document.getElementById("onayListesiGövde");
+            const uyari = document.getElementById("onayBosUyarisi");
             
             tbody.innerHTML = "";
-
+            
             if (bekleyenler.length === 0) {
-                bosUyari.classList.remove("hidden");
+                uyari.classList.remove("hidden");
                 return;
-            } else {
-                bosUyari.classList.add("hidden");
             }
+            uyari.classList.add("hidden");
 
-            bekleyenler.forEach(user => {
+            bekleyenler.forEach(u => {
                 const tr = document.createElement("tr");
-                tr.className = "hover:bg-gray-50 transition";
                 tr.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-950">${user.adSoyad}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-600">${user.telefon || 'Belirtilmedi'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-gray-600">${user.eposta || 'Belirtilmedi'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 border border-amber-200 animate-pulse">
-                            Onay Bekliyor
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex justify-center gap-2">
-                        <button onclick="danismanOnayla('${user.kullaniciAdi}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded flex items-center gap-1 shadow transition">
-                            <i class="fa-solid fa-check"></i> Onayla
-                        </button>
-                        <button onclick="danismanReddet('${user.kullaniciAdi}')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded flex items-center gap-1 shadow transition">
-                            <i class="fa-solid fa-trash"></i> Sil
-                        </button>
+                    <td class="px-4 py-3 font-semibold text-gray-900">${u.adSoyad}</td>
+                    <td class="px-4 py-3 text-gray-600">${u.telefon}</td>
+                    <td class="px-4 py-3 text-gray-600">${u.eposta}</td>
+                    <td class="px-4 py-3 text-center space-x-2">
+                        <button onclick="danismanDurumDegis('${u.kullaniciAdi}', 'Aktif')" class="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 rounded text-xs font-bold transition">Onayla</button>
+                        <button onclick="danismanSil('${u.kullaniciAdi}')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold transition">Sil</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // Danışmanı aktif etme fonksiyonu
-        function danismanOnayla(kullaniciAdi) {
+        function danismanDurumDegis(kAdi, yeniDurum) {
             let kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
-            
-            kullanicilar = kullanicilar.map(user => {
-                if (user.kullaniciAdi === kullaniciAdi) {
-                    user.durum = "Aktif";
-                }
-                return user;
+            kullanicilar = kullanicilar.map(u => {
+                if (u.kullaniciAdi === kAdi) u.durum = yeniDurum;
+                return u;
             });
-
             localStorage.setItem("kullanicilar", JSON.stringify(kullanicilar));
-            alert("Danışman başarıyla onaylandı! Artık sisteme girip ilan ekleyebilir.");
-            onayListesiniYenile(); // Listeyi anlık güncelle
+            onayListesiniGetir();
         }
 
-        // Başvuruyu reddedip silme fonksiyonu
-        function danismanReddet(kullaniciAdi) {
-            if (confirm("Bu danışman başvurusunu tamamen silmek istediğine emin misin?")) {
-                let kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
-                kullanicilar = kullanicilar.filter(user => user.kullaniciAdi !== kullaniciAdi);
-                
-                localStorage.setItem("kullanicilar", JSON.stringify(kullanicilar));
-                alert("Başvuru silindi.");
-                onayListesiniYenile(); // Listeyi anlık güncelle
+        function danismanSil(kAdi) {
+            let kullanicilar = JSON.parse(localStorage.getItem("kullanicilar")) || [];
+            kullanicilar = kullanicilar.filter(u => u.kullaniciAdi !== kAdi);
+            localStorage.setItem("kullanicilar", JSON.stringify(kullanicilar));
+            onayListesiniGetir();
+        }
+
+        // İLAN YÖNETİMİ
+        function kaydetIlan(e) {
+            e.preventDefault();
+            let ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            
+            const yeniIlan = {
+                id: Date.now(),
+                baslik: document.getElementById("ilanBaslik").value.trim(),
+                fiyat: document.getElementById("ilanFiyat").value,
+                tip: document.getElementById("ilanTipi").value,
+                aciklama: document.getElementById("ilanAciklama").value.trim(),
+                ekleyen: guncelKullanici.adSoyad
+            };
+            
+            ilanlar.push(yeniIlan);
+            localStorage.setItem("ilanlar", JSON.stringify(ilanlar));
+            
+            document.getElementById("ilanFormu").reset();
+            ilanlariListele();
+            alert("İlan başarıyla sisteme eklendi ve alt listeye eklendi!");
+        }
+
+        function ilanlariListele() {
+            const ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            const tbody = document.getElementById("ilanlarTabloGövde");
+            const uyari = document.getElementById("ilanlarBosUyarisi");
+            
+            tbody.innerHTML = "";
+            
+            if (ilanlar.length === 0) {
+                uyari.classList.remove("hidden");
+                return;
             }
+            uyari.classList.add("hidden");
+
+            ilanlar.forEach(ilan => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-medium text-gray-900">${ilan.baslik}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded text-xs font-bold ${ilan.tip === 'Satılık' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">${ilan.tip}</span></td>
+                    <td class="px-4 py-3 font-bold text-green-700">${Number(ilan.fiyat).toLocaleString('tr-TR')} TL</td>
+                    <td class="px-4 py-3 text-gray-500 text-xs">${ilan.ekleyen}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="ilanSil(${ilan.id})" class="text-red-600 hover:text-red-900 text-xs font-bold"><i class="fa-solid fa-trash"></i> Sil</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
-        // Çıkış yapma fonksiyonu
-        function cikisYap() {
+        function ilanSil(id) {
+            let ilanlar = JSON.parse(localStorage.getItem("ilanlar")) || [];
+            ilanlar = ilanlar.filter(i => i.id !== id);
+            localStorage.setItem("ilanlar", JSON.stringify(ilanlar));
+            ilanlariListele();
+        }
+
+        // OTURUM KAPATMA
+        function oturumKapat() {
             localStorage.removeItem("aktifKullanici");
             window.location.href = "login.html";
         }
