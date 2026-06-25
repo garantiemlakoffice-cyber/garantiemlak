@@ -3,106 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garanti Emlak - Giriş Sistemi</title>
-    <link href="https://fonts.googleapis.com/css2 family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #f0f4f1; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: #2d3748; }
-        .hidden { display: none !important; }
-        .auth-container { background: #ffffff; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px 30px; }
-        .logo-area { text-align: center; margin-bottom: 30px; }
-        .logo-area i { font-size: 50px; color: #11998e; margin-bottom: 10px; }
-        .logo-area h1 { font-size: 24px; color: #2d3748; font-weight: 700; }
-        .logo-area span { color: #11998e; }
-        .form-group { margin-bottom: 15px; position: relative; }
-        .form-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #11998e; }
-        .form-control { width: 100%; padding: 12px 15px 12px 45px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; outline: none; transition: 0.3s; background: #f8fafc; }
-        .form-control:focus { border-color: #11998e; background: #fff; }
-        .btn-submit { width: 100%; padding: 12px; background: #11998e; border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { background: #0f857b; }
-        .switch-text { text-align: center; margin-top: 20px; font-size: 14px; }
-        .switch-text a { color: #11998e; text-decoration: none; font-weight: 600; }
-    </style>
+    <title>Giriş Yap / Üye Ol - Garanti Emlak</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
+<body class="bg-gray-100 flex flex-col min-h-screen">
 
-    <div class="auth-container">
-        <!-- GİRİŞ -->
-        <div id="loginBox">
-            <div class="logo-area">
-                <i class="fa-solid fa-house-chimney"></i>
-                <h1>GARANTİ <span>EMLAK</span></h1>
-                <p style="font-size: 12px; color: #718096;">Yönetim Paneli Girişi</p>
-            </div>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <input type="email" id="loginEmail" class="form-control" placeholder="E-posta Adresiniz" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" class="form-control" placeholder="Şifreniz" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <button type="submit" class="btn-submit">Sisteme Giriş Yap</button>
-            </form>
-            <div class="switch-text">Hesabınız yok mu? <a href="#" onclick="toggleAuth(true)">Kayıt Olun</a></div>
-        </div>
+    <nav class="bg-[#486484] text-white p-4 shadow-md">
+        <div class="max-w-7xl mx-auto"><a href="index.html" class="text-2xl font-bold tracking-wider text-[#ffe800]">GARANTİ EMLAK</a></div>
+    </nav>
 
-        <!-- KAYIT -->
-        <div id="registerBox" class="hidden">
-            <div class="logo-area">
-                <i class="fa-solid fa-user-plus"></i>
-                <h1>Kayıt <span>Ol</span></h1>
+    <div class="flex-1 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200">
+            <!-- Tab Seçimi -->
+            <div class="flex border-b mb-6 text-center">
+                <button id="tabLogin" onclick="switchTab('login')" class="w-1/2 pb-2 font-bold text-blue-600 border-b-2 border-blue-600 text-sm">Giriş Yap</button>
+                <button id="tabRegister" onclick="switchTab('register')" class="w-1/2 pb-2 font-bold text-gray-400 text-sm">Kayıt Ol / Başvur</button>
             </div>
-            <form onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <input type="text" id="regName" class="form-control" placeholder="Adınız Soyadınız" required>
-                    <i class="fa-solid fa-user"></i>
+
+            <!-- GİRİŞ FORMU -->
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="loginUser" required class="w-full border p-2 rounded text-sm focus:outline-blue-500">
                 </div>
-                <div class="form-group">
-                    <input type="email" id="regEmail" class="form-control" placeholder="E-posta Adresiniz" required>
-                    <i class="fa-solid fa-envelope"></i>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Şifre</label>
+                    <input type="password" id="loginPass" required class="w-full border p-2 rounded text-sm focus:outline-blue-500">
                 </div>
-                <div class="form-group">
-                    <input type="password" id="regPassword" class="form-control" placeholder="Şifre Belirleyin" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <button type="submit" class="btn-submit">Kayıt Ol</button>
+                <button type="submit" class="w-full bg-[#486484] hover:bg-slate-700 text-white p-2.5 rounded font-bold text-sm shadow">Giriş Yap</button>
             </form>
-            <div class="switch-text">Profiliniz var mı? <a href="#" onclick="toggleAuth(false)">Giriş Yapın</a></div>
+
+            <!-- KAYIT FORMU -->
+            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="regUser" required class="w-full border p-2 rounded text-sm focus:outline-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Şifre</label>
+                    <input type="password" id="regPass" required class="w-full border p-2 rounded text-sm focus:outline-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Telefon Numarası</label>
+                    <input type="text" id="regPhone" placeholder="05xx xxx xxxx" required class="w-full border p-2 rounded text-sm focus:outline-blue-500">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Üyelik Tipi</label>
+                    <select id="regRole" class="w-full border p-2 rounded text-sm bg-white focus:outline-blue-500">
+                        <option value="user">Standart Üye (Anında Açılır)</option>
+                        <option value="agent">Gayrimenkul Danışmanı (Admin Onayı Bekler)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white p-2.5 rounded font-bold text-sm shadow">Kayıt Ol / Başvuruyu İlet</button>
+            </form>
         </div>
     </div>
 
     <script>
-        function toggleAuth(show) {
-            document.getElementById('loginBox').className = show ? 'hidden' : '';
-            document.getElementById('registerBox').className = show ? '' : 'hidden';
+        function switchTab(type) {
+            if(type === 'login') {
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('registerForm').classList.add('hidden');
+                document.getElementById('tabLogin').className = "w-1/2 pb-2 font-bold text-blue-600 border-b-2 border-blue-600 text-sm";
+                document.getElementById('tabRegister').className = "w-1/2 pb-2 font-bold text-gray-400 text-sm";
+            } else {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('registerForm').classList.remove('hidden');
+                document.getElementById('tabLogin').className = "w-1/2 pb-2 font-bold text-gray-400 text-sm";
+                document.getElementById('tabRegister').className = "w-1/2 pb-2 font-bold text-blue-600 border-b-2 border-blue-600 text-sm";
+            }
         }
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPassword').value;
-            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
-            if(users[email]) { alert('Bu e-posta kayıtlı!'); return; }
-            users[email] = { name, password };
-            localStorage.setItem('emlakUsers', JSON.stringify(users));
-            alert('Kayıt başarılı, giriş yapabilirsiniz.');
-            toggleAuth(false);
-        }
+
         function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const password = document.getElementById('loginPassword').value;
-            let users = JSON.parse(localStorage.getItem('emlakUsers')) || {};
-            if(users[email] && users[email].password === password) {
-                localStorage.setItem('currentEmlakUser', email);
-                localStorage.setItem('currentEmlakName', users[email].name);
-                window.location.href = 'index.html';
-            } else {
-                alert('Hatalı kullanıcı veya şifre!');
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const matched = users.find(u => u.username === user && u.password === pass);
+
+            if(!matched) {
+                alert('Hatalı kullanıcı adı veya şifre!');
+                return;
             }
+
+            if(!matched.isApproved) {
+                alert('Danışmanlık hesabınız henüz admin (tamerC) tarafından onaylanmamıştır!');
+                return;
+            }
+
+            localStorage.setItem('currentUser', JSON.stringify(matched));
+            alert('Giriş başarılı! Ana sayfaya yönlendiriliyorsunuz.');
+            window.location.href = 'index.html';
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const user = document.getElementById('regUser').value.trim();
+            const pass = document.getElementById('regPass').value;
+            const phone = document.getElementById('regPhone').value.trim();
+            const role = document.getElementById('regRole').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if(users.some(u => u.username === user)) {
+                alert('Bu kullanıcı adı zaten alınmış!');
+                return;
+            }
+
+            const newUser = {
+                username: user,
+                password: pass,
+                phone: phone,
+                role: role,
+                isApproved: role !== 'agent' // Danışmanlar onaysız başlar
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            if(role === 'agent') {
+                alert('Danışmanlık başvurunuz başarıyla alındı! Admin (tamerC) onayından sonra giriş yapabilirsiniz.');
+            } else {
+                alert('Kaydınız tamamlandı! Şimdi giriş yapabilirsiniz.');
+            }
+            switchTab('login');
         }
     </script>
 </body>
