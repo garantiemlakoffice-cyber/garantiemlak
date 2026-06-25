@@ -10,44 +10,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
-            /* Beğeneceğini düşündüğüm modern ve lüks Zümrüt Yeşili tonları */
-            --ana-yesil: #047857; /* Emerald 700 */
-            --canli-yesil: #10b981; /* Emerald 500 */
-            --hafif-yesil: #ecfdf5; /* Emerald 50 */
+            /* Tam istediğin gibi göz alıcı, ultra modern fosforlu yeşil tonları */
+            --fosfor-yesil: #10b981; /* Canlı Fosforlu Yeşil */
+            --koyu-zemin: #0f172a;  /* Gece Mavisi / Siyah */
+            --hafif-yesil: #f0fdf4; /* Arka planlar için çok hafif yeşil parıltı */
         }
-        .rounded-box { border-radius: 24px; }
-        .btn-custom { border-radius: 50px; transition: all 0.3s ease; }
-        .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .rounded-box { border-radius: 20px; }
+        .btn-custom { border-radius: 50px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-custom:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25); }
         
-        /* Özel Uyarı Kutusu */
-        .custom-alert {
-            border-radius: 32px 8px 32px 32px;
-            border-left: 8px solid var(--canli-yesil);
-            background: var(--hafif-yesil);
-        }
-        
-        /* Düzenleme modu çerçevesi */
-        .editable-active [contenteditable="true"] {
-            outline: 2px dashed #e67e22;
-            padding: 2px 6px;
-            border-radius: 6px;
-            background-color: rgba(230, 126, 34, 0.08);
+        /* Yenilenen Premium Uyarı Kutusu */
+        .premium-alert {
+            border-radius: 24px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--hafif-yesil) 100%);
+            border-left: 6px solid var(--fosfor-yesil);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
 <!-- SOL ÜST KÖŞE MİNİK GİRİŞ YAP BUTONU VE PANEL -->
-<div class="bg-gray-900 text-gray-400 px-6 py-1 flex justify-between items-center text-[11px] sticky top-0 z-50 shadow-sm">
+<div class="bg-slate-950 text-slate-400 px-6 py-1 flex justify-between items-center text-[11px] sticky top-0 z-50 shadow-md backdrop-blur-md bg-opacity-95">
     <div>
-        <button id="loginLink" onclick="openLoginModal()" class="hover:text-white transition">Giriş Yap</button>
-        <span id="adminStatus" class="hidden text-emerald-400 font-semibold">● Yönetici: Garanti Emlak</span>
+        <button id="loginLink" onclick="openLoginModal()" class="hover:text-white transition duration-300">Giriş Yap</button>
+        <span id="adminStatus" class="hidden text-emerald-400 font-semibold flex items-center gap-1">
+            <span class="animate-pulse">●</span> Yönetici: Garanti Emlak
+        </span>
     </div>
     <div id="adminControls" class="hidden space-x-3">
-        <button onclick="openIlanModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-0.5 rounded-full transition">
+        <button onclick="openIlanModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-3 py-0.5 rounded-full transition text-xs shadow-md">
             + Yeni İlan Ekle
         </button>
-        <button onclick="toggleEditMode()" id="editBtn" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-bold px-3 py-0.5 rounded-full transition shadow">
+        <button onclick="toggleEditMode()" id="editBtn" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3 py-0.5 rounded-full transition text-xs shadow-md">
             ⚙️ Düzenlemeyi Başlat
         </button>
         <button onclick="adminLogout()" class="hover:text-red-400 transition ml-2">Çıkış</button>
@@ -55,16 +50,16 @@
 </div>
 
 <!-- NAVBAR -->
-<nav class="bg-white shadow-sm px-6 py-4">
+<nav class="bg-white shadow-sm px-6 py-4 border-b border-slate-100">
     <div class="container mx-auto flex justify-between items-center">
-        <a href="#" class="text-2xl font-bold text-[var(--ana-yesil)] tracking-wider animate__animated animate__fadeInLeft">
-            GARANTİ EMLAK
+        <a href="#" class="text-2xl font-black text-slate-900 tracking-tight animate__animated animate__zoomIn">
+            GARANTİ<span class="text-[var(--fosfor-yesil)]">EMLAK</span>
         </a>
-        <div class="hidden md:flex space-x-6 text-sm font-semibold animate__animated animate__fadeInRight items-center">
-            <a href="#ilanlar" class="hover:text-emerald-600 transition">İlanlarımız</a>
-            <a href="#islerimiz" class="hover:text-emerald-600 transition">Neler Yapıyoruz?</a>
-            <a href="#danismanlar" class="hover:text-emerald-600 transition">Danışmanlarımız</a>
-            <a href="tel:+905050327304" class="bg-[var(--ana-yesil)] hover:bg-[var(--canli-yesil)] text-white px-5 py-2.5 btn-custom text-xs transition flex items-center gap-1 shadow-md">
+        <div class="hidden md:flex space-x-8 text-sm font-bold items-center animate__animated animate__fadeIn">
+            <a href="#ilanlar" class="hover:text-[var(--fosfor-yesil)] transition duration-300">İlanlarımız</a>
+            <a href="#islerimiz" class="hover:text-[var(--fosfor-yesil)] transition duration-300">Neler Yapıyoruz?</a>
+            <a href="#danismanlar" class="hover:text-[var(--fosfor-yesil)] transition duration-300">Danışmanlarımız</a>
+            <a href="tel:+905050327304" class="bg-slate-900 hover:bg-[var(--fosfor-yesil)] text-white hover:text-slate-950 px-6 py-3 btn-custom text-xs transition duration-300 flex items-center gap-2 shadow-lg">
                 <span>📞 İletişime Geç: 0505 032 73 04</span>
             </a>
         </div>
@@ -72,40 +67,41 @@
 </nav>
 
 <!-- HERO -->
-<header class="bg-[var(--ana-yesil)] text-white py-20 px-6 text-center animate__animated animate__fadeIn">
-    <h1 id="heroTitle" class="text-4xl md:text-5xl font-extrabold mb-4">Tarsus'ta Güvenli Gelecek</h1>
-    <p id="heroDesc" class="text-lg opacity-90 max-w-2xl mx-auto">Garanti Emlak ile hayalinizdeki eve ve doğru yatırıma en kısa sürede ulaşın.</p>
+<header class="bg-slate-950 text-white py-24 px-6 text-center relative overflow-hidden border-b-4 border-[var(--fosfor-yesil)]">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+    <div class="relative z-10 animate__animated animate__fadeInUp">
+        <h1 id="heroTitle" class="text-4xl md:text-6xl font-black mb-4 tracking-tight">Tarsus'ta Güvenli Gelecek</h1>
+        <p id="heroDesc" class="text-base md:text-lg text-slate-400 max-w-xl mx-auto font-medium">Garanti Emlak ile hayalinizdeki eve ve doğru yatırıma en kısa sürede ulaşın.</p>
+    </div>
 </header>
 
 <!-- ANA İÇERİK -->
 <div class="container mx-auto my-12 px-4">
     
-    <!-- ÖZEL UYARI KUTUSU -->
-    <div class="custom-alert p-6 mb-12 shadow-sm flex items-center space-x-4 animate__animated animate__bounceIn">
-        <div class="p-3 bg-emerald-100 rounded-full text-[var(--ana-yesil)] text-xl">
-            ℹ️
+    <!-- YENİLENEN PREMIUM UYARI KUTUSU -->
+    <div class="premium-alert p-6 mb-12 shadow-sm flex items-start space-x-4 animate__animated animate__zoomIn">
+        <div class="p-3 bg-emerald-100 rounded-2xl text-[var(--fosfor-yesil)] text-2xl shadow-inner">
+            ⚡
         </div>
         <div>
-            <h4 id="alertTitle" class="font-bold text-lg text-[var(--ana-yesil)]">Ziyaretçilerimizin Dikkatine</h4>
-            <p id="alertDesc" class="text-sm text-gray-600">Sitemizdeki tüm ilanlar güncel olup, detaylı inceleme ve konum bilgisi için doğrudan sahibinden.com altyapısına yönlendirilmektedir.</p>
+            <h4 id="alertTitle" class="font-extrabold text-lg text-slate-900 tracking-tight mb-1">Ziyaretçilerimizin Dikkatine</h4>
+            <p id="alertDesc" class="text-sm text-slate-600 leading-relaxed font-medium">Sitemizdeki tüm ilanlar güncel olup, detaylı inceleme ve konum bilgisi için doğrudan sahibinden.com altyapısına yönlendirilmektedir.</p>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
-        <!-- SOL MENÜ: DANIŞMANLARIMIZ -->
-        <aside class="lg:col-span-1 bg-white p-6 shadow-lg rounded-box h-fit border border-gray-100 animate__animated animate__fadeInLeft">
-            <h3 class="text-xl font-bold text-[var(--ana-yesil)] mb-6 pb-2 border-b-2 border-emerald-200" id="danismanlar">
+        <!-- SOL MENÜ: DANIŞMANLARIMIZ (SADECE İSİMLER, RESİMSİZ) -->
+        <aside class="lg:col-span-1 bg-white p-6 shadow-xl rounded-box h-fit border border-slate-100 animate__animated animate__fadeInLeft">
+            <h3 class="text-lg font-black text-slate-900 mb-4 pb-2 border-b-2 border-emerald-500/20 tracking-tight" id="danismanlar">
                 Danışmanlarımız
             </h3>
-            <div class="space-y-6">
-                <div class="flex items-center space-x-4 p-2 hover:bg-gray-50 rounded-xl transition">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150" alt="Tamer Canbaz" class="w-12 h-12 rounded-full object-cover border-2 border-emerald-400">
-                    <div>
-                        <h4 class="font-bold text-sm">Tamer Canbaz</h4>
-                        <p class="text-xs text-gray-500">Broker / Firma Sahibi</p>
-                    </div>
+            <div class="space-y-2">
+                <div class="p-3 bg-slate-50 hover:bg-[var(--hafif-yesil)] rounded-xl transition duration-300 border-l-4 border-emerald-500">
+                    <h4 class="font-bold text-sm text-slate-800">Tamer Canbaz</h4>
+                    <p class="text-[11px] text-emerald-600 font-semibold uppercase tracking-wider mt-0.5">Broker / Firma Sahibi</p>
                 </div>
+                <!-- İhtiyaç halinde altına yeni danışman isimleri aynı formatta eklenebilir -->
             </div>
         </aside>
 
@@ -114,32 +110,36 @@
             
             <!-- İLANLAR -->
             <section id="ilanlar" class="animate__animated animate__fadeInUp">
-                <h2 class="text-2xl font-bold text-[var(--ana-yesil)] mb-6">Güncel İlanlarımız</h2>
+                <h2 class="text-2xl font-black text-slate-900 mb-6 tracking-tight flex items-center gap-2">
+                    <span class="w-2 h-6 bg-[var(--fosfor-yesil)] rounded-full"></span> Güncel İlanlarımız
+                </h2>
                 
                 <!-- İLAN KARTLARININ LİSTELENECEĞİ ALAN -->
                 <div id="ilanlarContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- İlanlar Javascript ile buraya otomatik dolacak (Sayfa yenilense de gitmeyecek) -->
+                    <!-- İlanlar Javascript ile buraya yüklenecek -->
                 </div>
             </section>
 
             <!-- YAPTIĞIMIZ İŞLER -->
-            <section id="islerimiz" class="bg-white p-8 rounded-box shadow-md border border-gray-100">
-                <h2 class="text-2xl font-bold text-[var(--ana-yesil)] mb-6">Neler Yapıyoruz?</h2>
+            <section id="islerimiz" class="bg-white p-8 rounded-box shadow-xl border border-slate-100 animate__animated animate__fadeInUp">
+                <h2 class="text-2xl font-black text-slate-900 mb-6 tracking-tight flex items-center gap-2">
+                    <span class="w-2 h-6 bg-[var(--fosfor-yesil)] rounded-full"></span> Neler Yapıyoruz?
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="p-4 bg-gray-50 rounded-2xl text-center">
-                        <div class="text-3xl mb-2">🏢</div>
-                        <h4 class="font-bold mb-1">Gayrimenkul Danışmanlığı</h4>
-                        <p class="text-xs text-gray-500">Tarsus genelinde profesyonel ekspertiz ve değerinde şeffaf pazarlama süreci.</p>
+                    <div class="p-5 bg-slate-50 rounded-2xl transition duration-300 hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100">
+                        <div class="text-3xl mb-3">🏢</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Gayrimenkul Danışmanlığı</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">Tarsus genelinde profesyonel ekspertiz ve değerinde şeffaf pazarlama süreci.</p>
                     </div>
-                    <div class="p-4 bg-gray-50 rounded-2xl text-center">
-                        <div class="text-3xl mb-2">📸</div>
-                        <h4 class="font-bold mb-1">Profesyonel Fotoğrafçılık</h4>
-                        <p class="text-xs text-gray-500">Mülklerinizi geniş açılı lensler ve dronelar ile en doğru şekilde fotoğraflıyoruz.</p>
+                    <div class="p-5 bg-slate-50 rounded-2xl transition duration-300 hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100">
+                        <div class="text-3xl mb-3">📸</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Profesyonel Fotoğrafçılık</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">Mülklerinizi geniş açılı lensler ve dronelar ile en doğru şekilde fotoğraflıyoruz.</p>
                     </div>
-                    <div class="p-4 bg-gray-50 rounded-2xl text-center">
-                        <div class="text-3xl mb-2">🤝</div>
-                        <h4 class="font-bold mb-1">Hızlı Satış Altyapısı</h4>
-                        <p class="text-xs text-gray-500">Gelişmiş portföy ağımız sayesinde alıcı ve satıcıyı en kısa sürede buluşturuyoruz.</p>
+                    <div class="p-5 bg-slate-50 rounded-2xl transition duration-300 hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100">
+                        <div class="text-3xl mb-3">🤝</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Hızlı Satış Altyapısı</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">Gelişmiş portföy ağımız sayesinde alıcı ve satıcıyı en kısa sürede buluşturuyoruz.</p>
                     </div>
                 </div>
             </section>
@@ -149,60 +149,60 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="bg-gray-900 text-gray-300 mt-20 py-12 px-6 border-t-4 border-[var(--ana-yesil)]">
+<footer class="bg-slate-950 text-slate-400 mt-20 py-12 px-6 border-t-4 border-[var(--fosfor-yesil)]">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
         <div>
-            <h3 class="text-white text-lg font-bold mb-4">GARANTİ EMLAK</h3>
-            <p class="opacity-70">Mersin Tarsus bölgesinde kurumsal, ilkeli ve şeffaf gayrimenkul çözümleri.</p>
+            <h3 class="text-white text-lg font-black mb-4 tracking-tight">GARANTİ EMLAK</h3>
+            <p class="opacity-70 leading-relaxed">Mersin Tarsus bölgesinde kurumsal, ilkeli ve şeffaf gayrimenkul çözümleri.</p>
         </div>
         <div>
-            <h3 class="text-white text-lg font-bold mb-4">İletişim Bilgileri</h3>
-            <ul class="space-y-2 opacity-80">
+            <h3 class="text-white text-lg font-bold mb-4 tracking-tight">İletişim Bilgileri</h3>
+            <ul class="space-y-2 opacity-80 font-medium">
                 <li>📍 MERSİN / TARSUS</li>
-                <li>📞 <a href="tel:+905050327304" class="hover:text-white transition">0505 032 73 04</a></li>
-                <li>✉️ <a href="mailto:garantiemlakoffice@gmail.com" class="hover:text-white transition">garantiemlakoffice@gmail.com</a></li>
+                <li>📞 <a href="tel:+905050327304" class="hover:text-[var(--fosfor-yesil)] transition">0505 032 73 04</a></li>
+                <li>✉️ <a href="mailto:garantiemlakoffice@gmail.com" class="hover:text-[var(--fosfor-yesil)] transition">garantiemlakoffice@gmail.com</a></li>
             </ul>
         </div>
         <div class="text-left md:text-right flex flex-col justify-end">
-            <p class="text-xs opacity-70 mt-6 md:mt-0">
+            <p class="text-xs opacity-60 mt-6 md:mt-0">
                 &copy; 2026 GARANTİ EMLAK.<br>
-                <span class="text-[var(--canli-yesil)] font-semibold">Tüm hakları TAMERCANBAZ tarafından alınmıştır.</span>
+                <span class="text-[var(--fosfor-yesil)] font-bold">Tüm hakları TAMERCANBAZ tarafından alınmıştır.</span>
             </p>
         </div>
     </div>
 </footer>
 
 <!-- 1. MODAL: YÖNETİCİ GİRİŞ PENCERESİ -->
-<div id="loginModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white p-6 rounded-3xl max-w-sm w-full shadow-2xl">
-        <h3 class="text-lg font-bold text-[var(--ana-yesil)] mb-4">Yönetici Girişi</h3>
+<div id="loginModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white p-6 rounded-3xl max-w-sm w-full shadow-2xl animate__animated animate__zoomIn animate__faster">
+        <h3 class="text-lg font-black text-slate-900 mb-4 tracking-tight">Yönetici Girişi</h3>
         <div class="space-y-3">
-            <input type="text" id="usernameInput" placeholder="Kullanıcı Adı" class="w-full px-4 py-2 border rounded-xl text-sm outline-none focus:border-emerald-600">
-            <input type="password" id="passwordInput" placeholder="Şifre" class="w-full px-4 py-2 border rounded-xl text-sm outline-none focus:border-emerald-600">
+            <input type="text" id="usernameInput" placeholder="Kullanıcı Adı" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
+            <input type="password" id="passwordInput" placeholder="Şifre" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
             <div class="flex space-x-2 pt-2">
-                <button onclick="closeLoginModal()" class="w-1/2 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold">İptal</button>
-                <button onclick="checkAdminLogin()" class="w-1/2 bg-[var(--ana-yesil)] text-white py-2 rounded-xl text-sm font-semibold">Giriş Yap</button>
+                <button onclick="closeLoginModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-sm font-bold transition">İptal</button>
+                <button onclick="checkAdminLogin()" class="w-1/2 bg-slate-950 hover:bg-[var(--fosfor-yesil)] text-white hover:text-slate-950 py-2.5 rounded-xl text-sm font-bold transition shadow-md">Giriş Yap</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- 2. MODAL: TELEFONDAN FOTOĞRAF YÜKLEMELİ İLAN EKLEME PENCERESİ -->
-<div id="ilanModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white p-6 rounded-3xl max-w-md w-full shadow-2xl my-8">
-        <h3 class="text-lg font-bold text-[var(--ana-yesil)] mb-4">Yeni İlan Ekle</h3>
+<div id="ilanModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white p-6 rounded-3xl max-w-md w-full shadow-2xl my-8 animate__animated animate__zoomIn animate__faster">
+        <h3 class="text-lg font-black text-slate-900 mb-4 tracking-tight">Yeni İlan Ekle</h3>
         <div class="space-y-3">
-            <div>
-                <label class="text-xs text-gray-500 block mb-1">Telefon Fotoğrafı Seç (Otomatik Boyutlandırılır):</label>
-                <input type="file" id="ilanPhoto" accept="image/*" class="w-full text-sm">
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 border-dashed">
+                <label class="text-xs font-bold text-slate-500 block mb-1">Telefon Fotoğrafı Seç:</label>
+                <input type="file" id="ilanPhoto" accept="image/*" class="w-full text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
             </div>
-            <input type="text" id="ilanTitle" placeholder="İlan Başlığı (Örn: Tarsus Satılık 3+1)" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
-            <input type="text" id="ilanDesc" placeholder="İlan Açıklaması Kısa" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
-            <input type="text" id="ilanPrice" placeholder="Fiyat (Örn: 2.750.000 TL)" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
-            <input type="text" id="ilanLink" placeholder="Sahibinden.com İlan Linki" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
+            <input type="text" id="ilanTitle" placeholder="İlan Başlığı (Örn: Tarsus Satılık 3+1)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
+            <input type="text" id="ilanDesc" placeholder="İlan Açıklaması Kısa" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
+            <input type="text" id="ilanPrice" placeholder="Fiyat (Örn: 2.750.000 TL)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
+            <input type="text" id="ilanLink" placeholder="Sahibinden.com İlan Linki" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition">
             <div class="flex space-x-2 pt-2">
-                <button onclick="closeIlanModal()" class="w-1/2 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold">Kapat</button>
-                <button onclick="processAndAddIlan()" class="w-1/2 bg-emerald-600 text-white py-2 rounded-xl text-sm font-semibold">İlanı Yayınla</button>
+                <button onclick="closeIlanModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-xl text-sm font-bold transition">Kapat</button>
+                <button onclick="processAndAddIlan()" class="w-1/2 bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-xl text-sm font-bold transition shadow-md">İlanı Yayınla</button>
             </div>
         </div>
     </div>
@@ -212,7 +212,7 @@
 <script>
     let isEditMode = false;
     let isAdminLoggedIn = false;
-    // Varsayılan örnek ilanlar (Eğer hafıza boşsa ilk başta bunlar görünür)
+    
     const defaultIlanlar = [
         {
             id: 1,
@@ -224,12 +224,10 @@
         }
     ];
 
-    // Sayfa yüklenince ilanları hafızadan getir
     window.onload = function() {
         renderIlanlar();
     };
 
-    // HAFIZADAKİ İLANLARI EKRANA ÇİZEN FONKSİYON
     function renderIlanlar() {
         let ilanlar = JSON.parse(localStorage.getItem('garantiIlanlar'));
         if (!ilanlar) {
@@ -238,29 +236,29 @@
         }
 
         const container = document.getElementById('ilanlarContainer');
-        container.innerHTML = ""; // İçini temizle
+        container.innerHTML = ""; 
 
         ilanlar.forEach(ilan => {
             const deleteBtn = isAdminLoggedIn ? 
-                `<button onclick="deleteIlan(${ilan.id})" class="mt-2 w-full text-center bg-red-100 hover:bg-red-200 text-red-700 py-1.5 rounded-xl font-bold text-xs transition">
+                `<button onclick="deleteIlan(${ilan.id})" class="mt-2 w-full text-center bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-xl font-bold text-xs transition border border-red-100 shadow-sm">
                     🗑️ Bu İlanı Sistemden Sil
                  </button>` : '';
 
             const card = `
-                <div class="bg-white rounded-box shadow-md overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-gray-100 group">
+                <div class="bg-white rounded-box shadow-lg overflow-hidden hover:shadow-2xl transition duration-300 flex flex-col justify-between border border-slate-100 group animate__animated animate__fadeInUp">
                     <div>
                         <div class="relative overflow-hidden">
-                            <img src="${ilan.image}" alt="İlan" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
-                            <span class="absolute top-3 right-3 bg-emerald-600 text-white text-xs px-3 py-1 rounded-full font-bold">Satılık</span>
+                            <img src="${ilan.image}" alt="İlan" class="w-full h-52 object-cover group-hover:scale-105 transition duration-700 ease-out">
+                            <span class="absolute top-3 right-3 bg-slate-900 text-white text-[11px] px-3 py-1 rounded-full font-bold uppercase tracking-wider border border-emerald-500/30">Satılık</span>
                         </div>
                         <div class="p-5">
-                            <h3 class="font-bold text-lg text-gray-900 mb-2">${ilan.title}</h3>
-                            <p class="text-sm text-gray-600 mb-4">${ilan.desc}</p>
-                            <span class="text-xl font-extrabold text-[var(--ana-yesil)]">${ilan.price}</span>
+                            <h3 class="font-extrabold text-lg text-slate-900 mb-1 tracking-tight">${ilan.title}</h3>
+                            <p class="text-xs text-slate-500 mb-4 leading-relaxed font-medium">${ilan.desc}</p>
+                            <span class="text-xl font-black text-emerald-600 tracking-tight">${ilan.price}</span>
                         </div>
                     </div>
                     <div class="p-5 pt-0 space-y-1">
-                        <a href="${ilan.link}" target="_blank" class="block text-center bg-[var(--ana-yesil)] text-white py-3 rounded-xl font-semibold btn-custom text-sm">
+                        <a href="${ilan.link}" target="_blank" class="block text-center bg-slate-900 hover:bg-[var(--fosfor-yesil)] text-white hover:text-slate-950 py-3 rounded-xl font-bold btn-custom text-xs shadow-sm">
                             Sahibinden.com'da İncele ↗
                         </a>
                         ${deleteBtn}
@@ -271,7 +269,6 @@
         });
     }
 
-    // GİRİŞ PENCERESİ KONTROLLERİ
     function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
     function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
 
@@ -285,7 +282,7 @@
             document.getElementById('adminStatus').classList.remove('hidden');
             document.getElementById('adminControls').classList.remove('hidden');
             closeLoginModal();
-            renderIlanlar(); // Silme butonlarının gelmesi için ilanları yeniden çiz
+            renderIlanlar(); 
             alert("Başarıyla giriş yapıldı. Kalıcı yönetim paneli aktif.");
         } else {
             alert("Hatalı kullanıcı adı veya şifre!");
@@ -297,14 +294,13 @@
         document.getElementById('loginLink').classList.remove('hidden');
         document.getElementById('adminStatus').classList.add('hidden');
         document.getElementById('adminControls').classList.add('hidden');
-        renderIlanlar(); // Silme butonlarını gizlemek için yeniden çiz
-        alert("Güvenli çıkış yapıldı. İlanlarınız hafızada saklanmaya devam ediyor.");
+        renderIlanlar(); 
+        alert("Güvenli çıkış yapıldı.");
     }
 
     function openIlanModal() { document.getElementById('ilanModal').classList.remove('hidden'); }
     function closeIlanModal() { document.getElementById('ilanModal').classList.add('hidden'); }
 
-    // TELEFON FOTOĞRAFINI ARKA PLANDA SIKIŞTIRAN VE LOCALSTORAGE'A KAYDEDEN MOTOR
     function processAndAddIlan() {
         const fileInput = document.getElementById('ilanPhoto');
         const title = document.getElementById('ilanTitle').value;
@@ -322,7 +318,7 @@
             reader.onload = function (e) {
                 const img = new Image();
                 img.onload = function () {
-                    const maxWidth = 700; // Hafızada çok yer kaplamasın diye genişliği 700px yapıyoruz
+                    const maxWidth = 700; 
                     const scale = maxWidth / img.width;
                     const canvas = document.createElement('canvas');
                     
@@ -332,7 +328,6 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-                    // Kaliteyi %65 yapıyoruz ki LocalStorage sınırını aşmadan onlarca fotoğraf saklayabil
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.65);
                     saveIlanToStorage(title, desc, price, link, compressedBase64);
                 };
@@ -340,18 +335,16 @@
             };
             reader.readAsDataURL(fileInput.files[0]);
         } else {
-            // Fotoğraf seçilmediyse varsayılan ev görselini kullan
             const defaultImg = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600";
             saveIlanToStorage(title, desc, price, link, defaultImg);
         }
     }
 
-    // İLANI LOCALSTORAGE'A YAZAN FONKSİYON
     function saveIlanToStorage(title, desc, price, link, imgData) {
         let ilanlar = JSON.parse(localStorage.getItem('garantiIlanlar')) || [];
         
         const yeniIlan = {
-            id: Date.now(), // Benzersiz ID
+            id: Date.now(), 
             title: title,
             desc: desc,
             price: price,
@@ -359,33 +352,30 @@
             image: imgData
         };
 
-        ilanlar.unshift(yeniIlan); // Yeni ilanı listenin en başına ekle
-        localStorage.setItem('garantiIlanlar', JSON.stringify(ilanlar)); // Hafızaya kaydet
+        ilanlar.unshift(yeniIlan); 
+        localStorage.setItem('garantiIlanlar', JSON.stringify(ilanlar)); 
         
-        renderIlanlar(); // Ekranı güncelle
+        renderIlanlar(); 
         closeIlanModal();
 
-        // Formu temizle
         document.getElementById('ilanTitle').value = "";
         document.getElementById('ilanDesc').value = "";
         document.getElementById('ilanPrice').value = "";
         document.getElementById('ilanLink').value = "";
         document.getElementById('ilanPhoto').value = "";
 
-        alert("Harika! İlan kalıcı olarak sisteme kaydedildi. Sayfayı kapatsanız da silinmez.");
+        alert("İlan kalıcı olarak sisteme eklendi.");
     }
 
-    // İLAN SİLME FONKSİYONU
     function deleteIlan(id) {
         if(confirm("Bu ilanı tamamen silmek istediğinize emin misiniz?")) {
             let ilanlar = JSON.parse(localStorage.getItem('garantiIlanlar')) || [];
-            ilanlar = ilanlar.filter(ilan => ilan.id !== id); // İlgili ilanı listeden çıkar
-            localStorage.setItem('garantiIlanlar', JSON.stringify(ilanlar)); // Yeni listeyi kaydet
-            renderIlanlar(); // Ekranı güncelle
+            ilanlar = ilanlar.filter(ilan => ilan.id !== id); 
+            localStorage.setItem('garantiIlanlar', JSON.stringify(ilanlar)); 
+            renderIlanlar(); 
         }
     }
 
-    // METİN DÜZENLEME MODU (GENEL SAYFA METİNLERİ İÇİN)
     function toggleEditMode() {
         isEditMode = !isEditMode;
         const btn = document.getElementById('editBtn');
@@ -394,13 +384,13 @@
         if(isEditMode) {
             document.body.classList.add('editable-active');
             btn.innerHTML = "💾 Düzenlemeyi Bitir";
-            btn.classList.replace('bg-yellow-500', 'bg-green-500');
+            btn.classList.replace('bg-amber-500', 'bg-emerald-500');
             btn.classList.add('text-white');
             editables.forEach(el => el.setAttribute('contenteditable', 'true'));
         } else {
             document.body.classList.remove('editable-active');
             btn.innerHTML = "⚙️ Düzenlemeyi Başlat";
-            btn.classList.replace('bg-green-500', 'bg-yellow-500');
+            btn.classList.replace('bg-emerald-500', 'bg-amber-500');
             btn.classList.remove('text-white');
             editables.forEach(el => el.setAttribute('contenteditable', 'false'));
             alert("Metinler kilitlendi.");
