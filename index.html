@@ -4,28 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GARANTİ EMLAK - Tarsus Emlak ve Gayrimenkul</title>
-    <!-- Tailwind CSS (Modern Görsel Altyapı ve Yuvarlatılmış Kutular İçin) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Animate.css (Akıcı Giriş Animasyonları) -->
+    <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
             --ana-yesil: #1b4d3e;
             --acik-yesil: #2ee59d;
         }
-        /* Köşeli kutular yerine istediğin yuvarlatılmış tasarım */
         .rounded-box { border-radius: 24px; }
         .btn-custom { border-radius: 50px; transition: all 0.3s ease; }
         .btn-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
         
-        /* İstediğin Farklı Tasarıma Sahip Özel Uyarı Kutusu */
+        /* Özel Uyarı Kutusu */
         .custom-alert {
             border-radius: 32px 8px 32px 32px;
             border-left: 8px solid var(--acik-yesil);
             background: #f4fbf7;
         }
         
-        /* Düzenleme modu aktifken beliren görsel çerçeve */
+        /* Düzenleme modu çerçevesi */
         .editable-active [contenteditable="true"] {
             outline: 2px dashed #e67e22;
             padding: 2px 6px;
@@ -36,18 +35,24 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
 
-<!-- ADMİN YÖNETİM SİMÜLASYON BARI -->
-<div class="bg-gray-900 text-white px-6 py-2 flex justify-between items-center text-xs sticky top-0 z-50 shadow-md">
-    <div class="flex items-center space-x-2">
-        <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-        <span>Yönetici Paneli Aktif (Düzenleme Modu)</span>
+<!-- SOL ÜST KÖŞE MİNİK GİRİŞ YAP BUTONU VE PANEL -->
+<div class="bg-gray-900 text-gray-400 px-6 py-1 flex justify-between items-center text-[11px] sticky top-0 z-50 shadow-sm">
+    <div>
+        <button id="loginLink" onclick="openLoginModal()" class="hover:text-white transition">Giriş Yap</button>
+        <span id="adminStatus" class="hidden text-green-400 font-semibold">● Yönetici: Garanti Emlak</span>
     </div>
-    <button onclick="toggleEditMode()" id="editBtn" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-bold px-4 py-1.5 rounded-full transition shadow">
-        ⚙️ Düzenle Butonu (Yazıları Değiştir)
-    </button>
+    <div id="adminControls" class="hidden space-x-3">
+        <button onclick="openIlanModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-0.5 rounded-full transition">
+            + Yeni İlan Ekle
+        </button>
+        <button onclick="toggleEditMode()" id="editBtn" class="bg-yellow-500 hover:bg-yellow-600 text-gray-950 font-bold px-3 py-0.5 rounded-full transition shadow">
+            ⚙️ Düzenlemeyi Başlat
+        </button>
+        <button onclick="adminLogout()" class="hover:text-red-400 transition ml-2">Çıkış</button>
+    </div>
 </div>
 
-<!-- KURUMSAL ÜST MENÜ (NAVBAR) -->
+<!-- NAVBAR -->
 <nav class="bg-white shadow-sm px-6 py-4">
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-2xl font-bold text-[var(--ana-yesil)] tracking-wider animate__animated animate__fadeInLeft">
@@ -62,27 +67,26 @@
     </div>
 </nav>
 
-<!-- HERO / KARŞILAMA ALANI -->
+<!-- HERO -->
 <header class="bg-[var(--ana-yesil)] text-white py-20 px-6 text-center animate__animated animate__fadeIn">
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-4" contenteditable="true">Tarsus'ta Güvenli Gelecek</h1>
-    <p class="text-lg opacity-90 max-w-2xl mx-auto" contenteditable="true">Garanti Emlak ile hayalinizdeki eve ve doğru yatırıma en kısa sürede ulaşın.</p>
+    <h1 id="heroTitle" class="text-4xl md:text-5xl font-extrabold mb-4" contenteditable="false">Tarsus'ta Güvenli Gelecek</h1>
+    <p id="heroDesc" class="text-lg opacity-90 max-w-2xl mx-auto" contenteditable="false">Garanti Emlak ile hayalinizdeki eve ve doğru yatırıma en kısa sürede ulaşın.</p>
 </header>
 
 <!-- ANA İÇERİK -->
 <div class="container mx-auto my-12 px-4">
     
-    <!-- FARKLI TASARLANMIŞ ÖZEL UYARI KUTUSU -->
+    <!-- ÖZEL UYARI KUTUSU -->
     <div class="custom-alert p-6 mb-12 shadow-sm flex items-center space-x-4 animate__animated animate__bounceIn">
         <div class="p-3 bg-green-100 rounded-full text-[var(--ana-yesil)] text-xl">
             ℹ️
         </div>
         <div>
-            <h4 class="font-bold text-lg text-[var(--ana-yesil)]" contenteditable="true">Ziyaretçilerimizin Dikkatine</h4>
-            <p class="text-sm text-gray-600" contenteditable="true">Sitemizdeki tüm ilanlar güncel olup, detaylı inceleme ve konum bilgisi için doğrudan sahibinden.com altyapısına yönlendirilmektedir.</p>
+            <h4 id="alertTitle" class="font-bold text-lg text-[var(--ana-yesil)]" contenteditable="false">Ziyaretçilerimizin Dikkatine</h4>
+            <p id="alertDesc" class="text-sm text-gray-600" contenteditable="false">Sitemizdeki tüm ilanlar güncel olup, detaylı inceleme ve konum bilgisi için doğrudan sahibinden.com altyapısına yönlendirilmektedir.</p>
         </div>
     </div>
 
-    <!-- İKİLİ BLOK YERLEŞİMİ (SOL MENÜ & SAĞ İÇERİK) -->
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         <!-- SOL MENÜ: DANIŞMANLARIMIZ -->
@@ -91,20 +95,11 @@
                 Danışmanlarımız
             </h3>
             <div class="space-y-6">
-                <!-- Danışman 1 -->
                 <div class="flex items-center space-x-4 p-2 hover:bg-gray-50 rounded-xl transition">
                     <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150" alt="Tamer Canbaz" class="w-12 h-12 rounded-full object-cover border-2 border-green-400">
                     <div>
-                        <h4 class="font-bold text-sm" contenteditable="true">Tamer Canbaz</h4>
-                        <p class="text-xs text-gray-500" contenteditable="true">Broker / Firma Sahibi</p>
-                    </div>
-                </div>
-                <!-- Danışman 2 -->
-                <div class="flex items-center space-x-4 p-2 hover:bg-gray-50 rounded-xl transition">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" alt="Danışman" class="w-12 h-12 rounded-full object-cover border-2 border-green-400">
-                    <div>
-                        <h4 class="font-bold text-sm" contenteditable="true">Gayrimenkul Danışmanı</h4>
-                        <p class="text-xs text-gray-500" contenteditable="true">Satış Uzmanı</p>
+                        <h4 class="font-bold text-sm" contenteditable="false">Tamer Canbaz</h4>
+                        <p class="text-xs text-gray-500" contenteditable="false">Broker / Firma Sahibi</p>
                     </div>
                 </div>
             </div>
@@ -113,12 +108,12 @@
         <!-- SAĞ ALAN: İLANLAR VE YAPILAN İŞLER -->
         <main class="lg:col-span-3 space-y-16">
             
-            <!-- SAHİBİNDEN.COM ENTEGRELİ İLANLAR BÖLÜMÜ -->
+            <!-- İLANLAR -->
             <section id="ilanlar" class="animate__animated animate__fadeInUp">
                 <h2 class="text-2xl font-bold text-[var(--ana-yesil)] mb-6">Güncel İlanlarımız</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- İlan 1 -->
+                <div id="ilanlarContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Hazır İlan Örneği -->
                     <div class="bg-white rounded-box shadow-md overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-gray-100 group">
                         <div>
                             <div class="relative overflow-hidden">
@@ -126,30 +121,9 @@
                                 <span class="absolute top-3 right-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-bold">Satılık</span>
                             </div>
                             <div class="p-5">
-                                <h3 class="font-bold text-lg text-gray-900 mb-2" contenteditable="true">Tarsus Kırklarsırtı Mh. Lüks 3+1</h3>
-                                <p class="text-sm text-gray-600 mb-4" contenteditable="true">Geniş modern mutfak, çift balkon ve harika lokasyon.</p>
-                                <span class="text-xl font-extrabold text-[var(--ana-yesil)]" contenteditable="true">3.450.000 TL</span>
-                            </div>
-                        </div>
-                        <div class="p-5 pt-0">
-                            <!-- Tıklandığında sahibinden.com'a yönlendiren buton -->
-                            <a href="https://www.sahibinden.com" target="_blank" class="block text-center bg-[var(--ana-yesil)] text-white py-3 rounded-xl font-semibold btn-custom text-sm">
-                                Sahibinden.com'da İncele ↗
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- İlan 2 -->
-                    <div class="bg-white rounded-box shadow-md overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-gray-100 group">
-                        <div>
-                            <div class="relative overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" alt="İlan Görseli" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
-                                <span class="absolute top-3 right-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-bold">Satılık</span>
-                            </div>
-                            <div class="p-5">
-                                <h3 class="font-bold text-lg text-gray-900 mb-2" contenteditable="true">Mersin Yolu Üzeri Yatırımlık Arsa</h3>
-                                <p class="text-sm text-gray-600 mb-4" contenteditable="true">Yüksek imarlı, ticari+konut kullanımına uygun kupon arsa.</p>
-                                <span class="text-xl font-extrabold text-[var(--ana-yesil)]" contenteditable="true">5.200.000 TL</span>
+                                <h3 class="font-bold text-lg text-gray-900 mb-2" contenteditable="false">Tarsus Kırklarsırtı Mh. Lüks 3+1</h3>
+                                <p class="text-sm text-gray-600 mb-4" contenteditable="false">Geniş modern mutfak, çift balkon ve harika lokasyon.</p>
+                                <span class="text-xl font-extrabold text-[var(--ana-yesil)]" contenteditable="false">3.450.000 TL</span>
                             </div>
                         </div>
                         <div class="p-5 pt-0">
@@ -161,24 +135,24 @@
                 </div>
             </section>
 
-            <!-- YAPTIĞIMIZ İŞLER KISMI -->
+            <!-- YAPTIĞIMIZ İŞLER -->
             <section id="islerimiz" class="bg-white p-8 rounded-box shadow-md border border-gray-100">
                 <h2 class="text-2xl font-bold text-[var(--ana-yesil)] mb-6">Neler Yapıyoruz?</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="p-4 bg-gray-50 rounded-2xl text-center">
                         <div class="text-3xl mb-2">🏢</div>
-                        <h4 class="font-bold mb-1" contenteditable="true">Gayrimenkul Danışmanlığı</h4>
-                        <p class="text-xs text-gray-500" contenteditable="true">Tarsus genelinde profesyonel ekspertiz ve değerinde şeffaf pazarlama süreci.</p>
+                        <h4 class="font-bold mb-1" contenteditable="false">Gayrimenkul Danışmanlığı</h4>
+                        <p class="text-xs text-gray-500" contenteditable="false">Tarsus genelinde profesyonel ekspertiz ve değerinde şeffaf pazarlama süreci.</p>
                     </div>
                     <div class="p-4 bg-gray-50 rounded-2xl text-center">
                         <div class="text-3xl mb-2">📸</div>
-                        <h4 class="font-bold mb-1" contenteditable="true">Profesyonel Fotoğrafçılık</h4>
-                        <p class="text-xs text-gray-500" contenteditable="true">Mülklerinizi geniş açılı lensler ve dronelar ile en doğru şekilde fotoğraflıyoruz.</p>
+                        <h4 class="font-bold mb-1" contenteditable="false">Profesyonel Fotoğrafçılık</h4>
+                        <p class="text-xs text-gray-500" contenteditable="false">Mülklerinizi geniş açılı lensler ve dronelar ile en doğru şekilde fotoğraflıyoruz.</p>
                     </div>
                     <div class="p-4 bg-gray-50 rounded-2xl text-center">
                         <div class="text-3xl mb-2">🤝</div>
-                        <h4 class="font-bold mb-1" contenteditable="true">Hızlı Satış Altyapısı</h4>
-                        <p class="text-xs text-gray-500" contenteditable="true">Gelişmiş portföy ağımız sayesinde alıcı ve satıcıyı en kısa sürede buluşturuyoruz.</p>
+                        <h4 class="font-bold mb-1" contenteditable="false">Hızlı Satış Altyapısı</h4>
+                        <p class="text-xs text-gray-500" contenteditable="false">Gelişmiş portföy ağımız sayesinde alıcı ve satıcıyı en kısa sürede buluşturuyoruz.</p>
                     </div>
                 </div>
             </section>
@@ -187,12 +161,12 @@
     </div>
 </div>
 
-<!-- ALT BİLGİ (FOOTER) -->
+<!-- FOOTER -->
 <footer class="bg-gray-900 text-gray-300 mt-20 py-12 px-6 border-t-4 border-[var(--ana-yesil)]">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
         <div>
             <h3 class="text-white text-lg font-bold mb-4">GARANTİ EMLAK</h3>
-            <p class="opacity-70" contenteditable="true">Mersin Tarsus bölgesinde kurumsal, ilkeli ve şeffaf gayrimenkul çözümleri.</p>
+            <p class="opacity-70" contenteditable="false">Mersin Tarsus bölgesinde kurumsal, ilkeli ve şeffaf gayrimenkul çözümleri.</p>
         </div>
         <div>
             <h3 class="text-white text-lg font-bold mb-4">İletişim Bilgileri</h3>
@@ -209,27 +183,175 @@
             </p>
         </div>
     </div>
+</div>
 </footer>
 
-<!-- DÜZENLE BUTONU VE ADMİN SİMÜLASYON SİHRİ -->
+<!-- 1. MODAL: YÖNETİCİ GİRİŞ PENCERESİ -->
+<div id="loginModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white p-6 rounded-3xl max-w-sm w-full shadow-2xl">
+        <h3 class="text-lg font-bold text-[var(--ana-yesil)] mb-4">Yönetici Girişi</h3>
+        <div class="space-y-3">
+            <input type="text" id="usernameInput" placeholder="Kullanıcı Adı" class="w-full px-4 py-2 border rounded-xl text-sm outline-none focus:border-green-600">
+            <input type="password" id="passwordInput" placeholder="Şifre" class="w-full px-4 py-2 border rounded-xl text-sm outline-none focus:border-green-600">
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeLoginModal()" class="w-1/2 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold">İptal</button>
+                <button onclick="checkAdminLogin()" class="w-1/2 bg-[var(--ana-yesil)] text-white py-2 rounded-xl text-sm font-semibold">Giriş Yap</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. MODAL: TELEFONDAN FOTOĞRAF YÜKLEMELİ İLAN EKLEME PENCERESİ -->
+<div id="ilanModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white p-6 rounded-3xl max-w-md w-full shadow-2xl my-8">
+        <h3 class="text-lg font-bold text-[var(--ana-yesil)] mb-4">Yeni İlan Ekle</h3>
+        <div class="space-y-3">
+            <div>
+                <label class="text-xs text-gray-500 block mb-1">Telefon Fotoğrafı Seç (Otomatik Boyutlandırılır):</label>
+                <input type="file" id="ilanPhoto" accept="image/*" class="w-full text-sm">
+            </div>
+            <input type="text" id="ilanTitle" placeholder="İlan Başlığı (Örn: Tarsus Satılık 3+1)" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
+            <input type="text" id="ilanDesc" placeholder="İlan Açıklaması Kısa" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
+            <input type="text" id="ilanPrice" placeholder="Fiyat (Örn: 2.750.000 TL)" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
+            <input type="text" id="ilanLink" placeholder="Sahibinden.com İlan Linki" class="w-full px-4 py-2 border rounded-xl text-sm outline-none">
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeIlanModal()" class="w-1/2 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold">Kapat</button>
+                <button onclick="processAndAddIlan()" class="w-1/2 bg-green-600 text-white py-2 rounded-xl text-sm font-semibold">İlanı Yayınla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SİSTEM KODLARI -->
 <script>
     let isEditMode = false;
+    let base64Image = "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600"; // Varsayılan görsel
+
+    // GİRİŞ PENCERESİ KONTROLLERİ
+    function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+    function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+
+    function checkAdminLogin() {
+        const u = document.getElementById('usernameInput').value;
+        const p = document.getElementById('passwordInput').value;
+
+        if(u === "garanti" && p === "3363garanti.") {
+            document.getElementById('loginLink').classList.add('hidden');
+            document.getElementById('adminStatus').classList.remove('hidden');
+            document.getElementById('adminControls').classList.remove('hidden');
+            closeLoginModal();
+            alert("Başarıyla giriş yapıldı. Yönetici yetkileri açıldı.");
+        } else {
+            alert("Hatalı kullanıcı adı veya şifre!");
+        }
+    }
+
+    function adminLogout() {
+        location.reload(); // Güvenli temizlik için sayfayı yeniler
+    }
+
+    // İLAN PENCERESİ KONTROLLERİ
+    function openIlanModal() { document.getElementById('ilanModal').classList.remove('hidden'); }
+    function closeIlanModal() { document.getElementById('ilanModal').classList.add('hidden'); }
+
+    // METİN DÜZENLEME MODU (KİLİTLİ SİSTEM)
     function toggleEditMode() {
         isEditMode = !isEditMode;
         const btn = document.getElementById('editBtn');
+        const editables = document.querySelectorAll('[contenteditable]');
+
         if(isEditMode) {
             document.body.classList.add('editable-active');
-            btn.innerHTML = "💾 Düzenlemeyi Bitir (Kaydet)";
+            btn.innerHTML = "💾 Düzenlemeyi Bitir";
             btn.classList.replace('bg-yellow-500', 'bg-green-500');
             btn.classList.add('text-white');
-            alert("Düzenleme Modu Açıldı! İstediğiniz başlığa, yazıya veya fiyata tıklayıp klavyenizle doğrudan değiştirebilirsiniz.");
+            editables.forEach(el => el.setAttribute('contenteditable', 'true'));
         } else {
             document.body.classList.remove('editable-active');
-            btn.innerHTML = "⚙️ Düzenle Butonu (Yazıları Değiştir)";
+            btn.innerHTML = "⚙️ Düzenlemeyi Başlat";
             btn.classList.replace('bg-green-500', 'bg-yellow-500');
             btn.classList.remove('text-white');
-            alert("Değişiklikler uygulandı!");
+            editables.forEach(el => el.setAttribute('contenteditable', 'false'));
+            alert("Tüm metin değişiklikleri kilitlendi ve uygulandı.");
         }
+    }
+
+    // TELEFON FOTOĞRAFINI ARKA PLANDA SIKIŞTIRAN VE BOYUTLANDIRAN AKILLI MOTOR
+    function processAndAddIlan() {
+        const fileInput = document.getElementById('ilanPhoto');
+        const title = document.getElementById('ilanTitle').value;
+        const desc = document.getElementById('ilanDesc').value;
+        const price = document.getElementById('ilanPrice').value;
+        const link = document.getElementById('ilanLink').value || "https://www.sahibinden.com";
+
+        if(!title || !price) {
+            alert("Lütfen en azından Başlık ve Fiyat alanlarını doldurun.");
+            return;
+        }
+
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    // Maksimum genişliği 800px yapıp telefondan gelen devasa boyutları küçültüyoruz
+                    const maxWidth = 800;
+                    const scale = maxWidth / img.width;
+                    const canvas = document.createElement('canvas');
+                    
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scale;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // Kaliteyi %75'e düşürerek hem net tutuyoruz hem de dosya boyutunu sıfırlıyoruz
+                    base64Image = canvas.toDataURL('image/jpeg', 0.75);
+                    createCard(title, desc, price, link, base64Image);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            // Eğer fotoğraf seçilmediyse varsayılan görselle ekle
+            createCard(title, desc, price, link, base64Image);
+        }
+    }
+
+    // YENİ KART OLUŞTURMA ALANI
+    function createCard(title, desc, price, link, imgData) {
+        const container = document.getElementById('ilanlarContainer');
+        const newCard = `
+            <div class="bg-white rounded-box shadow-md overflow-hidden hover:shadow-xl transition flex flex-col justify-between border border-gray-100 group">
+                <div>
+                    <div class="relative overflow-hidden">
+                        <img src="${imgData}" alt="İlan" class="w-full h-48 object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 right-3 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-bold">Satılık</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg text-gray-900 mb-2" contenteditable="${isEditMode}">${title}</h3>
+                        <p class="text-sm text-gray-600 mb-4" contenteditable="${isEditMode}">${desc}</p>
+                        <span class="text-xl font-extrabold text-[var(--ana-yesil)]" contenteditable="${isEditMode}">${price}</span>
+                    </div>
+                </div>
+                <div class="p-5 pt-0">
+                    <a href="${link}" target="_blank" class="block text-center bg-[var(--ana-yesil)] text-white py-3 rounded-xl font-semibold btn-custom text-sm">
+                        Sahibinden.com'da İncele ↗
+                    </a>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('afterbegin', newCard); // Yeni ilanı en başa ekler
+        closeIlanModal();
+        
+        // Formu temizle
+        document.getElementById('ilanTitle').value = "";
+        document.getElementById('ilanDesc').value = "";
+        document.getElementById('ilanPrice').value = "";
+        document.getElementById('ilanLink').value = "";
+        document.getElementById('ilanPhoto').value = "";
+        
+        alert("Harika! Telefon fotoğrafınız otomatik optimize edildi ve ilan başarıyla eklendi.");
     }
 </script>
 
